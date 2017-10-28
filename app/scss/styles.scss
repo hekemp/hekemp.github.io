@@ -204,7 +204,7 @@ caption {
         -moz-transition: all ease 0.5s;
         transition: all ease 0.5s;
         opacity: 0;
-        background: fade-out($theme-success, .1);
+        background: fade-out($background-color-pressed, .1);
         &:hover {
           opacity: 1;
         }
@@ -231,7 +231,7 @@ caption {
 
 .img-fluid, .img-thumbnail {
     max-width: 100%;
-    height: auto
+    height: auto;
 }
 
 .img-thumbnail {
@@ -240,4 +240,11 @@ caption {
     border: 1px solid #ddd;
     border-radius: .25rem;
     transition: all .2s ease-in-out
+}
+
+.centered {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }

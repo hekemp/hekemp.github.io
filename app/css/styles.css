@@ -152,33 +152,40 @@ caption {
   text-align: left;
   caption-side: bottom; }
 
-.portfolio-item .portfolio-link .caption {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  transition: all .5s ease;
-  opacity: 0;
-  background: rgba(186, 85, 211, 0.9); }
-
-.portfolio-item .portfolio-link .caption:hover {
-  opacity: 1; }
-
-.portfolio-item .portfolio-link .caption .caption-content {
-  font-size: 20px;
-  position: absolute;
-  top: 50%;
-  width: 100%;
-  height: 20px;
-  margin-top: -12px;
-  text-align: center;
-  color: #fff; }
-
-.portfolio-item .portfolio-link .caption .caption-content i {
-  margin-top: -12px; }
-
-.portfolio-item .portfolio-link .caption .caption-content h3,
-.portfolio-item .portfolio-link .caption .caption-content h4 {
-  margin: 0; }
+.portfolio-item {
+  right: 0;
+  margin: 0 0 15px; }
+  .portfolio-item .portfolio-link {
+    position: relative;
+    display: block;
+    max-width: 400px;
+    margin: 0 auto;
+    cursor: pointer; }
+    .portfolio-item .portfolio-link .caption {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      -webkit-transition: all ease 0.5s;
+      -moz-transition: all ease 0.5s;
+      transition: all ease 0.5s;
+      opacity: 0;
+      background: rgba(33, 120, 116, 0.9); }
+      .portfolio-item .portfolio-link .caption:hover {
+        opacity: 1; }
+      .portfolio-item .portfolio-link .caption .caption-content {
+        font-size: 20px;
+        position: absolute;
+        top: 50%;
+        width: 100%;
+        height: 20px;
+        margin-top: -12px;
+        text-align: center;
+        color: white; }
+        .portfolio-item .portfolio-link .caption .caption-content i {
+          margin-top: -12px; }
+        .portfolio-item .portfolio-link .caption .caption-content h3,
+        .portfolio-item .portfolio-link .caption .caption-content h4 {
+          margin: 0; }
 
 .img-fluid, .img-thumbnail {
   max-width: 100%;
@@ -190,3 +197,9 @@ caption {
   border: 1px solid #ddd;
   border-radius: .25rem;
   transition: all .2s ease-in-out; }
+
+.centered {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); }
