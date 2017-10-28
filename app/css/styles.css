@@ -13,24 +13,20 @@ h2 {
   color: #217874 !important; }
 
 .profilePicture {
-  margin-top: 2%;
   display: block;
   left: 0px;
-  margin-left: 38%;
   top: 0px;
-  width: 300px;
-  height: 300px;
+  width: 100%;
+  height: auto;
   margin-bottom: 5%; }
 
 .profileLogo {
-  margin-top: 23%;
-  margin-left: 34%;
   display: block;
-  position: absolute;
+  position: relative;
   left: 0px;
-  top: 10px;
-  width: 375px;
-  height: 125px; }
+  top: -100px;
+  width: 100%;
+  height: auto; }
 
 .nav-color {
   background-color: #DEF2F1;
@@ -191,6 +187,9 @@ caption {
   max-width: 100%;
   height: auto; }
 
+.img-portfolio {
+  margin-bottom: 2em; }
+
 .img-thumbnail {
   padding: .25rem;
   background-color: #fff;
@@ -198,8 +197,21 @@ caption {
   border-radius: .25rem;
   transition: all .2s ease-in-out; }
 
-.centered {
+#thumbnails p {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%); }
+  transform: translate(-50%, -50%);
+  visibility: hidden; }
+
+.profileDiv {
+  position: relative;
+  display: block;
+  left: 50%;
+  width: 300px;
+  height: 350px;
+  margin-left: -150px;
+  margin-top: 50px; }
+
+ul {
+  list-style-position: inside; }
