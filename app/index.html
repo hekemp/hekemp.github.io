@@ -4,6 +4,7 @@
 
 <link rel="stylesheet" href="css/styles.css" />
 <link rel="stylesheet" href="css/bootstrap.min.css">
+
 <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css">
 <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto'>
 
@@ -14,7 +15,9 @@
 <nav class="navbar-fixed-top nav-color" role="navigation">
   <div class="container">
     <div class="navbar-header">
-
+      <button type="button" class="navbar-toggle nav-text" data-toggle="collapse" data-target="#navbar-collapse-1" >
+                  <i class="fa fa-bars" style="color:teal"></i>
+                </button>
       <a href="index.html">
           <img class="navbar-brand" src="images/hakLogo.png" alt="Heather Kemp">
       </a>
@@ -40,8 +43,8 @@
 </nav>
 
 <div class="profileDiv">
-<img class='profilePicture' src="images/circleHeadshot.png" alt="My Picture">
-<img class='profileLogo' src="images/hakLogo.png" alt="My Logo">
+<img class='profilePicture' src="images/headshot.png" alt="">
+<img class='profileLogo' src="images/hakLogo.png" alt="">
 </div>
 <h1>Heather Ann Kemp</h1>
 <div class="divider"></div>
@@ -52,13 +55,13 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    <p class="lead section-lead">Unviersity of Iowa, Master in Computer Science</p>
+                    <h5>Unviersity of Iowa, Master in Computer Science</h5>
                     <p class="section-paragraph">Hello! My name is Heather Kemp. I am currently a 1st year Master's student studying Computer Science at the University of Iowa. As a developer, my main interests are strongly rooted in software development and big data analytics. I thrive to make applications that ease the burden of daily tasks both inside and outside of the workplace. Aside from my work with Computer Science, my other interests include create digital art, writing, hiking, and playing video games.</p>
 
                     <br/>
                     <div class="row">
                         <div class="col-md-6">
-                            <p class="lead section-lead">Office</p>
+                            <h5>Office</h5>
                             <p class="section-paragraph">
                                 University of Iowa
                                 <br>
@@ -70,7 +73,7 @@
                             </p>
                         </div>
                         <div class="col-md-6">
-                            <p class="lead section-lead text-color-white">Current Work</p>
+                            <h5>Current Work</h5>
                             <p>Teaching Assistant: CS3330 Algorithms</p>
                             <p>Interactive Learning Environment Research Under <a href="https://education.uiowa.edu/person/sheila-barron">Sheila Barron</a></p>
                             <p>Software and Data Assistant at the <a href="https://careers.uiowa.edu/">Pomerantz Career Center</a></p>
@@ -87,11 +90,11 @@
       <br/>
       <div class="row">
         <div class="footer-col col-md-6">
-          <h3>Email</h3>
-          <a href="mailto:2heatherk@gmail.com" target="_blank" rel="noopener noreferrer">2heatherk@gmail.com</a>
+          <h4>Email</h4><br/>
+          <a href="mailto:2heatherk@gmail.com" target="_blank" rel="noopener noreferrer" style="font-size: 18px">2heatherk@gmail.com</a>
         </div>
         <div class="footer-col col-md-5">
-          <h3>Around the Web</h3>
+          <h4>Around the Web</h4>
           <ul class="list-inline">
             <li>
               <a class="btn-social btn-outline" href="https://twitter.com/HeatherKemp01" rel="noopener noreferrer" target="_blank">
@@ -112,6 +115,12 @@
       </div>
       <br/>
     </footer>
+
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
 
 </body>
 

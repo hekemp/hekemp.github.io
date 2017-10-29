@@ -8,22 +8,56 @@ $accent-header: #DEF2F1;
 $accent-header-pressed: #a2c2c0;
 $background-color-pressed: #217874;
 
-html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
+html,body, h1,h2,h3,h4,h6, {font-family: "Roboto", sans-serif}
 
-h1 {
-  color: $accent-header !important;
-  text-align: center;
+body {
+  font-size: 16px !important;
 }
 
-h3 {
-  color: $accent-header !important;
-  text-align: center;
-
+footer {
+  background-color: $accent-header
 }
 
-h2 {
-  color: $background-color-pressed !important;
+.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
+    margin-bottom: .5rem;
+    font-weight: 500;
+    line-height: 1.2;
+    color: inherit
 }
+
+.h1, h1 {
+    color: $accent-header !important;
+    text-align: center;
+    font-size: 2.5rem
+}
+
+.h2, h2 {
+    color: $background-color-pressed !important;
+    font-size: 2rem
+}
+
+.h3, h3 {
+    color: $accent-header !important;
+    text-align: center;
+    font-size: 1.75rem
+}
+
+.h4, h4 {
+    font-size: 1.5rem;
+    text-align: center;
+    color: $background-color !important;
+}
+
+.h5, h5 {
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif !important;
+    font-weight: 300 !important;
+    font-size: 21px !important;
+}
+
+.h6, h6 {
+    font-size: 1rem
+}
+
 
 .profilePicture {
   //margin-top: 2%;
@@ -35,6 +69,7 @@ h2 {
   width: 100%;
   height: auto;
   margin-bottom: 5%;
+  border-radius: 50%;
 }
 
 .profileLogo {
@@ -83,6 +118,16 @@ body {
   margin-top: 0px;
 	background: $background-color;
 	box-shadow: 4px 2px 4px;
+}
+
+
+.not-elevated-section{
+  margin-top: 2em;
+	box-shadow: 4px 2px 4px;
+}
+
+.not-elevated-section p{
+  color: $accent-header;
 }
 
 .divider {
@@ -140,9 +185,9 @@ body {
 }
 
 .btn-outline {
-  color: white;
+  color: $background-color-pressed;
   font-size: 20px;
-  border: solid 2px white;
+  border: solid 2px $background-color-pressed;
   background: transparent;
   transition: all 0.3s ease-in-out;
   margin-top: 15px;
@@ -152,9 +197,9 @@ body {
 .btn-outline:focus,
 .btn-outline:active,
 .btn-outline.active {
-  color: #BA55D3;
-  background: white;
-  border: solid 2px white;
+  color: white;
+  background: $background-color-pressed;
+  border: solid 2px $background-color-pressed;
 }
 
 i {
@@ -170,7 +215,7 @@ a:hover,
 a:focus,
 a:active,
 a.active {
-  color: $accent-color !important;
+  color: $accent-color ;
   outline: none;
 }
 
@@ -235,7 +280,21 @@ caption {
 }
 
 .img-portfolio {
-  margin-bottom: 2em;
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+.img-portfolioAbout {
+    box-shadow: 0px 2px 4px;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+.img-profile {
+  box-shadow: 0px 2px 4px;
+  border-radius: 50%;
+  margin-top: 1em;
+  margin-bottom: .5em;
 }
 
 .img-thumbnail {
