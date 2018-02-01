@@ -9,6 +9,23 @@
 
   gtag('config', 'UA-113393147-1');
 </script>
+
+<script>
+/**
+* Function that tracks a click on an outbound link in Analytics.
+* This function takes a valid URL string as an argument, and uses that URL string
+* as the event label. Setting the transport method to 'beacon' lets the hit be sent
+* using 'navigator.sendBeacon' in browser that support it.
+*/
+var trackModalClick = function(modal) {
+  gtag('event', 'click', {
+    'event_category': 'modal',
+    'event_label': modal,
+    'transport_type': 'beacon'
+  });
+}
+</script>
+
 <title>Projects - Heather Kemp</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -70,7 +87,7 @@
 
 
                     <div class="col-sm-4 portfolio-item center-block">
-                    <a href="#" class="portfolio-link" data-toggle="modal" data-target="#modalNAO">
+                    <a href="#" class="portfolio-link" onclick="trackModalClick('NAOEyebrows')" data-toggle="modal" data-target="#modalNAO">
                     <div class="caption">
                     <div class="caption-content">
 
@@ -83,7 +100,7 @@
                     </div>
 
                     <div class="col-sm-4 portfolio-item center-block">
-                    <a href="#" class="portfolio-link" data-toggle="modal" data-target="#modalSafeSwarm">
+                    <a href="#" class="portfolio-link" onclick="trackModalClick('SafeSwarm')" data-toggle="modal" data-target="#modalSafeSwarm">
                     <div class="caption">
                     <div class="caption-content">
 
@@ -96,7 +113,7 @@
                     </div>
 
                     <div class="col-sm-4 portfolio-item center-block">
-                    <a href="#" class="portfolio-link" data-toggle="modal" data-target="#modalWerewolf">
+                    <a href="#" class="portfolio-link" onclick="trackModalClick('Werewolf')" data-toggle="modal" data-target="#modalWerewolf">
                     <div class="caption">
                     <div class="caption-content">
 
@@ -109,7 +126,7 @@
                     </div>
 
                     <div class="col-sm-4 portfolio-item center-block">
-                    <a href="#" class="portfolio-link" data-toggle="modal" data-target="#modalIoF">
+                    <a href="#" class="portfolio-link" onclick="trackModalClick('InternetOfFollowers')" data-toggle="modal" data-target="#modalIoF">
                     <div class="caption">
                     <div class="caption-content">
 
@@ -123,7 +140,7 @@
 
 
                     <div class="col-sm-4 portfolio-item center-block">
-                    <a href="#" class="portfolio-link" data-toggle="modal" data-target="#modalRobot">
+                    <a href="#" class="portfolio-link" onclick="trackModalClick('RobotTheater')" data-toggle="modal" data-target="#modalRobot">
                     <div class="caption">
                     <div class="caption-content">
 
@@ -137,7 +154,7 @@
 
 
                     <div class="col-sm-4 portfolio-item center-block">
-                    <a href="#" class="portfolio-link" data-toggle="modal" data-target="#modalTonyBirb">
+                    <a href="#" class="portfolio-link" onclick="trackModalClick('TonyBirb')" data-toggle="modal" data-target="#modalTonyBirb">
                     <div class="caption">
                     <div class="caption-content">
 
@@ -152,7 +169,7 @@
 
 
                     <div class="col-sm-4 portfolio-item center-block">
-                    <a href="#" class="portfolio-link" data-toggle="modal" data-target="#modalStatistics">
+                    <a href="#" class="portfolio-link" onclick="trackModalClick('StatisticsApps')" data-toggle="modal" data-target="#modalStatistics">
                     <div class="caption">
                     <div class="caption-content">
 
