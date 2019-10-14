@@ -14177,7 +14177,7 @@ function (_App) {
         },
         __self: this
       }), react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement("link", {
-        rel: "preload",
+        rel: "prefetch",
         href: "/static/fonts/open-sans-v15-latin-italic.woff2",
         as: "font",
         type: "font/woff2",
@@ -14187,7 +14187,7 @@ function (_App) {
         },
         __self: this
       }), react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement("link", {
-        rel: "preload",
+        rel: "prefetch",
         href: "/static/fonts/open-sans-v15-latin-regular.woff2",
         as: "font",
         type: "font/woff2",
@@ -14197,7 +14197,7 @@ function (_App) {
         },
         __self: this
       }), react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement("link", {
-        rel: "preload",
+        rel: "prefetch",
         href: "/static/fonts/raleway-v12-latin-800.woff2",
         as: "font",
         type: "font/woff2",
@@ -14207,7 +14207,7 @@ function (_App) {
         },
         __self: this
       }), react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement("link", {
-        rel: "preload",
+        rel: "prefetch",
         href: "/static/fonts/raleway-v12-latin-regular.woff2",
         as: "font",
         type: "font/woff2",
