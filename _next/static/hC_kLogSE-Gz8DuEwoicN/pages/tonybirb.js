@@ -1,1 +1,0 @@
-(window.webpackJsonp=window.webpackJsonp||[]).push([["66f0"],{X77G:function(n,t,e){(window.__NEXT_P=window.__NEXT_P||[]).push(["/tonybirb",function(){var n=e("dPtv");return{page:n.default||n}}])},dPtv:function(n,t,e){"use strict";e.r(t);var o=e("mXGw"),u=e("AJ92"),r=e("TJ2u");t.default=function(){return o.createElement(u.a,{project:r.l})}}},[["X77G","5d41","9da1"]]]);

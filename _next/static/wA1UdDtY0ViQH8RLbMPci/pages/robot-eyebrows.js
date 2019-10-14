@@ -1,1 +1,0 @@
-(window.webpackJsonp=window.webpackJsonp||[]).push([["cd0f"],{WHej:function(e,n,t){"use strict";t.r(n);var o=t("mXGw"),u=t("AJ92"),r=t("TJ2u");n.default=function(){return o.createElement(u.a,{project:r.h})}},tuZi:function(e,n,t){(window.__NEXT_P=window.__NEXT_P||[]).push(["/robot-eyebrows",function(){var e=t("WHej");return{page:e.default||e}}])}},[["tuZi","5d41","9da1"]]]);

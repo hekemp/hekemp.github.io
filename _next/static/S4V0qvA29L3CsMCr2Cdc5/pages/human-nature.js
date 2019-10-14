@@ -1,1 +1,0 @@
-(window.webpackJsonp=window.webpackJsonp||[]).push([["93fa"],{"JCf+":function(n,e,t){(window.__NEXT_P=window.__NEXT_P||[]).push(["/human-nature",function(){var n=t("OlsY");return{page:n.default||n}}])},OlsY:function(n,e,t){"use strict";t.r(e);var u=t("mXGw"),a=t("AJ92"),o=t("TJ2u");e.default=function(){return u.createElement(a.a,{project:o.f})}}},[["JCf+","5d41","9da1"]]]);

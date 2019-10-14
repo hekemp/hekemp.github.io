@@ -1,1 +1,0 @@
-(window.webpackJsonp=window.webpackJsonp||[]).push([["2f26"],{Gqph:function(n,e,t){"use strict";t.r(e);var a=t("mXGw"),w=t("AJ92"),u=t("TJ2u");e.default=function(){return a.createElement(w.a,{project:u.d})}},SwBK:function(n,e,t){(window.__NEXT_P=window.__NEXT_P||[]).push(["/data-cleaner",function(){var n=t("Gqph");return{page:n.default||n}}])}},[["SwBK","5d41","9da1"]]]);
