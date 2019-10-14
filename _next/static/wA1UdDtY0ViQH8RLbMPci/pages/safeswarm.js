@@ -1,0 +1,1 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([["cd5c"],{VFLu:function(n,t,e){(window.__NEXT_P=window.__NEXT_P||[]).push(["/safeswarm",function(){var n=e("tRrp");return{page:n.default||n}}])},tRrp:function(n,t,e){"use strict";e.r(t);var u=e("mXGw"),r=e("AJ92"),a=e("TJ2u");t.default=function(){return u.createElement(r.a,{project:a.i})}}},[["VFLu","5d41","9da1"]]]);
