@@ -1,1 +1,0 @@
-(window.webpackJsonp=window.webpackJsonp||[]).push([["47ff"],{e9ed:function(e,n,u){"use strict";u.r(n);var t=u("mXGw"),w=u("AJ92"),o=u("TJ2u");n.default=function(){return t.createElement(w.a,{project:o.n})}},"uJ/8":function(e,n,u){(window.__NEXT_P=window.__NEXT_P||[]).push(["/werewolf",function(){var e=u("e9ed");return{page:e.default||e}}])}},[["uJ/8","5d41","9da1"]]]);

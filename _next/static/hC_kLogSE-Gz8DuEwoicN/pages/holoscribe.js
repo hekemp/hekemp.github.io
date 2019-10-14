@@ -1,1 +1,0 @@
-(window.webpackJsonp=window.webpackJsonp||[]).push([["44e7"],{ZNhj:function(n,e,o){"use strict";o.r(e);var t=o("mXGw"),u=o("AJ92"),r=o("TJ2u");e.default=function(){return t.createElement(u.a,{project:r.e})}},ZOJ9:function(n,e,o){(window.__NEXT_P=window.__NEXT_P||[]).push(["/holoscribe",function(){var n=o("ZNhj");return{page:n.default||n}}])}},[["ZOJ9","5d41","9da1"]]]);

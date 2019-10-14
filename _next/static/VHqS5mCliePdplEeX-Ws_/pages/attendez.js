@@ -1,1 +1,0 @@
-(window.webpackJsonp=window.webpackJsonp||[]).push([["0c72"],{K5Ix:function(n,e,t){"use strict";t.r(e);var a=t("mXGw"),u=t("AJ92"),d=t("TJ2u");e.default=function(){return a.createElement(u.a,{project:d.a})}},dWyl:function(n,e,t){(window.__NEXT_P=window.__NEXT_P||[]).push(["/attendez",function(){var n=t("K5Ix");return{page:n.default||n}}])}},[["dWyl","5d41","9da1"]]]);
