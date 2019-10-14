@@ -1,0 +1,1 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([["a516"],{IqT8:function(n,t,e){(window.__NEXT_P=window.__NEXT_P||[]).push(["/sandwich-discourse",function(){var n=e("vtVc");return{page:n.default||n}}])},vtVc:function(n,t,e){"use strict";e.r(t);var c=e("mXGw"),u=e("AJ92"),a=e("TJ2u");t.default=function(){return c.createElement(u.a,{project:a.j})}}},[["IqT8","5d41","9da1"]]]);
