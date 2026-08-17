@@ -1,0 +1,1 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([["f12b"],{ZYM8:function(n,e,t){(window.__NEXT_P=window.__NEXT_P||[]).push(["/bughunters2",function(){var n=t("gJQX");return{page:n.default||n}}])},gJQX:function(n,e,t){"use strict";t.r(e);var u=t("mXGw"),a=t("AJ92"),o=t("TJ2u");e.default=function(){return u.createElement(a.a,{project:o.a})}}},[["ZYM8","5d41","9da1"]]]);

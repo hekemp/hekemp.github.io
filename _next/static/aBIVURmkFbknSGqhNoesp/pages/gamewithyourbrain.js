@@ -1,0 +1,1 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([["4b88"],{EBp7:function(n,a,e){"use strict";e.r(a);var r=e("mXGw"),t=e("AJ92"),u=e("TJ2u");a.default=function(){return r.createElement(t.a,{project:u.d})}},LFar:function(n,a,e){(window.__NEXT_P=window.__NEXT_P||[]).push(["/gamewithyourbrain",function(){var n=e("EBp7");return{page:n.default||n}}])}},[["LFar","5d41","9da1"]]]);

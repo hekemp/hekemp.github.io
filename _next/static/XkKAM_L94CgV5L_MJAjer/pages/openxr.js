@@ -1,0 +1,1 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([["b42a"],{"8HAU":function(n,e,t){"use strict";t.r(e);var o=t("mXGw"),u=t("AJ92"),a=t("TJ2u");e.default=function(){return o.createElement(u.a,{project:a.i})}},Q28K:function(n,e,t){(window.__NEXT_P=window.__NEXT_P||[]).push(["/openxr",function(){var n=t("8HAU");return{page:n.default||n}}])}},[["Q28K","5d41","9da1"]]]);

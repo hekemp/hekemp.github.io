@@ -1,0 +1,1 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([["f69a"],{"5ivs":function(n,t,e){(window.__NEXT_P=window.__NEXT_P||[]).push(["/dm-tools",function(){var n=e("cE+F");return{page:n.default||n}}])},"cE+F":function(n,t,e){"use strict";e.r(t);var o=e("mXGw"),u=e("AJ92"),a=e("TJ2u");t.default=function(){return o.createElement(u.a,{project:a.b})}}},[["5ivs","5d41","9da1"]]]);

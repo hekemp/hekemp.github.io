@@ -1,0 +1,1 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([["2c1c"],{d5K3:function(n,e,t){(window.__NEXT_P=window.__NEXT_P||[]).push(["/campfire",function(){var n=t("nqjj");return{page:n.default||n}}])},nqjj:function(n,e,t){"use strict";t.r(e);var c=t("mXGw"),u=t("AJ92"),a=t("TJ2u");e.default=function(){return c.createElement(u.a,{project:a.b})}}},[["d5K3","5d41","9da1"]]]);
