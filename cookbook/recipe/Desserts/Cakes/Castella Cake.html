@@ -1,0 +1,1594 @@
+<!DOCTYPE html>
+<html lang="en-US" class="">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Japanese Castella Cake - Cook</title>
+    <link rel="icon" type="image/x-icon" href="../../../static/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../../static/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../../static/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../../../static/apple-touch-icon.png">
+    <link rel="manifest" href="../../../static/site.webmanifest">
+    <link href="../../../static/css/output.css" rel="stylesheet">
+    <script>
+        // Check for saved theme preference, or check for prefers-color-scheme, or default to light
+        const theme = localStorage.getItem('theme')
+            || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        document.documentElement.classList.toggle('dark', theme === 'dark');
+    </script>
+    <style>
+        .viewport {
+            width: 100%;
+            max-width: 72rem;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        /* Search result keyboard selection. --surface-sunk alone is barely
+           visible against --surface in dark mode, so the accent bar carries
+           the signal. */
+        #search-results a.search-selected {
+            background: var(--accent-soft);
+            box-shadow: inset 3px 0 0 var(--accent);
+        }
+
+        @media print {
+            /* Token values are reset to light in input.css; this resets the
+               browser's own defaults so unstyled text is dark too. */
+            html.dark, html {
+                color-scheme: light !important;
+            }
+
+            * {
+                print-color-adjust: exact;
+                -webkit-print-color-adjust: exact;
+            }
+
+            body {
+                background: white !important;
+                margin: 0;
+                padding: 0;
+            }
+
+            .viewport {
+                max-width: 100%;
+                margin: 0;
+                padding: 0;
+            }
+
+            /* Hide navigation and non-essential elements */
+            nav, #search-container, #search-input, #search-results, .print\:hidden, .breadcrumb {
+                display: none !important;
+            }
+
+            /* Hide all navigation links */
+            a[href="../../../"] {
+                display: none !important;
+            }
+
+            /* Recipe layout for print: one column */
+            .grid {
+                display: block !important;
+            }
+
+            .md\:col-span-1, .md\:col-span-2 {
+                page-break-inside: avoid;
+                width: 100% !important;
+            }
+
+            /* Square corners on paper */
+            .card, .step-box, .ingredient-row, .recipe-note, .rounded-xl {
+                border-radius: 0 !important;
+            }
+
+            /* Step numbers */
+            .step-number {
+                background: #000 !important;
+                color: #fff !important;
+            }
+
+            /* Images */
+            img {
+                max-height: 300px !important;
+                max-width: 100% !important;
+                height: auto !important;
+                object-fit: contain !important;
+                page-break-inside: avoid;
+                page-break-after: avoid;
+            }
+
+            /* Recipe sections on same page if possible */
+            h2, h3 {
+                page-break-after: avoid;
+            }
+
+            ol, ul {
+                page-break-inside: avoid;
+            }
+
+            /* Compact spacing */
+            .mb-8, .mb-6, .mb-4 {
+                margin-bottom: 0.5rem !important;
+            }
+
+            .p-6 {
+                padding: 0.5rem !important;
+            }
+
+            /* Recipe header */
+            h1 {
+                color: #000 !important;
+                font-size: 1.5rem !important;
+                margin-bottom: 0 !important;
+            }
+
+            /* Shopping list print styles */
+            .lg\:w-2\/5, .xl\:w-1\/3 {
+                display: none !important;
+            }
+
+            #shopping-list-results {
+                font-size: 11pt !important;
+                line-height: 1.2 !important;
+            }
+
+            #shopping-list-results input[type="checkbox"] {
+                display: none !important;
+            }
+
+            #shopping-list-results li .flex-1 {
+                width: auto !important;
+                flex: 1 1 0% !important;
+            }
+
+            #shopping-list-results label {
+                cursor: default !important;
+            }
+
+            #shopping-list-results h2 {
+                font-size: 11pt !important;
+                color: #000 !important;
+                margin-bottom: 0 !important;
+            }
+
+            #shopping-list-results .space-y-2 > * + *,
+            #shopping-list-results ul > * + * {
+                margin-top: 0 !important;
+            }
+
+            #shopping-list-results li {
+                padding: 0 !important;
+                line-height: 1.3 !important;
+                border-bottom: 1px dotted #ccc;
+            }
+
+            #shopping-list-results .card {
+                margin-bottom: 0.15rem !important;
+                padding: 0 !important;
+                border: none !important;
+            }
+
+            /* Menu print styles */
+            #menu-content {
+                font-size: 10pt !important;
+                line-height: 1.4 !important;
+            }
+
+            #menu-content h1 {
+                font-size: 14pt !important;
+                margin-bottom: 0.25rem !important;
+                color: #000 !important;
+            }
+
+            #menu-content .space-y-6 > * + * {
+                margin-top: 0.3rem !important;
+            }
+
+            #menu-content .menu-section {
+                border: 1px solid #ccc !important;
+                border-radius: 0 !important;
+                page-break-inside: avoid;
+            }
+
+            #menu-content .menu-section-header {
+                background: #eee !important;
+                color: #000 !important;
+                padding: 0.15rem 0.5rem !important;
+            }
+
+            #menu-content .menu-section-header h2 {
+                font-size: 11pt !important;
+                color: #000 !important;
+            }
+
+            #menu-content .menu-section-body {
+                padding: 0.25rem 0.5rem !important;
+            }
+
+            #menu-content .menu-section-body .space-y-2 > * + *,
+            #menu-content .menu-section-body > * + * {
+                margin-top: 0.05rem !important;
+            }
+
+            #menu-content .menu-section-body h3 {
+                font-size: 10pt !important;
+                margin-top: 0.2rem !important;
+                margin-bottom: 0 !important;
+            }
+
+            #menu-content .menu-section-body .pl-6 {
+                padding-left: 1rem !important;
+            }
+
+            /* Preserve word spacing in flex lines */
+            #menu-content .menu-section-body .flex {
+                gap: 0.25em !important;
+            }
+
+            #menu-content .ingredient-badge {
+                font-weight: bold !important;
+                color: #000 !important;
+            }
+
+            #menu-content a {
+                color: #000 !important;
+                text-decoration: none !important;
+            }
+        }
+    </style>
+</head>
+<body class="bg-bg text-text">
+    <div class="viewport">
+        <nav class="nav-card relative">
+            <div class="px-3 lg:px-6 py-4 relative">
+                <div class="flex items-center justify-between flex-wrap gap-y-3">
+                    <a href="../../../index.html" class="order-1 hidden md:flex items-center space-x-2">
+                        <img src="../../../static/android-chrome-192x192.png" alt="Cook" class="brand-mark h-8 w-8 rounded-md" width="32" height="32">
+                    </a>
+
+                    <div class="relative z-50 order-2 flex-1 md:ml-2 md:mr-4" id="search-container">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <svg class="h-5 w-5 text-faint" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                            </svg>
+                        </div>
+                        <input type="text"
+                               id="search-input"
+                               placeholder="Search recipes..."
+                               class="search-input">
+                        <div id="search-results"
+                             class="absolute top-full mt-2 w-full card shadow-[var(--shadow-overlay)] hidden max-h-96 overflow-y-auto"
+                             style="z-index: 9999;">
+                        </div>
+                    </div>
+
+                    <div class="order-3 w-full md:w-auto flex items-center gap-1 lg:gap-2">
+                        
+                        <div class="hidden md:flex items-center gap-1 mr-2 lg:mr-4">
+                            <a href="../../../index.html"
+                               class="nav-pill active">
+                                Recipes
+                            </a>
+                            
+                            
+                        </div>
+                        
+                        <!-- Inline buttons on md+ screens -->
+                        
+                        <button onclick="showShortcutsHelp()" class="icon-btn hidden md:inline-flex ml-2 print:hidden" aria-label="Keyboard shortcuts" title="Keyboard shortcuts (?)">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </button>
+                        <button onclick="toggleTheme()" class="icon-btn hidden md:inline-flex ml-2 print:hidden" aria-label="Toggle theme">
+                            <svg class="hidden dark:block" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path>
+                            </svg>
+                            <svg class="block dark:hidden" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+                            </svg>
+                        </button>
+                        <!-- Overflow menu for small screens -->
+                        <div class="relative md:hidden ml-auto" id="more-menu-container">
+                            <button onclick="document.getElementById('more-dropdown').classList.toggle('hidden')" class="icon-btn" aria-label="More options">
+                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"></path>
+                                </svg>
+                            </button>
+                            <div id="more-dropdown" class="hidden absolute right-0 mt-2 w-56 card shadow-[var(--shadow-overlay)] z-50 py-1">
+                                
+                                <a href="../../../index.html" class="menu-item active">
+                                    <span>🍳</span> <span>Recipes</span>
+                                </a>
+                                
+                                
+                                <div class="border-t border-line my-1"></div>
+                                
+                                
+                                <button onclick="showShortcutsHelp(); document.getElementById('more-dropdown').classList.add('hidden');" class="menu-item">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                    <span>Keyboard Shortcuts</span>
+                                </button>
+                                <button onclick="toggleTheme(); document.getElementById('more-dropdown').classList.add('hidden');" class="menu-item">
+                                    <svg class="w-4 h-4 hidden dark:block" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path></svg>
+                                    <svg class="w-4 h-4 block dark:hidden" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+                                    <span>Toggle Theme</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <main>
+            
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Recipe","cookTime":"PT40M","image":"https://www.justonecookbook.com/wp-content/uploads/2024/04/Castella-Cake-8335-I-1.jpg","name":"Japanese Castella Cake","prepTime":"PT20M","recipeCategory":"Dessert","recipeCuisine":"Japanese","recipeIngredient":["100 g bread flour","3 large eggs (room temperature)","3 tbsp honey","1 tbsp mizuame syrup","1/2 tbsp sparkling sugar","100 g sugar","2 tbsp water"],"recipeInstructions":[{"@type":"HowToStep","text":"Preheat the oven to 350°F."},{"@type":"HowToStep","text":"On your work surface, place your 1 lb loaf pan (I use a 9x5) on top of your sheet of parchment paper. Ensure you tear off enough so that you can fold up all sides to reach just under the top of the sides of your pan."},{"@type":"HowToStep","text":"Working clockwise, rip slits into the parchment paper so that you can insert it into the loaf pan, folding the excess tag over or removing as necessary. Secure the folded paper onto the edges with stainless steel clips."},{"@type":"HowToStep","text":"Combine water and honey in a small bowl. Then, add mizuame syrup. Take your time to dissolve the mizuame. Press down and mash the mizuame with a mini spatula to facilitate dissolving. Do not microwave the mixture as we do not want to increase the temperature of the batter. Set aside."},{"@type":"HowToStep","text":"In the bowl of a stand mixer, crack eggs. Add sugar."},{"@type":"HowToStep","text":"Fit a stand mixer with the whisk attachment and vigorously beat the eggs and sugar on high speed (Speed 8/10) for 3-5 minutes without stopping. If you beat the eggs with a handheld mixer, it will take more time. The beaten eggs will quadruple in volume and have a thick texture and pale yellow color. When you stop the mixer and lift the whisk attachment, the mixture should fall in ribbons."},{"@type":"HowToStep","text":"Reduce the stand mixer to low speed (around Speed 2). Gradually add the honey mixture to the batter until combined, about 30 seconds."},{"@type":"HowToStep","text":"Reduce the speed to the lowest speed (usually Stir). Gradually add bread flour with either a sifter or fine-meshed strainer. Hold the strainer's handle with one hand as you gently tap the strainer with the other, and the flour will gradually sift through. Mix until just combined, for about 30 seconds. Do not overmix. When you lift the whisk, the batter should fall in ribbons."},{"@type":"HowToStep","text":"Using a silicone spatula, scrape the batter from the bowl's sides and bottom and gently fold the batter a few times."},{"@type":"HowToStep","text":"Sprinkle sparkling sugar on the bottom of the lined pan. This sugar will add a crunchy texture to the cake's bottom and help retain moisture. Gently shake the pan to distribute evenly."},{"@type":"HowToStep","text":"Pour the batter into the cake pan in just one spot. This helps to minimize air pockets and smooth the top of the batter."},{"@type":"HowToStep","text":"To level the batter and help remove air pockets, hold the cake pan 2 inches above the counter and drop it flat onto the counter. Then, draw a zigzag line through the batter with a bamboo skewer to further eliminate air bubbles."},{"@type":"HowToStep","text":"Place the cake pan on the middle rack of the preheated oven at 350ºF (180ºC). Close the oven door and set a timer for 2 minutes."},{"@type":"HowToStep","text":"After the 2-minute timer beeps, reset the timer to 1 minute and complete the following several steps within the next minute."},{"@type":"HowToStep","text":"First, open the oven and spray twice above the cake batter with the spray bottle."},{"@type":"HowToStep","text":"Next, use an offset spatula to quickly mix and circulate the batter 15 times from the left side, without touching the sparkling sugar at the bottom of the pan."},{"@type":"HowToStep","text":"Finally, quickly mix and circulate the batter 15 times from the right side. Shake off the excess batter from the spatula and close the oven door. Reset the timer to 2 minutes."},{"@type":"HowToStep","text":"After the 2-minute timer beeps, reset the timer to 1 minute and complete the following several steps within the next minute."},{"@type":"HowToStep","text":"First, open the oven and spray twice above the cake batter with the spray bottle."},{"@type":"HowToStep","text":"Next, use an offset spatula to quickly mix and circulate the batter 15 times from the left side, without touching the sparkling sugar at the bottom of the pan."},{"@type":"HowToStep","text":"Finally, quickly mix and circulate the batter 15 times from the right side. Shake off the excess batter from the spatula and close the oven door. Reset the timer to 2 minutes."},{"@type":"HowToStep","text":"After the 2-minute timer beeps, reset the timer to 1 minute and complete the following several steps within the next minute."},{"@type":"HowToStep","text":"First, open the oven and spray twice above the cake batter with the spray bottle."},{"@type":"HowToStep","text":"Next, use an offset spatula to quickly mix and circulate the batter 15 times from the left side, without touching the sparkling sugar at the bottom of the pan."},{"@type":"HowToStep","text":"Finally, quickly mix and circulate the batter 15 times from the right side. Shake off the excess batter from the spatula and close the oven door. Reset the timer to 2 minutes."},{"@type":"HowToStep","text":"After the 2-minute timer beeps, reset the timer to 1 minute and complete the following several steps within the next minute."},{"@type":"HowToStep","text":"First, open the oven and spray twice above the cake batter with the spray bottle."},{"@type":"HowToStep","text":"Next, use an offset spatula to quickly mix and circulate the batter 15 times from the left side, without touching the sparkling sugar at the bottom of the pan."},{"@type":"HowToStep","text":"Quickly mix and circulate the batter 15 times from the right side. Shake off the excess batter from the spatula."},{"@type":"HowToStep","text":"Remove the stainless steel clips. Run the bamboo skewer through the batter. If any of the clips were submerged in the batter, fill in the clip marks in the batter with the skewer."},{"@type":"HowToStep","text":"Spray water into the oven, then close the oven door and continue to bake for another 30-40 minutes."},{"@type":"HowToStep","text":"Monitor your cake carefully in the last few minutes of baking. The cake is done if it bounces back when you touch it with your finger."},{"@type":"HowToStep","text":"Remove the castella from the oven. To help prevent shrinkage, drop the pan twice onto the counter to release the steam vapors from the cake."},{"@type":"HowToStep","text":"Next, invert the cake from the pan onto a nonstick silicone mat. Leave the parchment paper in place. Leave it upside down and let it cool to room temperature, about 45-60 minutes."},{"@type":"HowToStep","text":"Once cooled, immediately wrap the cake with its parchment paper in plastic wrap to retain moisture. Then, put the wrapped cake in the refrigerator and store overnight (8-12 hours). This will help the cake develop a fine and moist texture."},{"@type":"HowToStep","text":"Remove the cake from the refrigerator. Discard the plastic and carefully peel off the parchment paper."},{"@type":"HowToStep","text":"Trim the sides of the castella to expose the yellow body of the cake. Use a damp towel to wipe off the crumbs from the blade after every cut. Do not trim the top and bottom of the cake."},{"@type":"HowToStep","text":"Cut the cake crosswise into slices about 3/4 inch thick."}],"recipeYield":"6"}</script>
+<div>
+    <nav class="mb-4 breadcrumb print:hidden">
+        <ol class="flex items-center space-x-2 text-sm text-muted">
+            <li><a href="../../../index.html" class="hover:text-text">Recipes</a></li>
+            
+            <li class="flex items-center">
+                <span class="mx-2 text-faint">/</span>
+                
+                    <a href="../../../directory/Desserts.html" class="hover:text-text">Desserts</a>
+                
+            </li>
+            
+            <li class="flex items-center">
+                <span class="mx-2 text-faint">/</span>
+                
+                    <a href="../../../directory/Desserts/Cakes.html" class="hover:text-text">Cakes</a>
+                
+            </li>
+            
+            <li class="flex items-center">
+                <span class="mx-2 text-faint">/</span>
+                
+                    <span class="text-text">Castella Cake</span>
+                
+            </li>
+            
+        </ol>
+    </nav>
+
+    <div class="mb-8">
+        <!-- Recipe image if available -->
+        
+        <div class="mb-6 max-w-4xl mx-auto flex justify-center">
+            <img src="https://www.justonecookbook.com/wp-content/uploads/2024/04/Castella-Cake-8335-I-1.jpg" alt="Japanese Castella Cake" class="rounded-xl shadow-[var(--shadow-card)] max-w-full h-auto max-h-[500px]">
+        </div>
+        
+
+        <!-- Title bar with scale and shopping list button -->
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6 print:flex-row print:items-center">
+            <h1 class="text-display font-bold text-text print:text-2xl">
+                Japanese Castella Cake
+            </h1>
+            
+            <div class="flex flex-wrap items-center gap-2 lg:gap-3 print:hidden">
+                
+                <button id="start-cooking-btn" onclick="startCookingMode()" class="btn btn-primary" title="Start Cooking">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <span class="hidden lg:inline">Cook</span>
+                </button>
+                
+                <a href="../../../recipe/Desserts/Cakes/Castella Cake.cook" download class="btn" title="Download .cook source">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5 5-5M12 15V3"></path>
+                    </svg>
+                    <span class="hidden lg:inline">.cook</span>
+                </a>
+                
+            </div>
+        </div>
+
+        <!-- Recipe info section -->
+        <div class="space-y-4">
+            <!-- Tags row -->
+            
+
+            
+
+            <!-- Description if present -->
+            
+            
+
+            <!-- Metadata row -->
+            <div id="metadata-container" class="flex flex-wrap gap-3">
+                
+                <span class="metadata-pill metadata-servings">👥 6 servings</span>
+                
+
+                
+                
+
+                
+                
+
+                
+                <span class="metadata-pill metadata-course">🍽️ Dessert</span>
+                
+
+                
+                <span class="metadata-pill metadata-prep">⏱️ Prep Time: 20 minutes</span>
+                
+
+                
+                <span class="metadata-pill metadata-cook">🔥 Cook Time: 40 minutes</span>
+                
+
+                
+                <span class="metadata-pill metadata-cuisine">🌍 Japanese</span>
+                
+
+                
+                
+
+                
+                
+
+                
+                <span class="metadata-pill metadata-source">📖 https://www.justonecookbook.com/castella/</span>
+                
+
+                
+                
+
+                <!-- Custom metadata -->
+                
+            </div>
+
+            
+        </div>
+    </div>
+
+    <div id="recipe-body" class="grid md:grid-cols-3 gap-8 mb-8">
+        <div class="md:col-span-1">
+            <div class="card p-6">
+                <h2 class="text-title font-bold mb-4 text-accent-text">🥘 Ingredients</h2>
+                
+                <!-- Display ingredients grouped by section -->
+                
+                
+                
+                <h3 class="text-title font-semibold mt-4 mb-2 text-accent-text">Preparing the Batter</h3>
+                
+                <ul class="ingredient-list space-y-3 mb-4">
+                    
+                    <li class="ingredient-row">
+                        <div class="flex-1 flex items-center">
+                            
+                            <span class="font-medium">bread flour</span>
+                            
+                            
+                            
+                            
+                        </div>
+                        <span class="row-value ml-2">
+                            100 g
+                            
+                        </span>
+                    </li>
+                    
+                    <li class="ingredient-row">
+                        <div class="flex-1 flex items-center">
+                            
+                            <span class="font-medium">eggs</span>
+                            
+                            
+                            
+                            <span class="row-note italic ml-1 break-words" aria-label="preparation: room temperature">(room temperature)</span>
+                            
+                        </div>
+                        <span class="row-value ml-2">
+                            3 large
+                            
+                        </span>
+                    </li>
+                    
+                    <li class="ingredient-row">
+                        <div class="flex-1 flex items-center">
+                            
+                            <span class="font-medium">honey</span>
+                            
+                            
+                            
+                            
+                        </div>
+                        <span class="row-value ml-2">
+                            3 tbsp
+                            
+                        </span>
+                    </li>
+                    
+                    <li class="ingredient-row">
+                        <div class="flex-1 flex items-center">
+                            
+                            <span class="font-medium">mizuame syrup</span>
+                            
+                            
+                            <span class="row-note italic ml-1 break-words" aria-label="Optional">(Optional)</span>        
+                            
+                            
+                            
+                        </div>
+                        <span class="row-value ml-2">
+                            1 tbsp
+                            
+                        </span>
+                    </li>
+                    
+                    <li class="ingredient-row">
+                        <div class="flex-1 flex items-center">
+                            
+                            <span class="font-medium">sparkling sugar</span>
+                            
+                            
+                            
+                            
+                        </div>
+                        <span class="row-value ml-2">
+                            1/2 tbsp
+                            
+                        </span>
+                    </li>
+                    
+                    <li class="ingredient-row">
+                        <div class="flex-1 flex items-center">
+                            
+                            <span class="font-medium">sugar</span>
+                            
+                            
+                            
+                            
+                        </div>
+                        <span class="row-value ml-2">
+                            100 g
+                            
+                        </span>
+                    </li>
+                    
+                    <li class="ingredient-row">
+                        <div class="flex-1 flex items-center">
+                            
+                            <span class="font-medium">water</span>
+                            
+                            
+                            
+                            
+                        </div>
+                        <span class="row-value ml-2">
+                            2 tbsp
+                            
+                        </span>
+                    </li>
+                    
+                </ul>
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+
+                
+                <h2 class="text-title font-bold mt-6 mb-4 text-text">🍳 Cookware</h2>
+                <ul class="cookware-list ingredient-list space-y-2">
+                    
+                    <li class="ingredient-row">
+                        <span class="font-medium">1 lb loaf pan</span>
+                    </li>
+                    
+                    <li class="ingredient-row">
+                        <span class="font-medium">parchment paper</span>
+                    </li>
+                    
+                    <li class="ingredient-row">
+                        <span class="font-medium">small bowl</span>
+                    </li>
+                    
+                    <li class="ingredient-row">
+                        <span class="font-medium">stand mixer</span>
+                    </li>
+                    
+                    <li class="ingredient-row">
+                        <span class="font-medium">sifter or fine-meshed strainer</span>
+                    </li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+
+        <div class="md:col-span-2">
+            <div class="card p-6">
+                
+                
+                <h2 class="text-title font-semibold mt-6 mb-4 text-accent-text border-b border-line pb-2">Preparing the Batter</h2>
+                
+                <ol class="step-list space-y-4 ">
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">1</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        Preheat the oven to 350°F.
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">2</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        On your work surface, place your 
+                                        <span class="cookware-badge">1 lb loaf pan</span>
+                                         (I use a 9x5) on top of your sheet of 
+                                        <span class="cookware-badge">parchment paper</span>
+                                        . Ensure you tear off enough so that you can fold up all sides to reach just under the top of the sides of your pan.
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            <img class="image-step" src="../../../api/static/Desserts\Cakes\Castella Cake.3.png" />
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">3</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        Working clockwise, rip slits into the parchment paper so that you can insert it into the loaf pan, folding the excess tag over or removing as necessary. Secure the folded paper onto the edges with stainless steel clips.
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="recipe-note mb-3">
+                        <span>📝</span>
+                        <p class="m-0" style="white-space: pre-line">JustOneCookbook has very in-depth instructions on how to perfectly do this. When I was learning the recipe, I found this just complicated things. At the end of the day, it doesn&#x27;t have to be perfect, it just has to keep the lining from moving when you mix the batter during baking.</p>
+                    </li>
+                    
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">4</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        Combine 
+                                        <span class="ingredient-badge">water</span>
+                                         and 
+                                        <span class="ingredient-badge">honey</span>
+                                         in a 
+                                        <span class="cookware-badge">small bowl</span>
+                                        . Then, add 
+                                        <span class="ingredient-badge">mizuame syrup</span>
+                                        . Take your time to dissolve the mizuame. Press down and mash the mizuame with a mini spatula to facilitate dissolving. Do not microwave the mixture as we do not want to increase the temperature of the batter. Set aside.
+                                    </div>
+                                    
+                                    <div class="step-refs">
+                                        
+                                        <span class="inline-block mr-3">
+                                            water: 2 tbsp,
+                                        </span>
+                                        
+                                        <span class="inline-block mr-3">
+                                            honey: 3 tbsp,
+                                        </span>
+                                        
+                                        <span class="inline-block mr-3">
+                                            mizuame syrup: 1 tbsp<span class="italic text-faint break-words" aria-label="Optional"> (Optional)</span>
+                                        </span>
+                                        
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="recipe-note mb-3">
+                        <span>📝</span>
+                        <p class="m-0" style="white-space: pre-line">Be careful with the mizuame syrup, aka glutinous starch syrup. Use the thick type sold in a jar, and skip if you can&#x27;t find it. This is important, because you shouldn&#x27;t use the liquidy packet kind found in stores. It&#x27;s runny and fluid like honey, and it contains too much moisture for this recipe.</p>
+                    </li>
+                    
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">5</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        In the bowl of a 
+                                        <span class="cookware-badge">stand mixer</span>
+                                        , crack 
+                                        <span class="ingredient-badge">eggs</span>
+                                        . Add 
+                                        <span class="ingredient-badge">sugar</span>
+                                        .
+                                    </div>
+                                    
+                                    <div class="step-refs">
+                                        
+                                        <span class="inline-block mr-3">
+                                            eggs: 3 large <span class="italic text-faint break-words" aria-label="preparation: room temperature">(room temperature)</span>,
+                                        </span>
+                                        
+                                        <span class="inline-block mr-3">
+                                            sugar: 100 g
+                                        </span>
+                                        
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            <img class="image-step" src="../../../api/static/Desserts\Cakes\Castella Cake.6.png" />
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">6</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        Fit a stand mixer with the whisk attachment and vigorously beat the eggs and sugar on high speed (Speed 8/10) for 
+                                        <span class="timer-badge">⏱️ 3-5 minutes</span>
+                                         without stopping. If you beat the eggs with a handheld mixer, it will take more time. The beaten eggs will quadruple in volume and have a thick texture and pale yellow color. When you stop the mixer and lift the whisk attachment, the mixture should fall in ribbons.
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">7</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        Reduce the stand mixer to low speed (around Speed 2). Gradually add the honey mixture to the batter until combined, about 
+                                        <span class="timer-badge">⏱️ 30 seconds</span>
+                                        .
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">8</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        Reduce the speed to the lowest speed (usually Stir). Gradually add 
+                                        <span class="ingredient-badge">bread flour</span>
+                                         with either a 
+                                        <span class="cookware-badge">sifter or fine-meshed strainer</span>
+                                        . Hold the strainer&#x27;s handle with one hand as you gently tap the strainer with the other, and the flour will gradually sift through. Mix until just combined, for about 
+                                        <span class="timer-badge">⏱️ 30 seconds</span>
+                                        . Do not overmix. When you lift the whisk, the batter should fall in ribbons.
+                                    </div>
+                                    
+                                    <div class="step-refs">
+                                        
+                                        <span class="inline-block mr-3">
+                                            bread flour: 100 g
+                                        </span>
+                                        
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">9</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        Using a silicone spatula, scrape the batter from the bowl&#x27;s sides and bottom and gently fold the batter a few times. 
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">10</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        Sprinkle 
+                                        <span class="ingredient-badge">sparkling sugar</span>
+                                         on the bottom of the lined pan. This sugar will add a crunchy texture to the cake&#x27;s bottom and help retain moisture. Gently shake the pan to distribute evenly.
+                                    </div>
+                                    
+                                    <div class="step-refs">
+                                        
+                                        <span class="inline-block mr-3">
+                                            sparkling sugar: 1/2 tbsp
+                                        </span>
+                                        
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">11</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        Pour the batter into the cake pan in just one spot. This helps to minimize air pockets and smooth the top of the batter. 
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">12</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        To level the batter and help remove air pockets, hold the cake pan 2 inches above the counter and drop it flat onto the counter. Then, draw a zigzag line through the batter with a bamboo skewer to further eliminate air bubbles.
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="recipe-note mb-3">
+                        <span>📝</span>
+                        <p class="m-0" style="white-space: pre-line">The first part of cooking castella is a bit of a gauntlet. Ensure you have a water filled squirt bottle and offset spatula on hand before starting. We repeat the steps, unlike JustOneCookbook, to make step tracking clearer.</p>
+                    </li>
+                    
+                    
+                </ol>
+                
+                
+                <h2 class="text-title font-semibold mt-6 mb-4 text-accent-text border-b border-line pb-2">The Gauntlet: Round 1</h2>
+                
+                <ol class="step-list space-y-4 mt-4">
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">1</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        Place the cake pan on the middle rack of the preheated oven at 350ºF (180ºC). Close the oven door and set a timer for 
+                                        <span class="timer-badge">⏱️ 2 minutes</span>
+                                        .
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">2</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        After the 2-minute timer beeps, reset the timer to 
+                                        <span class="timer-badge">⏱️ 1 minute</span>
+                                         and complete the following several steps within the next minute. 
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">3</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        First, open the oven and spray twice above the cake batter with the spray bottle.
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">4</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        Next, use an offset spatula to quickly mix and circulate the batter 15 times from the left side, without touching the sparkling sugar at the bottom of the pan. 
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="recipe-note mb-3">
+                        <span>📝</span>
+                        <p class="m-0" style="white-space: pre-line">This mixing technique, called awakiri (泡切り, “bubble cut“) in Japanese, helps to remove air pockets and even out the batter&#x27;s temperature so the cake rises evenly without cracking.</p>
+                    </li>
+                    
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">5</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        Finally, quickly mix and circulate the batter 15 times from the right side. Shake off the excess batter from the spatula and close the oven door. Reset the timer to 
+                                        <span class="timer-badge">⏱️ 2 minutes</span>
+                                        . 
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                </ol>
+                
+                
+                <h2 class="text-title font-semibold mt-6 mb-4 text-accent-text border-b border-line pb-2">The Gauntlet: Round 2</h2>
+                
+                <ol class="step-list space-y-4 mt-4">
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">1</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        After the 2-minute timer beeps, reset the timer to 
+                                        <span class="timer-badge">⏱️ 1 minute</span>
+                                         and complete the following several steps within the next minute. 
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">2</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        First, open the oven and spray twice above the cake batter with the spray bottle.
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">3</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        Next, use an offset spatula to quickly mix and circulate the batter 15 times from the left side, without touching the sparkling sugar at the bottom of the pan. 
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">4</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        Finally, quickly mix and circulate the batter 15 times from the right side. Shake off the excess batter from the spatula and close the oven door. Reset the timer to 
+                                        <span class="timer-badge">⏱️ 2 minutes</span>
+                                        . 
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                </ol>
+                
+                
+                <h2 class="text-title font-semibold mt-6 mb-4 text-accent-text border-b border-line pb-2">The Gauntlet: Round 3</h2>
+                
+                <ol class="step-list space-y-4 mt-4">
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">1</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        After the 2-minute timer beeps, reset the timer to 
+                                        <span class="timer-badge">⏱️ 1 minute</span>
+                                         and complete the following several steps within the next minute. 
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">2</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        First, open the oven and spray twice above the cake batter with the spray bottle.
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">3</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        Next, use an offset spatula to quickly mix and circulate the batter 15 times from the left side, without touching the sparkling sugar at the bottom of the pan. 
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">4</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        Finally, quickly mix and circulate the batter 15 times from the right side. Shake off the excess batter from the spatula and close the oven door. Reset the timer to 
+                                        <span class="timer-badge">⏱️ 2 minutes</span>
+                                        . 
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                </ol>
+                
+                
+                <h2 class="text-title font-semibold mt-6 mb-4 text-accent-text border-b border-line pb-2">The Gauntlet: Round 4</h2>
+                
+                <ol class="step-list space-y-4 mt-4">
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">1</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        After the 2-minute timer beeps, reset the timer to 
+                                        <span class="timer-badge">⏱️ 1 minute</span>
+                                         and complete the following several steps within the next minute. 
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">2</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        First, open the oven and spray twice above the cake batter with the spray bottle.
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">3</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        Next, use an offset spatula to quickly mix and circulate the batter 15 times from the left side, without touching the sparkling sugar at the bottom of the pan. 
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">4</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        Quickly mix and circulate the batter 15 times from the right side. Shake off the excess batter from the spatula. 
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">5</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        Remove the stainless steel clips. Run the bamboo skewer through the batter. If any of the clips were submerged in the batter, fill in the clip marks in the batter with the skewer.
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">6</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        Spray water into the oven, then close the oven door and continue to bake for another 
+                                        <span class="timer-badge">⏱️ 30-40 minutes</span>
+                                        .
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                </ol>
+                
+                
+                <h2 class="text-title font-semibold mt-6 mb-4 text-accent-text border-b border-line pb-2">Finishing the Cake</h2>
+                
+                <ol class="step-list space-y-4 mt-4">
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            <img class="image-step" src="../../../api/static/Desserts\Cakes\Castella Cake.32.png" />
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">1</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        Monitor your cake carefully in the last few minutes of baking. The cake is done if it bounces back when you touch it with your finger. 
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="recipe-note mb-3">
+                        <span>📝</span>
+                        <p class="m-0" style="white-space: pre-line">Tip: If your cake top looks wrinkled or cracked, you may have overbaked it. This is why it&#x27;s important to check earlier to see if it&#x27;s done. If the top is lighter in color and sticky, you may have underbaked it.</p>
+                    </li>
+                    
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">2</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        Remove the castella from the oven. To help prevent shrinkage, drop the pan twice onto the counter to release the steam vapors from the cake. 
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">3</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        Next, invert the cake from the pan onto a nonstick silicone mat. Leave the parchment paper in place. Leave it upside down and let it cool to room temperature, about 
+                                        <span class="timer-badge">⏱️ 45-60 minutes</span>
+                                        . 
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="recipe-note mb-3">
+                        <span>📝</span>
+                        <p class="m-0" style="white-space: pre-line">Tip: If your cake sticks to the silicone mat, you may have underbaked it. Next time, increase the oven temperature or bake it a few minutes longer.</p>
+                    </li>
+                    
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">4</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        Once cooled, immediately wrap the cake with its parchment paper in plastic wrap to retain moisture. Then, put the wrapped cake in the refrigerator and store overnight (
+                                        <span class="timer-badge">⏱️ 8-12 hours</span>
+                                        ). This will help the cake develop a fine and moist texture.
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">5</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        Remove the cake from the refrigerator. Discard the plastic and carefully peel off the parchment paper.
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">6</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        Trim the sides of the castella to expose the yellow body of the cake. Use a damp towel to wipe off the crumbs from the blade after every cut. Do not trim the top and bottom of the cake. 
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">7</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        Cut the cake crosswise into slices about 3/4 inch thick. 
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="recipe-note mb-3">
+                        <span>📝</span>
+                        <p class="m-0" style="white-space: pre-line">To save for later, wrap individual pieces with plastic wrap. Store for up to 3-4 days at room temperature, 5-7 days in the refrigerator, and 1 month in the freezer.</p>
+                    </li>
+                    
+                    
+                </ol>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+<script id="cooking-mode-data" type="application/json">
+{"image":"https://www.justonecookbook.com/wp-content/uploads/2024/04/Castella-Cake-8335-I-1.jpg","name":"Japanese Castella Cake","scale":1.0,"sections":[{"ingredients":[{"is_optional":false,"name":"bread flour","note":null,"quantity":"100","unit":"g"},{"is_optional":false,"name":"eggs","note":"room temperature","quantity":"3","unit":"large"},{"is_optional":false,"name":"honey","note":null,"quantity":"3","unit":"tbsp"},{"is_optional":true,"name":"mizuame syrup","note":null,"quantity":"1","unit":"tbsp"},{"is_optional":false,"name":"sparkling sugar","note":null,"quantity":"1/2","unit":"tbsp"},{"is_optional":false,"name":"sugar","note":null,"quantity":"100","unit":"g"},{"is_optional":false,"name":"water","note":null,"quantity":"2","unit":"tbsp"}],"name":"Preparing the Batter","stepOffset":0,"steps":[{"globalNumber":1,"image":null,"ingredients":[],"number":1,"type":"step"},{"globalNumber":2,"image":null,"ingredients":[],"number":2,"type":"step"},{"globalNumber":3,"image":"../../../api/static/Desserts\\Cakes\\Castella Cake.3.png","ingredients":[],"number":3,"type":"step"},{"globalNumber":4,"image":null,"ingredients":[{"is_optional":false,"name":"water","note":null,"quantity":"2","unit":"tbsp"},{"is_optional":false,"name":"honey","note":null,"quantity":"3","unit":"tbsp"},{"is_optional":true,"name":"mizuame syrup","note":null,"quantity":"1","unit":"tbsp"}],"number":4,"type":"step"},{"globalNumber":5,"image":null,"ingredients":[{"is_optional":false,"name":"eggs","note":"room temperature","quantity":"3","unit":"large"},{"is_optional":false,"name":"sugar","note":null,"quantity":"100","unit":"g"}],"number":5,"type":"step"},{"globalNumber":6,"image":"../../../api/static/Desserts\\Cakes\\Castella Cake.6.png","ingredients":[],"number":6,"type":"step"},{"globalNumber":7,"image":null,"ingredients":[],"number":7,"type":"step"},{"globalNumber":8,"image":null,"ingredients":[{"is_optional":false,"name":"bread flour","note":null,"quantity":"100","unit":"g"}],"number":8,"type":"step"},{"globalNumber":9,"image":null,"ingredients":[],"number":9,"type":"step"},{"globalNumber":10,"image":null,"ingredients":[{"is_optional":false,"name":"sparkling sugar","note":null,"quantity":"1/2","unit":"tbsp"}],"number":10,"type":"step"},{"globalNumber":11,"image":null,"ingredients":[],"number":11,"type":"step"},{"globalNumber":12,"image":null,"ingredients":[],"number":12,"type":"step"}]},{"ingredients":[],"name":"The Gauntlet: Round 1","stepOffset":12,"steps":[{"globalNumber":13,"image":null,"ingredients":[],"number":1,"type":"step"},{"globalNumber":14,"image":null,"ingredients":[],"number":2,"type":"step"},{"globalNumber":15,"image":null,"ingredients":[],"number":3,"type":"step"},{"globalNumber":16,"image":null,"ingredients":[],"number":4,"type":"step"},{"globalNumber":17,"image":null,"ingredients":[],"number":5,"type":"step"}]},{"ingredients":[],"name":"The Gauntlet: Round 2","stepOffset":17,"steps":[{"globalNumber":18,"image":null,"ingredients":[],"number":1,"type":"step"},{"globalNumber":19,"image":null,"ingredients":[],"number":2,"type":"step"},{"globalNumber":20,"image":null,"ingredients":[],"number":3,"type":"step"},{"globalNumber":21,"image":null,"ingredients":[],"number":4,"type":"step"}]},{"ingredients":[],"name":"The Gauntlet: Round 3","stepOffset":21,"steps":[{"globalNumber":22,"image":null,"ingredients":[],"number":1,"type":"step"},{"globalNumber":23,"image":null,"ingredients":[],"number":2,"type":"step"},{"globalNumber":24,"image":null,"ingredients":[],"number":3,"type":"step"},{"globalNumber":25,"image":null,"ingredients":[],"number":4,"type":"step"}]},{"ingredients":[],"name":"The Gauntlet: Round 4","stepOffset":25,"steps":[{"globalNumber":26,"image":null,"ingredients":[],"number":1,"type":"step"},{"globalNumber":27,"image":null,"ingredients":[],"number":2,"type":"step"},{"globalNumber":28,"image":null,"ingredients":[],"number":3,"type":"step"},{"globalNumber":29,"image":null,"ingredients":[],"number":4,"type":"step"},{"globalNumber":30,"image":null,"ingredients":[],"number":5,"type":"step"},{"globalNumber":31,"image":null,"ingredients":[],"number":6,"type":"step"}]},{"ingredients":[],"name":"Finishing the Cake","stepOffset":31,"steps":[{"globalNumber":32,"image":"../../../api/static/Desserts\\Cakes\\Castella Cake.32.png","ingredients":[],"number":1,"type":"step"},{"globalNumber":33,"image":null,"ingredients":[],"number":2,"type":"step"},{"globalNumber":34,"image":null,"ingredients":[],"number":3,"type":"step"},{"globalNumber":35,"image":null,"ingredients":[],"number":4,"type":"step"},{"globalNumber":36,"image":null,"ingredients":[],"number":5,"type":"step"},{"globalNumber":37,"image":null,"ingredients":[],"number":6,"type":"step"},{"globalNumber":38,"image":null,"ingredients":[],"number":7,"type":"step"}]}]}
+</script>
+
+
+
+        </main>
+
+        
+        <footer class="mt-12 mb-6 text-center text-sm text-faint print:hidden">
+            Built with
+            <a href="https://cooklang.org/cli/" class="text-accent-text hover:underline" target="_blank" rel="noopener">CookCLI</a>
+            
+        </footer>
+        
+    </div>
+
+    <script>
+        // Theme toggle function
+        function toggleTheme() {
+            const html = document.documentElement;
+            const currentTheme = html.classList.contains('dark') ? 'dark' : 'light';
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+
+            html.classList.toggle('dark');
+            localStorage.setItem('theme', newTheme);
+        }
+    </script>
+
+    
+    <script>window.__PREFIX__ = "../../..";</script>
+    <script src="../../../static/js/search.js"></script>
+    
+
+    <!-- URL prefix for JavaScript -->
+    <script>
+        window.__PREFIX__ = "../../..";
+        window.__STATIC_MODE__ = true;
+        window.__STRINGS__ = { close: "Close" };
+    </script>
+
+    <!-- Keyboard shortcuts -->
+    <script src="../../../static/js/keyboard-shortcuts.js"></script>
+    <!-- Expose showShortcutsHelp globally for the help button -->
+    <script>
+        // showShortcutsHelp is defined in keyboard-shortcuts.js
+        // This ensures it's available for the onclick handler
+        if (typeof showShortcutsHelp === 'undefined') {
+            window.showShortcutsHelp = function() {
+                console.warn('Keyboard shortcuts not loaded');
+            };
+        }
+    </script>
+
+    
+<link rel="stylesheet" href="../../../static/css/cooking-mode.css">
+<script src="../../../static/js/cooking-mode.js"></script>
+
+</body>
+</html>

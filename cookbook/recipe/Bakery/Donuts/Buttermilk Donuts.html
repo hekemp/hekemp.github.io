@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html lang="en-US" class="">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buttermilk Donuts - Cook</title>
+    <link rel="icon" type="image/x-icon" href="../../../static/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../../static/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../../static/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../../../static/apple-touch-icon.png">
+    <link rel="manifest" href="../../../static/site.webmanifest">
+    <link href="../../../static/css/output.css" rel="stylesheet">
+    <script>
+        // Check for saved theme preference, or check for prefers-color-scheme, or default to light
+        const theme = localStorage.getItem('theme')
+            || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        document.documentElement.classList.toggle('dark', theme === 'dark');
+    </script>
+    <style>
+        .viewport {
+            width: 100%;
+            max-width: 72rem;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        /* Search result keyboard selection. --surface-sunk alone is barely
+           visible against --surface in dark mode, so the accent bar carries
+           the signal. */
+        #search-results a.search-selected {
+            background: var(--accent-soft);
+            box-shadow: inset 3px 0 0 var(--accent);
+        }
+
+        @media print {
+            /* Token values are reset to light in input.css; this resets the
+               browser's own defaults so unstyled text is dark too. */
+            html.dark, html {
+                color-scheme: light !important;
+            }
+
+            * {
+                print-color-adjust: exact;
+                -webkit-print-color-adjust: exact;
+            }
+
+            body {
+                background: white !important;
+                margin: 0;
+                padding: 0;
+            }
+
+            .viewport {
+                max-width: 100%;
+                margin: 0;
+                padding: 0;
+            }
+
+            /* Hide navigation and non-essential elements */
+            nav, #search-container, #search-input, #search-results, .print\:hidden, .breadcrumb {
+                display: none !important;
+            }
+
+            /* Hide all navigation links */
+            a[href="../../../"] {
+                display: none !important;
+            }
+
+            /* Recipe layout for print: one column */
+            .grid {
+                display: block !important;
+            }
+
+            .md\:col-span-1, .md\:col-span-2 {
+                page-break-inside: avoid;
+                width: 100% !important;
+            }
+
+            /* Square corners on paper */
+            .card, .step-box, .ingredient-row, .recipe-note, .rounded-xl {
+                border-radius: 0 !important;
+            }
+
+            /* Step numbers */
+            .step-number {
+                background: #000 !important;
+                color: #fff !important;
+            }
+
+            /* Images */
+            img {
+                max-height: 300px !important;
+                max-width: 100% !important;
+                height: auto !important;
+                object-fit: contain !important;
+                page-break-inside: avoid;
+                page-break-after: avoid;
+            }
+
+            /* Recipe sections on same page if possible */
+            h2, h3 {
+                page-break-after: avoid;
+            }
+
+            ol, ul {
+                page-break-inside: avoid;
+            }
+
+            /* Compact spacing */
+            .mb-8, .mb-6, .mb-4 {
+                margin-bottom: 0.5rem !important;
+            }
+
+            .p-6 {
+                padding: 0.5rem !important;
+            }
+
+            /* Recipe header */
+            h1 {
+                color: #000 !important;
+                font-size: 1.5rem !important;
+                margin-bottom: 0 !important;
+            }
+
+            /* Shopping list print styles */
+            .lg\:w-2\/5, .xl\:w-1\/3 {
+                display: none !important;
+            }
+
+            #shopping-list-results {
+                font-size: 11pt !important;
+                line-height: 1.2 !important;
+            }
+
+            #shopping-list-results input[type="checkbox"] {
+                display: none !important;
+            }
+
+            #shopping-list-results li .flex-1 {
+                width: auto !important;
+                flex: 1 1 0% !important;
+            }
+
+            #shopping-list-results label {
+                cursor: default !important;
+            }
+
+            #shopping-list-results h2 {
+                font-size: 11pt !important;
+                color: #000 !important;
+                margin-bottom: 0 !important;
+            }
+
+            #shopping-list-results .space-y-2 > * + *,
+            #shopping-list-results ul > * + * {
+                margin-top: 0 !important;
+            }
+
+            #shopping-list-results li {
+                padding: 0 !important;
+                line-height: 1.3 !important;
+                border-bottom: 1px dotted #ccc;
+            }
+
+            #shopping-list-results .card {
+                margin-bottom: 0.15rem !important;
+                padding: 0 !important;
+                border: none !important;
+            }
+
+            /* Menu print styles */
+            #menu-content {
+                font-size: 10pt !important;
+                line-height: 1.4 !important;
+            }
+
+            #menu-content h1 {
+                font-size: 14pt !important;
+                margin-bottom: 0.25rem !important;
+                color: #000 !important;
+            }
+
+            #menu-content .space-y-6 > * + * {
+                margin-top: 0.3rem !important;
+            }
+
+            #menu-content .menu-section {
+                border: 1px solid #ccc !important;
+                border-radius: 0 !important;
+                page-break-inside: avoid;
+            }
+
+            #menu-content .menu-section-header {
+                background: #eee !important;
+                color: #000 !important;
+                padding: 0.15rem 0.5rem !important;
+            }
+
+            #menu-content .menu-section-header h2 {
+                font-size: 11pt !important;
+                color: #000 !important;
+            }
+
+            #menu-content .menu-section-body {
+                padding: 0.25rem 0.5rem !important;
+            }
+
+            #menu-content .menu-section-body .space-y-2 > * + *,
+            #menu-content .menu-section-body > * + * {
+                margin-top: 0.05rem !important;
+            }
+
+            #menu-content .menu-section-body h3 {
+                font-size: 10pt !important;
+                margin-top: 0.2rem !important;
+                margin-bottom: 0 !important;
+            }
+
+            #menu-content .menu-section-body .pl-6 {
+                padding-left: 1rem !important;
+            }
+
+            /* Preserve word spacing in flex lines */
+            #menu-content .menu-section-body .flex {
+                gap: 0.25em !important;
+            }
+
+            #menu-content .ingredient-badge {
+                font-weight: bold !important;
+                color: #000 !important;
+            }
+
+            #menu-content a {
+                color: #000 !important;
+                text-decoration: none !important;
+            }
+        }
+    </style>
+</head>
+<body class="bg-bg text-text">
+    <div class="viewport">
+        <nav class="nav-card relative">
+            <div class="px-3 lg:px-6 py-4 relative">
+                <div class="flex items-center justify-between flex-wrap gap-y-3">
+                    <a href="../../../index.html" class="order-1 hidden md:flex items-center space-x-2">
+                        <img src="../../../static/android-chrome-192x192.png" alt="Cook" class="brand-mark h-8 w-8 rounded-md" width="32" height="32">
+                    </a>
+
+                    <div class="relative z-50 order-2 flex-1 md:ml-2 md:mr-4" id="search-container">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <svg class="h-5 w-5 text-faint" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                            </svg>
+                        </div>
+                        <input type="text"
+                               id="search-input"
+                               placeholder="Search recipes..."
+                               class="search-input">
+                        <div id="search-results"
+                             class="absolute top-full mt-2 w-full card shadow-[var(--shadow-overlay)] hidden max-h-96 overflow-y-auto"
+                             style="z-index: 9999;">
+                        </div>
+                    </div>
+
+                    <div class="order-3 w-full md:w-auto flex items-center gap-1 lg:gap-2">
+                        
+                        <div class="hidden md:flex items-center gap-1 mr-2 lg:mr-4">
+                            <a href="../../../index.html"
+                               class="nav-pill active">
+                                Recipes
+                            </a>
+                            
+                            
+                        </div>
+                        
+                        <!-- Inline buttons on md+ screens -->
+                        
+                        <button onclick="showShortcutsHelp()" class="icon-btn hidden md:inline-flex ml-2 print:hidden" aria-label="Keyboard shortcuts" title="Keyboard shortcuts (?)">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </button>
+                        <button onclick="toggleTheme()" class="icon-btn hidden md:inline-flex ml-2 print:hidden" aria-label="Toggle theme">
+                            <svg class="hidden dark:block" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path>
+                            </svg>
+                            <svg class="block dark:hidden" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+                            </svg>
+                        </button>
+                        <!-- Overflow menu for small screens -->
+                        <div class="relative md:hidden ml-auto" id="more-menu-container">
+                            <button onclick="document.getElementById('more-dropdown').classList.toggle('hidden')" class="icon-btn" aria-label="More options">
+                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"></path>
+                                </svg>
+                            </button>
+                            <div id="more-dropdown" class="hidden absolute right-0 mt-2 w-56 card shadow-[var(--shadow-overlay)] z-50 py-1">
+                                
+                                <a href="../../../index.html" class="menu-item active">
+                                    <span>🍳</span> <span>Recipes</span>
+                                </a>
+                                
+                                
+                                <div class="border-t border-line my-1"></div>
+                                
+                                
+                                <button onclick="showShortcutsHelp(); document.getElementById('more-dropdown').classList.add('hidden');" class="menu-item">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                    <span>Keyboard Shortcuts</span>
+                                </button>
+                                <button onclick="toggleTheme(); document.getElementById('more-dropdown').classList.add('hidden');" class="menu-item">
+                                    <svg class="w-4 h-4 hidden dark:block" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path></svg>
+                                    <svg class="w-4 h-4 block dark:hidden" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+                                    <span>Toggle Theme</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <main>
+            
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Recipe","cookTime":"PT20M","description":"This no-yeast buttermilk donut is easy to make and ready in minutes to feed a hungry crowd!","image":"https://abountifulkitchen.com/wp-content/uploads/2023/03/6-IMG_9913-scaled.jpg","keywords":"buttermilk, donuts","name":"Buttermilk Donuts","prepTime":"PT10M","recipeCategory":"bread, Breakfast, Dessert, donuts","recipeCuisine":"American","recipeIngredient":["1 teaspoon baking powder","1 teaspoon baking soda","6 tablespoons butter (melted)","2 cups buttermilk (room temperature, can substitute with 1 cup milk and 1 cup plain Greek yogurt)","1 teaspoon cinnamon","2 large eggs (beaten, room temperature)","6 cups flour","1/2 teaspoon nutmeg","oil","1 teaspoon salt","2 cups sugar"],"recipeInstructions":[{"@type":"HowToStep","text":"In the bowl of a stand mixer with the paddle attachment, combine buttermilk, eggs and sugar. Mix until sugar is incorporated into buttermilk and eggs."},{"@type":"HowToStep","text":"Add baking soda, baking powder, salt, cinnamon, nutmeg, and butter. Mix again until incorporated with buttermilk mixture."},{"@type":"HowToStep","text":"Add flour and mix on low until the flour is no longer visible. Mix in an additional flour, a half cup at a time, scraping down sides and bottom of bowl."},{"@type":"HowToStep","text":"Mix in additional flour if needed. The dough should take shape and not have a wet look. If the dough is still wet or sticky, add an additional tablespoon or two of flour. Turn the dough in the bowl until the dough is no longer sticky."},{"@type":"HowToStep","text":"Generously flour a pastry mat or clean surface. Turn the dough onto the surface and knead 3-4 times, folding the dough onto itself and gathering flour to make dough less sticky if needed. Roll the dough out to about 1/4-1/2 inch thick."},{"@type":"HowToStep","text":"Using a donut cutter, cut the donut shapes out."},{"@type":"HowToStep","text":"Heat oil in your deep fryer to 375°F. Let cook on one side until golden, then turn with chopsticks to cook the other side. It takes about 1-2 minutes per side to cook. Drain donuts on a paper towel lined cookie sheet. Cook the donut holes in 2-3 batches."},{"@type":"HowToStep","text":"Let cool for about a minute."},{"@type":"HowToStep","text":"Place sugar into a paper bag. Toss the donuts 3-4 at a time in the bag of sugar."},{"@type":"HowToStep","text":"Serve warm."}],"recipeYield":"24"}</script>
+<div>
+    <nav class="mb-4 breadcrumb print:hidden">
+        <ol class="flex items-center space-x-2 text-sm text-muted">
+            <li><a href="../../../index.html" class="hover:text-text">Recipes</a></li>
+            
+            <li class="flex items-center">
+                <span class="mx-2 text-faint">/</span>
+                
+                    <a href="../../../directory/Bakery.html" class="hover:text-text">Bakery</a>
+                
+            </li>
+            
+            <li class="flex items-center">
+                <span class="mx-2 text-faint">/</span>
+                
+                    <a href="../../../directory/Bakery/Donuts.html" class="hover:text-text">Donuts</a>
+                
+            </li>
+            
+            <li class="flex items-center">
+                <span class="mx-2 text-faint">/</span>
+                
+                    <span class="text-text">Buttermilk Donuts</span>
+                
+            </li>
+            
+        </ol>
+    </nav>
+
+    <div class="mb-8">
+        <!-- Recipe image if available -->
+        
+        <div class="mb-6 max-w-4xl mx-auto flex justify-center">
+            <img src="https://abountifulkitchen.com/wp-content/uploads/2023/03/6-IMG_9913-scaled.jpg" alt="Buttermilk Donuts" class="rounded-xl shadow-[var(--shadow-card)] max-w-full h-auto max-h-[500px]">
+        </div>
+        
+
+        <!-- Title bar with scale and shopping list button -->
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6 print:flex-row print:items-center">
+            <h1 class="text-display font-bold text-text print:text-2xl">
+                Buttermilk Donuts
+            </h1>
+            
+            <div class="flex flex-wrap items-center gap-2 lg:gap-3 print:hidden">
+                
+                <button id="start-cooking-btn" onclick="startCookingMode()" class="btn btn-primary" title="Start Cooking">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <span class="hidden lg:inline">Cook</span>
+                </button>
+                
+                <a href="../../../recipe/Bakery/Donuts/Buttermilk Donuts.cook" download class="btn" title="Download .cook source">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5 5-5M12 15V3"></path>
+                    </svg>
+                    <span class="hidden lg:inline">.cook</span>
+                </a>
+                
+            </div>
+        </div>
+
+        <!-- Recipe info section -->
+        <div class="space-y-4">
+            <!-- Tags row -->
+            
+            <div class="flex flex-wrap gap-2">
+                
+                <span class="tag">#buttermilk</span>
+                
+                <span class="tag">#donuts</span>
+                
+            </div>
+            
+
+            
+
+            <!-- Description if present -->
+            
+            <div class="recipe-note">
+                <p class="m-0">This no-yeast buttermilk donut is easy to make and ready in minutes to feed a hungry crowd!</p>
+            </div>
+            
+
+            <!-- Metadata row -->
+            <div id="metadata-container" class="flex flex-wrap gap-3">
+                
+                <span class="metadata-pill metadata-servings">👥 24 servings</span>
+                
+
+                
+                
+
+                
+                
+
+                
+                <span class="metadata-pill metadata-course">🍽️ bread, Breakfast, Dessert, donuts</span>
+                
+
+                
+                <span class="metadata-pill metadata-prep">⏱️ Prep Time: 10 minutes</span>
+                
+
+                
+                <span class="metadata-pill metadata-cook">🔥 Cook Time: 20 minutes</span>
+                
+
+                
+                <span class="metadata-pill metadata-cuisine">🌍 American</span>
+                
+
+                
+                
+
+                
+                
+
+                
+                <span class="metadata-pill metadata-source">📖 https://abountifulkitchen.com/homemade-buttermilk-donuts/</span>
+                
+
+                
+                
+
+                <!-- Custom metadata -->
+                
+            </div>
+
+            
+        </div>
+    </div>
+
+    <div id="recipe-body" class="grid md:grid-cols-3 gap-8 mb-8">
+        <div class="md:col-span-1">
+            <div class="card p-6">
+                <h2 class="text-title font-bold mb-4 text-accent-text">🥘 Ingredients</h2>
+                
+                <!-- Fallback to original flat list for recipes without sections -->
+                <ul class="ingredient-list space-y-3">
+                    
+                    <li class="ingredient-row">
+                        <div class="flex-1 flex items-center">
+                            
+                            <span class="font-medium">baking powder</span>
+                            
+                            
+                            
+                            
+                        </div>
+                        <span class="row-value ml-2">
+                            1 teaspoon
+                            
+                        </span>
+                    </li>
+                    
+                    <li class="ingredient-row">
+                        <div class="flex-1 flex items-center">
+                            
+                            <span class="font-medium">baking soda</span>
+                            
+                            
+                            
+                            
+                        </div>
+                        <span class="row-value ml-2">
+                            1 teaspoon
+                            
+                        </span>
+                    </li>
+                    
+                    <li class="ingredient-row">
+                        <div class="flex-1 flex items-center">
+                            
+                            <span class="font-medium">butter</span>
+                            
+                            
+                            
+                            <span class="row-note italic ml-1 break-words" aria-label="preparation: melted">(melted)</span>
+                            
+                        </div>
+                        <span class="row-value ml-2">
+                            6 tablespoons
+                            
+                        </span>
+                    </li>
+                    
+                    <li class="ingredient-row">
+                        <div class="flex-1 flex items-center">
+                            
+                            <span class="font-medium">buttermilk</span>
+                            
+                            
+                            
+                            <span class="row-note italic ml-1 break-words" aria-label="preparation: room temperature, can substitute with 1 cup milk and 1 cup plain Greek yogurt">(room temperature, can substitute with 1 cup milk and 1 cup plain Greek yogurt)</span>
+                            
+                        </div>
+                        <span class="row-value ml-2">
+                            2 cups
+                            
+                        </span>
+                    </li>
+                    
+                    <li class="ingredient-row">
+                        <div class="flex-1 flex items-center">
+                            
+                            <span class="font-medium">cinnamon</span>
+                            
+                            
+                            
+                            
+                        </div>
+                        <span class="row-value ml-2">
+                            1 teaspoon
+                            
+                        </span>
+                    </li>
+                    
+                    <li class="ingredient-row">
+                        <div class="flex-1 flex items-center">
+                            
+                            <span class="font-medium">eggs</span>
+                            
+                            
+                            
+                            <span class="row-note italic ml-1 break-words" aria-label="preparation: beaten, room temperature">(beaten, room temperature)</span>
+                            
+                        </div>
+                        <span class="row-value ml-2">
+                            2 large
+                            
+                        </span>
+                    </li>
+                    
+                    <li class="ingredient-row">
+                        <div class="flex-1 flex items-center">
+                            
+                            <span class="font-medium">flour</span>
+                            
+                            
+                            
+                            
+                        </div>
+                        <span class="row-value ml-2">
+                            6 cups
+                            
+                        </span>
+                    </li>
+                    
+                    <li class="ingredient-row">
+                        <div class="flex-1 flex items-center">
+                            
+                            <span class="font-medium">nutmeg</span>
+                            
+                            
+                            
+                            
+                        </div>
+                        <span class="row-value ml-2">
+                            1/2 teaspoon
+                            
+                        </span>
+                    </li>
+                    
+                    <li class="ingredient-row">
+                        <div class="flex-1 flex items-center">
+                            
+                            <span class="font-medium">oil</span>
+                            
+                            
+                            
+                            
+                        </div>
+                        <span class="row-value ml-2">
+                            
+                            
+                        </span>
+                    </li>
+                    
+                    <li class="ingredient-row">
+                        <div class="flex-1 flex items-center">
+                            
+                            <span class="font-medium">salt</span>
+                            
+                            
+                            
+                            
+                        </div>
+                        <span class="row-value ml-2">
+                            1 teaspoon
+                            
+                        </span>
+                    </li>
+                    
+                    <li class="ingredient-row">
+                        <div class="flex-1 flex items-center">
+                            
+                            <span class="font-medium">sugar</span>
+                            
+                            
+                            
+                            
+                        </div>
+                        <span class="row-value ml-2">
+                            2 cups
+                            
+                        </span>
+                    </li>
+                    
+                </ul>
+                
+
+                
+                <h2 class="text-title font-bold mt-6 mb-4 text-text">🍳 Cookware</h2>
+                <ul class="cookware-list ingredient-list space-y-2">
+                    
+                    <li class="ingredient-row">
+                        <span class="font-medium">stand mixer</span>
+                    </li>
+                    
+                    <li class="ingredient-row">
+                        <span class="font-medium">donut cutter</span>
+                    </li>
+                    
+                    <li class="ingredient-row">
+                        <span class="font-medium">deep fryer</span>
+                    </li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+
+        <div class="md:col-span-2">
+            <div class="card p-6">
+                
+                
+                
+                <ol class="step-list space-y-4 ">
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">1</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        In the bowl of a 
+                                        <span class="cookware-badge">stand mixer</span>
+                                         with the paddle attachment, combine 
+                                        <span class="ingredient-badge">buttermilk</span>
+                                        , 
+                                        <span class="ingredient-badge">eggs</span>
+                                         and 
+                                        <span class="ingredient-badge">sugar</span>
+                                        . Mix until sugar is incorporated into buttermilk and eggs.
+                                    </div>
+                                    
+                                    <div class="step-refs">
+                                        
+                                        <span class="inline-block mr-3">
+                                            buttermilk: 2 cups <span class="italic text-faint break-words" aria-label="preparation: room temperature, can substitute with 1 cup milk and 1 cup plain Greek yogurt">(room temperature, can substitute with 1 cup milk and 1 cup plain Greek yogurt)</span>,
+                                        </span>
+                                        
+                                        <span class="inline-block mr-3">
+                                            eggs: 2 large <span class="italic text-faint break-words" aria-label="preparation: beaten, room temperature">(beaten, room temperature)</span>,
+                                        </span>
+                                        
+                                        <span class="inline-block mr-3">
+                                            sugar: 1.25 cups
+                                        </span>
+                                        
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">2</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        Add 
+                                        <span class="ingredient-badge">baking soda</span>
+                                        , 
+                                        <span class="ingredient-badge">baking powder</span>
+                                        , 
+                                        <span class="ingredient-badge">salt</span>
+                                        , 
+                                        <span class="ingredient-badge">cinnamon</span>
+                                        , 
+                                        <span class="ingredient-badge">nutmeg</span>
+                                        , and 
+                                        <span class="ingredient-badge">butter</span>
+                                        . Mix again until incorporated with buttermilk mixture.
+                                    </div>
+                                    
+                                    <div class="step-refs">
+                                        
+                                        <span class="inline-block mr-3">
+                                            baking soda: 1 teaspoon,
+                                        </span>
+                                        
+                                        <span class="inline-block mr-3">
+                                            baking powder: 1 teaspoon,
+                                        </span>
+                                        
+                                        <span class="inline-block mr-3">
+                                            salt: 1 teaspoon,
+                                        </span>
+                                        
+                                        <span class="inline-block mr-3">
+                                            cinnamon: 1 teaspoon,
+                                        </span>
+                                        
+                                        <span class="inline-block mr-3">
+                                            nutmeg: 1/2 teaspoon,
+                                        </span>
+                                        
+                                        <span class="inline-block mr-3">
+                                            butter: 6 tablespoons <span class="italic text-faint break-words" aria-label="preparation: melted">(melted)</span>
+                                        </span>
+                                        
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">3</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        Add 
+                                        <span class="ingredient-badge">flour</span>
+                                         and mix on low until the flour is no longer visible. Mix in an additional 
+                                        <span class="ingredient-badge">flour</span>
+                                        , a half cup at a time, scraping down sides and bottom of bowl.
+                                    </div>
+                                    
+                                    <div class="step-refs">
+                                        
+                                        <span class="inline-block mr-3">
+                                            flour: 4 cups,
+                                        </span>
+                                        
+                                        <span class="inline-block mr-3">
+                                            flour: 2 cups
+                                        </span>
+                                        
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">4</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        Mix in additional flour if needed. The dough should take shape and not have a wet look. If the dough is still wet or sticky, add an additional tablespoon or two of 
+                                        <span class="ingredient-badge">flour</span>
+                                        . Turn the dough in the bowl until the dough is no longer sticky.
+                                    </div>
+                                    
+                                    <div class="step-refs">
+                                        
+                                        <span class="inline-block mr-3">
+                                            flour
+                                        </span>
+                                        
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">5</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        Generously flour a pastry mat or clean surface. Turn the dough onto the surface and knead 3-4 times, folding the dough onto itself and gathering flour to make dough less sticky if needed. Roll the dough out to about 1/4-1/2 inch thick.
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">6</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        Using a 
+                                        <span class="cookware-badge">donut cutter</span>
+                                        , cut the donut shapes out. 
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">7</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        Heat 
+                                        <span class="ingredient-badge">oil</span>
+                                         in your 
+                                        <span class="cookware-badge">deep fryer</span>
+                                         to 375°F. Let cook on one side until golden, then turn with chopsticks to cook the other side. It takes about 
+                                        <span class="timer-badge">⏱️ 1-2 minutes</span>
+                                         per side to cook. Drain donuts on a paper towel lined cookie sheet. Cook the donut holes in 2-3 batches.
+                                    </div>
+                                    
+                                    <div class="step-refs">
+                                        
+                                        <span class="inline-block mr-3">
+                                            oil
+                                        </span>
+                                        
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">8</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        Let cool for about a minute. 
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">9</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        Place 
+                                        <span class="ingredient-badge">sugar</span>
+                                         into a paper bag. Toss the donuts 3-4 at a time in the bag of sugar.
+                                    </div>
+                                    
+                                    <div class="step-refs">
+                                        
+                                        <span class="inline-block mr-3">
+                                            sugar: 3/4 cups
+                                        </span>
+                                        
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">10</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        Serve warm.
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                </ol>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+<script id="cooking-mode-data" type="application/json">
+{"image":"https://abountifulkitchen.com/wp-content/uploads/2023/03/6-IMG_9913-scaled.jpg","name":"Buttermilk Donuts","scale":1.0,"sections":[{"ingredients":[{"is_optional":false,"name":"baking powder","note":null,"quantity":"1","unit":"teaspoon"},{"is_optional":false,"name":"baking soda","note":null,"quantity":"1","unit":"teaspoon"},{"is_optional":false,"name":"butter","note":"melted","quantity":"6","unit":"tablespoons"},{"is_optional":false,"name":"buttermilk","note":"room temperature, can substitute with 1 cup milk and 1 cup plain Greek yogurt","quantity":"2","unit":"cups"},{"is_optional":false,"name":"cinnamon","note":null,"quantity":"1","unit":"teaspoon"},{"is_optional":false,"name":"eggs","note":"beaten, room temperature","quantity":"2","unit":"large"},{"is_optional":false,"name":"flour","note":null,"quantity":"4","unit":"cups"},{"is_optional":false,"name":"flour","note":null,"quantity":"2","unit":"cups"},{"is_optional":false,"name":"flour","note":null,"quantity":null,"unit":null},{"is_optional":false,"name":"nutmeg","note":null,"quantity":"1/2","unit":"teaspoon"},{"is_optional":false,"name":"oil","note":null,"quantity":null,"unit":null},{"is_optional":false,"name":"salt","note":null,"quantity":"1","unit":"teaspoon"},{"is_optional":false,"name":"sugar","note":null,"quantity":"1.25","unit":"cups"},{"is_optional":false,"name":"sugar","note":null,"quantity":"3/4","unit":"cups"}],"name":null,"stepOffset":0,"steps":[{"globalNumber":1,"image":null,"ingredients":[{"is_optional":false,"name":"buttermilk","note":"room temperature, can substitute with 1 cup milk and 1 cup plain Greek yogurt","quantity":"2","unit":"cups"},{"is_optional":false,"name":"eggs","note":"beaten, room temperature","quantity":"2","unit":"large"},{"is_optional":false,"name":"sugar","note":null,"quantity":"1.25","unit":"cups"}],"number":1,"type":"step"},{"globalNumber":2,"image":null,"ingredients":[{"is_optional":false,"name":"baking soda","note":null,"quantity":"1","unit":"teaspoon"},{"is_optional":false,"name":"baking powder","note":null,"quantity":"1","unit":"teaspoon"},{"is_optional":false,"name":"salt","note":null,"quantity":"1","unit":"teaspoon"},{"is_optional":false,"name":"cinnamon","note":null,"quantity":"1","unit":"teaspoon"},{"is_optional":false,"name":"nutmeg","note":null,"quantity":"1/2","unit":"teaspoon"},{"is_optional":false,"name":"butter","note":"melted","quantity":"6","unit":"tablespoons"}],"number":2,"type":"step"},{"globalNumber":3,"image":null,"ingredients":[{"is_optional":false,"name":"flour","note":null,"quantity":"4","unit":"cups"},{"is_optional":false,"name":"flour","note":null,"quantity":"2","unit":"cups"}],"number":3,"type":"step"},{"globalNumber":4,"image":null,"ingredients":[{"is_optional":false,"name":"flour","note":null,"quantity":null,"unit":null}],"number":4,"type":"step"},{"globalNumber":5,"image":null,"ingredients":[],"number":5,"type":"step"},{"globalNumber":6,"image":null,"ingredients":[],"number":6,"type":"step"},{"globalNumber":7,"image":null,"ingredients":[{"is_optional":false,"name":"oil","note":null,"quantity":null,"unit":null}],"number":7,"type":"step"},{"globalNumber":8,"image":null,"ingredients":[],"number":8,"type":"step"},{"globalNumber":9,"image":null,"ingredients":[{"is_optional":false,"name":"sugar","note":null,"quantity":"3/4","unit":"cups"}],"number":9,"type":"step"},{"globalNumber":10,"image":null,"ingredients":[],"number":10,"type":"step"}]}]}
+</script>
+
+
+
+        </main>
+
+        
+        <footer class="mt-12 mb-6 text-center text-sm text-faint print:hidden">
+            Built with
+            <a href="https://cooklang.org/cli/" class="text-accent-text hover:underline" target="_blank" rel="noopener">CookCLI</a>
+            
+        </footer>
+        
+    </div>
+
+    <script>
+        // Theme toggle function
+        function toggleTheme() {
+            const html = document.documentElement;
+            const currentTheme = html.classList.contains('dark') ? 'dark' : 'light';
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+
+            html.classList.toggle('dark');
+            localStorage.setItem('theme', newTheme);
+        }
+    </script>
+
+    
+    <script>window.__PREFIX__ = "../../..";</script>
+    <script src="../../../static/js/search.js"></script>
+    
+
+    <!-- URL prefix for JavaScript -->
+    <script>
+        window.__PREFIX__ = "../../..";
+        window.__STATIC_MODE__ = true;
+        window.__STRINGS__ = { close: "Close" };
+    </script>
+
+    <!-- Keyboard shortcuts -->
+    <script src="../../../static/js/keyboard-shortcuts.js"></script>
+    <!-- Expose showShortcutsHelp globally for the help button -->
+    <script>
+        // showShortcutsHelp is defined in keyboard-shortcuts.js
+        // This ensures it's available for the onclick handler
+        if (typeof showShortcutsHelp === 'undefined') {
+            window.showShortcutsHelp = function() {
+                console.warn('Keyboard shortcuts not loaded');
+            };
+        }
+    </script>
+
+    
+<link rel="stylesheet" href="../../../static/css/cooking-mode.css">
+<script src="../../../static/js/cooking-mode.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="en-US" class="">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ramen Eggs (Ajitsuke Tamago) - Cook</title>
+    <link rel="icon" type="image/x-icon" href="../../static/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../static/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../static/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../../static/apple-touch-icon.png">
+    <link rel="manifest" href="../../static/site.webmanifest">
+    <link href="../../static/css/output.css" rel="stylesheet">
+    <script>
+        // Check for saved theme preference, or check for prefers-color-scheme, or default to light
+        const theme = localStorage.getItem('theme')
+            || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        document.documentElement.classList.toggle('dark', theme === 'dark');
+    </script>
+    <style>
+        .viewport {
+            width: 100%;
+            max-width: 72rem;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        /* Search result keyboard selection. --surface-sunk alone is barely
+           visible against --surface in dark mode, so the accent bar carries
+           the signal. */
+        #search-results a.search-selected {
+            background: var(--accent-soft);
+            box-shadow: inset 3px 0 0 var(--accent);
+        }
+
+        @media print {
+            /* Token values are reset to light in input.css; this resets the
+               browser's own defaults so unstyled text is dark too. */
+            html.dark, html {
+                color-scheme: light !important;
+            }
+
+            * {
+                print-color-adjust: exact;
+                -webkit-print-color-adjust: exact;
+            }
+
+            body {
+                background: white !important;
+                margin: 0;
+                padding: 0;
+            }
+
+            .viewport {
+                max-width: 100%;
+                margin: 0;
+                padding: 0;
+            }
+
+            /* Hide navigation and non-essential elements */
+            nav, #search-container, #search-input, #search-results, .print\:hidden, .breadcrumb {
+                display: none !important;
+            }
+
+            /* Hide all navigation links */
+            a[href="../../"] {
+                display: none !important;
+            }
+
+            /* Recipe layout for print: one column */
+            .grid {
+                display: block !important;
+            }
+
+            .md\:col-span-1, .md\:col-span-2 {
+                page-break-inside: avoid;
+                width: 100% !important;
+            }
+
+            /* Square corners on paper */
+            .card, .step-box, .ingredient-row, .recipe-note, .rounded-xl {
+                border-radius: 0 !important;
+            }
+
+            /* Step numbers */
+            .step-number {
+                background: #000 !important;
+                color: #fff !important;
+            }
+
+            /* Images */
+            img {
+                max-height: 300px !important;
+                max-width: 100% !important;
+                height: auto !important;
+                object-fit: contain !important;
+                page-break-inside: avoid;
+                page-break-after: avoid;
+            }
+
+            /* Recipe sections on same page if possible */
+            h2, h3 {
+                page-break-after: avoid;
+            }
+
+            ol, ul {
+                page-break-inside: avoid;
+            }
+
+            /* Compact spacing */
+            .mb-8, .mb-6, .mb-4 {
+                margin-bottom: 0.5rem !important;
+            }
+
+            .p-6 {
+                padding: 0.5rem !important;
+            }
+
+            /* Recipe header */
+            h1 {
+                color: #000 !important;
+                font-size: 1.5rem !important;
+                margin-bottom: 0 !important;
+            }
+
+            /* Shopping list print styles */
+            .lg\:w-2\/5, .xl\:w-1\/3 {
+                display: none !important;
+            }
+
+            #shopping-list-results {
+                font-size: 11pt !important;
+                line-height: 1.2 !important;
+            }
+
+            #shopping-list-results input[type="checkbox"] {
+                display: none !important;
+            }
+
+            #shopping-list-results li .flex-1 {
+                width: auto !important;
+                flex: 1 1 0% !important;
+            }
+
+            #shopping-list-results label {
+                cursor: default !important;
+            }
+
+            #shopping-list-results h2 {
+                font-size: 11pt !important;
+                color: #000 !important;
+                margin-bottom: 0 !important;
+            }
+
+            #shopping-list-results .space-y-2 > * + *,
+            #shopping-list-results ul > * + * {
+                margin-top: 0 !important;
+            }
+
+            #shopping-list-results li {
+                padding: 0 !important;
+                line-height: 1.3 !important;
+                border-bottom: 1px dotted #ccc;
+            }
+
+            #shopping-list-results .card {
+                margin-bottom: 0.15rem !important;
+                padding: 0 !important;
+                border: none !important;
+            }
+
+            /* Menu print styles */
+            #menu-content {
+                font-size: 10pt !important;
+                line-height: 1.4 !important;
+            }
+
+            #menu-content h1 {
+                font-size: 14pt !important;
+                margin-bottom: 0.25rem !important;
+                color: #000 !important;
+            }
+
+            #menu-content .space-y-6 > * + * {
+                margin-top: 0.3rem !important;
+            }
+
+            #menu-content .menu-section {
+                border: 1px solid #ccc !important;
+                border-radius: 0 !important;
+                page-break-inside: avoid;
+            }
+
+            #menu-content .menu-section-header {
+                background: #eee !important;
+                color: #000 !important;
+                padding: 0.15rem 0.5rem !important;
+            }
+
+            #menu-content .menu-section-header h2 {
+                font-size: 11pt !important;
+                color: #000 !important;
+            }
+
+            #menu-content .menu-section-body {
+                padding: 0.25rem 0.5rem !important;
+            }
+
+            #menu-content .menu-section-body .space-y-2 > * + *,
+            #menu-content .menu-section-body > * + * {
+                margin-top: 0.05rem !important;
+            }
+
+            #menu-content .menu-section-body h3 {
+                font-size: 10pt !important;
+                margin-top: 0.2rem !important;
+                margin-bottom: 0 !important;
+            }
+
+            #menu-content .menu-section-body .pl-6 {
+                padding-left: 1rem !important;
+            }
+
+            /* Preserve word spacing in flex lines */
+            #menu-content .menu-section-body .flex {
+                gap: 0.25em !important;
+            }
+
+            #menu-content .ingredient-badge {
+                font-weight: bold !important;
+                color: #000 !important;
+            }
+
+            #menu-content a {
+                color: #000 !important;
+                text-decoration: none !important;
+            }
+        }
+    </style>
+</head>
+<body class="bg-bg text-text">
+    <div class="viewport">
+        <nav class="nav-card relative">
+            <div class="px-3 lg:px-6 py-4 relative">
+                <div class="flex items-center justify-between flex-wrap gap-y-3">
+                    <a href="../../index.html" class="order-1 hidden md:flex items-center space-x-2">
+                        <img src="../../static/android-chrome-192x192.png" alt="Cook" class="brand-mark h-8 w-8 rounded-md" width="32" height="32">
+                    </a>
+
+                    <div class="relative z-50 order-2 flex-1 md:ml-2 md:mr-4" id="search-container">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <svg class="h-5 w-5 text-faint" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                            </svg>
+                        </div>
+                        <input type="text"
+                               id="search-input"
+                               placeholder="Search recipes..."
+                               class="search-input">
+                        <div id="search-results"
+                             class="absolute top-full mt-2 w-full card shadow-[var(--shadow-overlay)] hidden max-h-96 overflow-y-auto"
+                             style="z-index: 9999;">
+                        </div>
+                    </div>
+
+                    <div class="order-3 w-full md:w-auto flex items-center gap-1 lg:gap-2">
+                        
+                        <div class="hidden md:flex items-center gap-1 mr-2 lg:mr-4">
+                            <a href="../../index.html"
+                               class="nav-pill active">
+                                Recipes
+                            </a>
+                            
+                            
+                        </div>
+                        
+                        <!-- Inline buttons on md+ screens -->
+                        
+                        <button onclick="showShortcutsHelp()" class="icon-btn hidden md:inline-flex ml-2 print:hidden" aria-label="Keyboard shortcuts" title="Keyboard shortcuts (?)">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </button>
+                        <button onclick="toggleTheme()" class="icon-btn hidden md:inline-flex ml-2 print:hidden" aria-label="Toggle theme">
+                            <svg class="hidden dark:block" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path>
+                            </svg>
+                            <svg class="block dark:hidden" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+                            </svg>
+                        </button>
+                        <!-- Overflow menu for small screens -->
+                        <div class="relative md:hidden ml-auto" id="more-menu-container">
+                            <button onclick="document.getElementById('more-dropdown').classList.toggle('hidden')" class="icon-btn" aria-label="More options">
+                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"></path>
+                                </svg>
+                            </button>
+                            <div id="more-dropdown" class="hidden absolute right-0 mt-2 w-56 card shadow-[var(--shadow-overlay)] z-50 py-1">
+                                
+                                <a href="../../index.html" class="menu-item active">
+                                    <span>🍳</span> <span>Recipes</span>
+                                </a>
+                                
+                                
+                                <div class="border-t border-line my-1"></div>
+                                
+                                
+                                <button onclick="showShortcutsHelp(); document.getElementById('more-dropdown').classList.add('hidden');" class="menu-item">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                    <span>Keyboard Shortcuts</span>
+                                </button>
+                                <button onclick="toggleTheme(); document.getElementById('more-dropdown').classList.add('hidden');" class="menu-item">
+                                    <svg class="w-4 h-4 hidden dark:block" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path></svg>
+                                    <svg class="w-4 h-4 block dark:hidden" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+                                    <span>Toggle Theme</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <main>
+            
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Recipe","cookTime":"PT10M","description":"Ramen Eggs (Ajitsuke Tamago) are soft-boiled, marinated, and packed with umami flavor. Jammy yolks and a salty-sweet soy marinade come together with just 4 simple ingredients. They're a classic ramen topping you can make ahead and enjoy all week long on everything!","image":"https://www.justonecookbook.com/wp-content/uploads/2026/08/Ramen-Eggs-Ajitama-1698-I-1.jpg","keywords":"egg","name":"Ramen Eggs (Ajitsuke Tamago)","prepTime":"PT5M","recipeCategory":"Side Dish","recipeCuisine":"Japanese","recipeIngredient":["4 eggs (large, 50 g each w/o shell)","1/4 cup mirin","1/4 cup sake (or water)","1/4 cup soy sauce","1 tsp sugar","4 cups water"],"recipeInstructions":[{"@type":"HowToStep","text":"Combine soy sauce, mirin, sake, and sugar in a small saucepan over medium-high heat. Whisk to dissolve the sugar completely."},{"@type":"HowToStep","text":"Bring it to a boil, then lower the heat. Simmer for 1 minute."},{"@type":"HowToStep","text":"Turn off the heat. Set aside to cool completely."},{"@type":"HowToStep","text":"Add water to a saucepan. Make sure there's enough water to cover the eggs by about 1 inch (2.5 cm) once added."},{"@type":"HowToStep","text":"Bring the water to a full boil."},{"@type":"HowToStep","text":"Remove eggs from the fridge."},{"@type":"HowToStep","text":"Gently lower one egg at a time into the boiling water with a ladle or strainer. When you add the first egg, set a timer for 7.5 minutes."},{"@type":"HowToStep","text":"Lower the heat to maintain a gentle simmer, not bubbling vigorously. Don't let the eggs bounce around. Then, gently rotate the eggs with chopsticks during the first 3 minutes to keep the yolks centered."},{"@type":"HowToStep","text":"Fill a large bowl with cold water and add ice. When the timer is up, remove the eggs with a skimmer/ladle and immediately plunge them into the ice bath for 15 minutes."},{"@type":"HowToStep","text":"Pour the cooled marinade into a quart ziplock and place that in a small container, one that can hold your 4 eggs comfortably, but not with too much excess space, just to keep shape."},{"@type":"HowToStep","text":"Remove eggs from ice bath one at a time. Roll the egg on a hard surface to pre-break the shell."},{"@type":"HowToStep","text":"Peel the cracked shell on the bottom, near your pinhole, until the air pocket is revealed."},{"@type":"HowToStep","text":"Using a teaspoon (the dining kind, not the measuring kind), gently work around the inside of the shell until the egg is loose. Occasionally, you can tug away bits of the shell to make bits of progress. You can also dip the egg back in the ice water to help with peeling/cleaning if needed."},{"@type":"HowToStep","text":"Once the egg is peeled, place in the marinade baggie. Once all eggs are added, remove air and seal, either with clip or seal so the eggs are covered."},{"@type":"HowToStep","text":"Refrigerate for 8 hours, or up to 24 hours. The longer over 12 hours the saltier the egg."},{"@type":"HowToStep","text":"Remove the eggs carefully from the marinade. At this point, they'll keep for 3-4 days in the fridge if soft-boiled and around a week if hard-boiled."}],"recipeYield":"4"}</script>
+<div>
+    <nav class="mb-4 breadcrumb print:hidden">
+        <ol class="flex items-center space-x-2 text-sm text-muted">
+            <li><a href="../../index.html" class="hover:text-text">Recipes</a></li>
+            
+            <li class="flex items-center">
+                <span class="mx-2 text-faint">/</span>
+                
+                    <a href="../../directory/Japanese.html" class="hover:text-text">Japanese</a>
+                
+            </li>
+            
+            <li class="flex items-center">
+                <span class="mx-2 text-faint">/</span>
+                
+                    <span class="text-text">Ramen Eggs aka Ajitsuke Tamago</span>
+                
+            </li>
+            
+        </ol>
+    </nav>
+
+    <div class="mb-8">
+        <!-- Recipe image if available -->
+        
+        <div class="mb-6 max-w-4xl mx-auto flex justify-center">
+            <img src="https://www.justonecookbook.com/wp-content/uploads/2026/08/Ramen-Eggs-Ajitama-1698-I-1.jpg" alt="Ramen Eggs (Ajitsuke Tamago)" class="rounded-xl shadow-[var(--shadow-card)] max-w-full h-auto max-h-[500px]">
+        </div>
+        
+
+        <!-- Title bar with scale and shopping list button -->
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6 print:flex-row print:items-center">
+            <h1 class="text-display font-bold text-text print:text-2xl">
+                Ramen Eggs (Ajitsuke Tamago)
+            </h1>
+            
+            <div class="flex flex-wrap items-center gap-2 lg:gap-3 print:hidden">
+                
+                <button id="start-cooking-btn" onclick="startCookingMode()" class="btn btn-primary" title="Start Cooking">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <span class="hidden lg:inline">Cook</span>
+                </button>
+                
+                <a href="../../recipe/Japanese/Ramen Eggs aka Ajitsuke Tamago.cook" download class="btn" title="Download .cook source">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5 5-5M12 15V3"></path>
+                    </svg>
+                    <span class="hidden lg:inline">.cook</span>
+                </a>
+                
+            </div>
+        </div>
+
+        <!-- Recipe info section -->
+        <div class="space-y-4">
+            <!-- Tags row -->
+            
+            <div class="flex flex-wrap gap-2">
+                
+                <span class="tag">#egg</span>
+                
+            </div>
+            
+
+            
+
+            <!-- Description if present -->
+            
+            <div class="recipe-note">
+                <p class="m-0">Ramen Eggs (Ajitsuke Tamago) are soft-boiled, marinated, and packed with umami flavor. Jammy yolks and a salty-sweet soy marinade come together with just 4 simple ingredients. They&#x27;re a classic ramen topping you can make ahead and enjoy all week long on everything!</p>
+            </div>
+            
+
+            <!-- Metadata row -->
+            <div id="metadata-container" class="flex flex-wrap gap-3">
+                
+                <span class="metadata-pill metadata-servings">👥 4 servings</span>
+                
+
+                
+                
+
+                
+                
+
+                
+                <span class="metadata-pill metadata-course">🍽️ Side Dish</span>
+                
+
+                
+                <span class="metadata-pill metadata-prep">⏱️ Prep Time: 5 minutes</span>
+                
+
+                
+                <span class="metadata-pill metadata-cook">🔥 Cook Time: 10 minutes</span>
+                
+
+                
+                <span class="metadata-pill metadata-cuisine">🌍 Japanese</span>
+                
+
+                
+                
+
+                
+                
+
+                
+                <span class="metadata-pill metadata-source">📖 https://www.justonecookbook.com/ramen-egg/</span>
+                
+
+                
+                
+
+                <!-- Custom metadata -->
+                
+            </div>
+
+            
+        </div>
+    </div>
+
+    <div id="recipe-body" class="grid md:grid-cols-3 gap-8 mb-8">
+        <div class="md:col-span-1">
+            <div class="card p-6">
+                <h2 class="text-title font-bold mb-4 text-accent-text">🥘 Ingredients</h2>
+                
+                <!-- Display ingredients grouped by section -->
+                
+                
+                
+                <h3 class="text-title font-semibold mt-4 mb-2 text-accent-text">To Make the Marinade</h3>
+                
+                <ul class="ingredient-list space-y-3 mb-4">
+                    
+                    <li class="ingredient-row">
+                        <div class="flex-1 flex items-center">
+                            
+                            <span class="font-medium">mirin</span>
+                            
+                            
+                            
+                            
+                        </div>
+                        <span class="row-value ml-2">
+                            1/4 cup
+                            
+                        </span>
+                    </li>
+                    
+                    <li class="ingredient-row">
+                        <div class="flex-1 flex items-center">
+                            
+                            <span class="font-medium">sake</span>
+                            
+                            
+                            
+                            <span class="row-note italic ml-1 break-words" aria-label="preparation: or water">(or water)</span>
+                            
+                        </div>
+                        <span class="row-value ml-2">
+                            1/4 cup
+                            
+                        </span>
+                    </li>
+                    
+                    <li class="ingredient-row">
+                        <div class="flex-1 flex items-center">
+                            
+                            <span class="font-medium">soy sauce</span>
+                            
+                            
+                            
+                            
+                        </div>
+                        <span class="row-value ml-2">
+                            1/4 cup
+                            
+                        </span>
+                    </li>
+                    
+                    <li class="ingredient-row">
+                        <div class="flex-1 flex items-center">
+                            
+                            <span class="font-medium">sugar</span>
+                            
+                            
+                            
+                            
+                        </div>
+                        <span class="row-value ml-2">
+                            1 tsp
+                            
+                        </span>
+                    </li>
+                    
+                </ul>
+                
+                
+                
+                
+                <h3 class="text-title font-semibold mt-4 mb-2 text-accent-text">To Boil the Eggs</h3>
+                
+                <ul class="ingredient-list space-y-3 ">
+                    
+                    <li class="ingredient-row">
+                        <div class="flex-1 flex items-center">
+                            
+                            <span class="font-medium">eggs</span>
+                            
+                            
+                            
+                            <span class="row-note italic ml-1 break-words" aria-label="preparation: large, 50 g each w/o shell">(large, 50 g each w/o shell)</span>
+                            
+                        </div>
+                        <span class="row-value ml-2">
+                            4
+                            
+                        </span>
+                    </li>
+                    
+                    <li class="ingredient-row">
+                        <div class="flex-1 flex items-center">
+                            
+                            <span class="font-medium">water</span>
+                            
+                            
+                            
+                            
+                        </div>
+                        <span class="row-value ml-2">
+                            4 cups
+                            
+                        </span>
+                    </li>
+                    
+                </ul>
+                
+                
+                
+
+                
+                <h2 class="text-title font-bold mt-6 mb-4 text-text">🍳 Cookware</h2>
+                <ul class="cookware-list ingredient-list space-y-2">
+                    
+                    <li class="ingredient-row">
+                        <span class="font-medium">small saucepan</span>
+                    </li>
+                    
+                    <li class="ingredient-row">
+                        <span class="font-medium">saucepan</span>
+                    </li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+
+        <div class="md:col-span-2">
+            <div class="card p-6">
+                
+                
+                <h2 class="text-title font-semibold mt-6 mb-4 text-accent-text border-b border-line pb-2">To Make the Marinade</h2>
+                
+                <ol class="step-list space-y-4 ">
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">1</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        Combine 
+                                        <span class="ingredient-badge">soy sauce</span>
+                                        , 
+                                        <span class="ingredient-badge">mirin</span>
+                                        , 
+                                        <span class="ingredient-badge">sake</span>
+                                        , and 
+                                        <span class="ingredient-badge">sugar</span>
+                                         in a 
+                                        <span class="cookware-badge">small saucepan</span>
+                                         over medium-high heat. Whisk to dissolve the sugar completely. 
+                                    </div>
+                                    
+                                    <div class="step-refs">
+                                        
+                                        <span class="inline-block mr-3">
+                                            soy sauce: 1/4 cup,
+                                        </span>
+                                        
+                                        <span class="inline-block mr-3">
+                                            mirin: 1/4 cup,
+                                        </span>
+                                        
+                                        <span class="inline-block mr-3">
+                                            sake: 1/4 cup <span class="italic text-faint break-words" aria-label="preparation: or water">(or water)</span>,
+                                        </span>
+                                        
+                                        <span class="inline-block mr-3">
+                                            sugar: 1 tsp
+                                        </span>
+                                        
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">2</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        Bring it to a boil, then lower the heat. Simmer for 
+                                        <span class="timer-badge">⏱️ 1 minute</span>
+                                        . 
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">3</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        Turn off the heat. Set aside to cool completely.
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                </ol>
+                
+                
+                <h2 class="text-title font-semibold mt-6 mb-4 text-accent-text border-b border-line pb-2">To Boil the Eggs</h2>
+                
+                <ol class="step-list space-y-4 mt-4">
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">1</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        Add 
+                                        <span class="ingredient-badge">water</span>
+                                         to a 
+                                        <span class="cookware-badge">saucepan</span>
+                                        . Make sure there&#x27;s enough water to cover the eggs by about 1 inch (2.5 cm) once added. 
+                                    </div>
+                                    
+                                    <div class="step-refs">
+                                        
+                                        <span class="inline-block mr-3">
+                                            water: 4 cups
+                                        </span>
+                                        
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">2</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        Bring the water to a full boil. 
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">3</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        Remove 
+                                        <span class="ingredient-badge">eggs</span>
+                                         from the fridge. 
+                                    </div>
+                                    
+                                    <div class="step-refs">
+                                        
+                                        <span class="inline-block mr-3">
+                                            eggs: 4 <span class="italic text-faint break-words" aria-label="preparation: large, 50 g each w/o shell">(large, 50 g each w/o shell)</span>
+                                        </span>
+                                        
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="recipe-note mb-3">
+                        <span>📝</span>
+                        <p class="m-0" style="white-space: pre-line">We highly recommend using using a thumbtack and poking a small hole in the large end of the egg. This makes it easier to peel later on.</p>
+                    </li>
+                    
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">4</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        Gently lower one egg at a time into the boiling water with a ladle or strainer. When you add the first egg, set a timer for 
+                                        <span class="timer-badge">⏱️ 7.5 minutes</span>
+                                        . 
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="recipe-note mb-3">
+                        <span>📝</span>
+                        <p class="m-0" style="white-space: pre-line">If you prefer runny yolks, cook for ~{6-6.5%minutes}. For custard-like yolks, cook for ~{8-9%minutes}.</p>
+                    </li>
+                    
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">5</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        Lower the heat to maintain a gentle simmer, not bubbling vigorously. Don&#x27;t let the eggs bounce around. Then, gently rotate the eggs with chopsticks during the first 3 minutes to keep the yolks centered.
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">6</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        Fill a large bowl with cold water and add ice. When the timer is up, remove the eggs with a skimmer/ladle and immediately plunge them into the ice bath for 
+                                        <span class="timer-badge">⏱️ 15 minutes</span>
+                                        .
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">7</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        Pour the cooled marinade into a quart ziplock and place that in a small container, one that can hold your 4 eggs comfortably, but not with too much excess space, just to keep shape.
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">8</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        Remove eggs from ice bath one at a time. Roll the egg on a hard surface to pre-break the shell.
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">9</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        Peel the cracked shell on the bottom, near your pinhole, until the air pocket is revealed.
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">10</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        Using a teaspoon (the dining kind, not the measuring kind), gently work around the inside of the shell until the egg is loose. Occasionally, you can tug away bits of the shell to make bits of progress. You can also dip the egg back in the ice water to help with peeling/cleaning if needed.
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="recipe-note mb-3">
+                        <span>📝</span>
+                        <p class="m-0" style="white-space: pre-line">Take your time at this step! Once you start peeling away too much of the egg, it is easy to break the egg. The beginning and end are the most important times here.</p>
+                    </li>
+                    
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">11</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        Once the egg is peeled, place in the marinade baggie. Once all eggs are added, remove air and seal, either with clip or seal so the eggs are covered.
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">12</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        Refrigerate for 8 hours, or up to 24 hours. The longer over 12 hours the saltier the egg.
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">13</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        Remove the eggs carefully from the marinade. At this point, they&#x27;ll keep for 3-4 days in the fridge if soft-boiled and around a week if hard-boiled.
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="recipe-note mb-3">
+                        <span>📝</span>
+                        <p class="m-0" style="white-space: pre-line">For food safety reasons, I do not recommend reusing this marinade with new boiled eggs. You can cook this marinade and repurpose it as a seasoning sauce for stir-fries or simmered dishes, but use it soon.</p>
+                    </li>
+                    
+                    
+                </ol>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+<script id="cooking-mode-data" type="application/json">
+{"image":"https://www.justonecookbook.com/wp-content/uploads/2026/08/Ramen-Eggs-Ajitama-1698-I-1.jpg","name":"Ramen Eggs (Ajitsuke Tamago)","scale":1.0,"sections":[{"ingredients":[{"is_optional":false,"name":"mirin","note":null,"quantity":"1/4","unit":"cup"},{"is_optional":false,"name":"sake","note":"or water","quantity":"1/4","unit":"cup"},{"is_optional":false,"name":"soy sauce","note":null,"quantity":"1/4","unit":"cup"},{"is_optional":false,"name":"sugar","note":null,"quantity":"1","unit":"tsp"}],"name":"To Make the Marinade","stepOffset":0,"steps":[{"globalNumber":1,"image":null,"ingredients":[{"is_optional":false,"name":"soy sauce","note":null,"quantity":"1/4","unit":"cup"},{"is_optional":false,"name":"mirin","note":null,"quantity":"1/4","unit":"cup"},{"is_optional":false,"name":"sake","note":"or water","quantity":"1/4","unit":"cup"},{"is_optional":false,"name":"sugar","note":null,"quantity":"1","unit":"tsp"}],"number":1,"type":"step"},{"globalNumber":2,"image":null,"ingredients":[],"number":2,"type":"step"},{"globalNumber":3,"image":null,"ingredients":[],"number":3,"type":"step"}]},{"ingredients":[{"is_optional":false,"name":"eggs","note":"large, 50 g each w/o shell","quantity":"4","unit":null},{"is_optional":false,"name":"water","note":null,"quantity":"4","unit":"cups"}],"name":"To Boil the Eggs","stepOffset":3,"steps":[{"globalNumber":4,"image":null,"ingredients":[{"is_optional":false,"name":"water","note":null,"quantity":"4","unit":"cups"}],"number":1,"type":"step"},{"globalNumber":5,"image":null,"ingredients":[],"number":2,"type":"step"},{"globalNumber":6,"image":null,"ingredients":[{"is_optional":false,"name":"eggs","note":"large, 50 g each w/o shell","quantity":"4","unit":null}],"number":3,"type":"step"},{"globalNumber":7,"image":null,"ingredients":[],"number":4,"type":"step"},{"globalNumber":8,"image":null,"ingredients":[],"number":5,"type":"step"},{"globalNumber":9,"image":null,"ingredients":[],"number":6,"type":"step"},{"globalNumber":10,"image":null,"ingredients":[],"number":7,"type":"step"},{"globalNumber":11,"image":null,"ingredients":[],"number":8,"type":"step"},{"globalNumber":12,"image":null,"ingredients":[],"number":9,"type":"step"},{"globalNumber":13,"image":null,"ingredients":[],"number":10,"type":"step"},{"globalNumber":14,"image":null,"ingredients":[],"number":11,"type":"step"},{"globalNumber":15,"image":null,"ingredients":[],"number":12,"type":"step"},{"globalNumber":16,"image":null,"ingredients":[],"number":13,"type":"step"}]}]}
+</script>
+
+
+
+        </main>
+
+        
+        <footer class="mt-12 mb-6 text-center text-sm text-faint print:hidden">
+            Built with
+            <a href="https://cooklang.org/cli/" class="text-accent-text hover:underline" target="_blank" rel="noopener">CookCLI</a>
+            
+        </footer>
+        
+    </div>
+
+    <script>
+        // Theme toggle function
+        function toggleTheme() {
+            const html = document.documentElement;
+            const currentTheme = html.classList.contains('dark') ? 'dark' : 'light';
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+
+            html.classList.toggle('dark');
+            localStorage.setItem('theme', newTheme);
+        }
+    </script>
+
+    
+    <script>window.__PREFIX__ = "../..";</script>
+    <script src="../../static/js/search.js"></script>
+    
+
+    <!-- URL prefix for JavaScript -->
+    <script>
+        window.__PREFIX__ = "../..";
+        window.__STATIC_MODE__ = true;
+        window.__STRINGS__ = { close: "Close" };
+    </script>
+
+    <!-- Keyboard shortcuts -->
+    <script src="../../static/js/keyboard-shortcuts.js"></script>
+    <!-- Expose showShortcutsHelp globally for the help button -->
+    <script>
+        // showShortcutsHelp is defined in keyboard-shortcuts.js
+        // This ensures it's available for the onclick handler
+        if (typeof showShortcutsHelp === 'undefined') {
+            window.showShortcutsHelp = function() {
+                console.warn('Keyboard shortcuts not loaded');
+            };
+        }
+    </script>
+
+    
+<link rel="stylesheet" href="../../static/css/cooking-mode.css">
+<script src="../../static/js/cooking-mode.js"></script>
+
+</body>
+</html>

@@ -44,10 +44,10 @@
 
     function captureStepHTML() {
         const stepElements = [];
-        const sectionEls = document.querySelectorAll('.md\\:col-span-2 ol');
+        const sectionEls = document.querySelectorAll('ol.step-list');
         sectionEls.forEach(function(ol) {
             ol.querySelectorAll(':scope > li').forEach(function(li) {
-                const textDiv = li.querySelector('.leading-8');
+                const textDiv = li.querySelector('.step-body');
                 if (textDiv) {
                     stepElements.push(textDiv.innerHTML);
                 }
@@ -116,9 +116,10 @@
             if (card.ingredients.length > 0) {
                 const items = card.ingredients.map(function(ing) {
                     const qty = [ing.quantity, ing.unit].filter(Boolean).join(' ');
+                    const optional = ing.is_optional ? '<span class="cooking-mise-note">(Optional) </span>' : '';
                     const note = ing.note ? '<span class="cooking-mise-note">(' + escapeHTML(ing.note) + ')</span>' : '';
                     return '<div class="cooking-mise-item">' +
-                        '<span class="cooking-mise-name">' + escapeHTML(ing.name) + ' ' + note + '</span>' +
+                        '<span class="cooking-mise-name">' + escapeHTML(ing.name) + ' ' + optional + note + '</span>' +
                         (qty ? '<span class="cooking-mise-qty">' + escapeHTML(qty) + '</span>' : '') +
                         '</div>';
                 }).join('');
@@ -140,9 +141,10 @@
             if (card.ingredients.length > 0) {
                 ingredientsHTML = '<div class="cooking-step-ingredients">' +
                     card.ingredients.map(function(ing) {
-                        const qty = [ing.quantity, ing.unit].filter(Boolean).join(' ');
+                        const qty = [ing.quantity, ing.unit].filter(Boolean).join(' ');                    
+                        const optional = ing.is_optional ? ' (Optional)' : '';
                         const note = ing.note ? ' (' + escapeHTML(ing.note) + ')' : '';
-                        return '<span>' + escapeHTML(ing.name) + (qty ? ': ' + escapeHTML(qty) : '') + note + '</span>';
+                        return '<span>' + escapeHTML(ing.name) + (qty ? ': ' + escapeHTML(qty) : '') + optional + note + '</span>';
                     }).join('') + '</div>';
             }
             div.innerHTML =
