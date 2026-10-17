@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="en-US" class="">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipes - Cook</title>
+    <link rel="icon" type="image/x-icon" href="../../static/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../static/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../static/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../../static/apple-touch-icon.png">
+    <link rel="manifest" href="../../static/site.webmanifest">
+    <link href="../../static/css/output.css" rel="stylesheet">
+    <script>
+        // Check for saved theme preference, or check for prefers-color-scheme, or default to light
+        const theme = localStorage.getItem('theme')
+            || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        document.documentElement.classList.toggle('dark', theme === 'dark');
+    </script>
+    <style>
+        .viewport {
+            width: 100%;
+            max-width: 72rem;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        /* Search result keyboard selection. --surface-sunk alone is barely
+           visible against --surface in dark mode, so the accent bar carries
+           the signal. */
+        #search-results a.search-selected {
+            background: var(--accent-soft);
+            box-shadow: inset 3px 0 0 var(--accent);
+        }
+
+        @media print {
+            /* Token values are reset to light in input.css; this resets the
+               browser's own defaults so unstyled text is dark too. */
+            html.dark, html {
+                color-scheme: light !important;
+            }
+
+            * {
+                print-color-adjust: exact;
+                -webkit-print-color-adjust: exact;
+            }
+
+            body {
+                background: white !important;
+                margin: 0;
+                padding: 0;
+            }
+
+            .viewport {
+                max-width: 100%;
+                margin: 0;
+                padding: 0;
+            }
+
+            /* Hide navigation and non-essential elements */
+            nav, #search-container, #search-input, #search-results, .print\:hidden, .breadcrumb {
+                display: none !important;
+            }
+
+            /* Hide all navigation links */
+            a[href="../../"] {
+                display: none !important;
+            }
+
+            /* Recipe layout for print: one column */
+            .grid {
+                display: block !important;
+            }
+
+            .md\:col-span-1, .md\:col-span-2 {
+                page-break-inside: avoid;
+                width: 100% !important;
+            }
+
+            /* Square corners on paper */
+            .card, .step-box, .ingredient-row, .recipe-note, .rounded-xl {
+                border-radius: 0 !important;
+            }
+
+            /* Step numbers */
+            .step-number {
+                background: #000 !important;
+                color: #fff !important;
+            }
+
+            /* Images */
+            img {
+                max-height: 300px !important;
+                max-width: 100% !important;
+                height: auto !important;
+                object-fit: contain !important;
+                page-break-inside: avoid;
+                page-break-after: avoid;
+            }
+
+            /* Recipe sections on same page if possible */
+            h2, h3 {
+                page-break-after: avoid;
+            }
+
+            ol, ul {
+                page-break-inside: avoid;
+            }
+
+            /* Compact spacing */
+            .mb-8, .mb-6, .mb-4 {
+                margin-bottom: 0.5rem !important;
+            }
+
+            .p-6 {
+                padding: 0.5rem !important;
+            }
+
+            /* Recipe header */
+            h1 {
+                color: #000 !important;
+                font-size: 1.5rem !important;
+                margin-bottom: 0 !important;
+            }
+
+            /* Shopping list print styles */
+            .lg\:w-2\/5, .xl\:w-1\/3 {
+                display: none !important;
+            }
+
+            #shopping-list-results {
+                font-size: 11pt !important;
+                line-height: 1.2 !important;
+            }
+
+            #shopping-list-results input[type="checkbox"] {
+                display: none !important;
+            }
+
+            #shopping-list-results li .flex-1 {
+                width: auto !important;
+                flex: 1 1 0% !important;
+            }
+
+            #shopping-list-results label {
+                cursor: default !important;
+            }
+
+            #shopping-list-results h2 {
+                font-size: 11pt !important;
+                color: #000 !important;
+                margin-bottom: 0 !important;
+            }
+
+            #shopping-list-results .space-y-2 > * + *,
+            #shopping-list-results ul > * + * {
+                margin-top: 0 !important;
+            }
+
+            #shopping-list-results li {
+                padding: 0 !important;
+                line-height: 1.3 !important;
+                border-bottom: 1px dotted #ccc;
+            }
+
+            #shopping-list-results .card {
+                margin-bottom: 0.15rem !important;
+                padding: 0 !important;
+                border: none !important;
+            }
+
+            /* Menu print styles */
+            #menu-content {
+                font-size: 10pt !important;
+                line-height: 1.4 !important;
+            }
+
+            #menu-content h1 {
+                font-size: 14pt !important;
+                margin-bottom: 0.25rem !important;
+                color: #000 !important;
+            }
+
+            #menu-content .space-y-6 > * + * {
+                margin-top: 0.3rem !important;
+            }
+
+            #menu-content .menu-section {
+                border: 1px solid #ccc !important;
+                border-radius: 0 !important;
+                page-break-inside: avoid;
+            }
+
+            #menu-content .menu-section-header {
+                background: #eee !important;
+                color: #000 !important;
+                padding: 0.15rem 0.5rem !important;
+            }
+
+            #menu-content .menu-section-header h2 {
+                font-size: 11pt !important;
+                color: #000 !important;
+            }
+
+            #menu-content .menu-section-body {
+                padding: 0.25rem 0.5rem !important;
+            }
+
+            #menu-content .menu-section-body .space-y-2 > * + *,
+            #menu-content .menu-section-body > * + * {
+                margin-top: 0.05rem !important;
+            }
+
+            #menu-content .menu-section-body h3 {
+                font-size: 10pt !important;
+                margin-top: 0.2rem !important;
+                margin-bottom: 0 !important;
+            }
+
+            #menu-content .menu-section-body .pl-6 {
+                padding-left: 1rem !important;
+            }
+
+            /* Preserve word spacing in flex lines */
+            #menu-content .menu-section-body .flex {
+                gap: 0.25em !important;
+            }
+
+            #menu-content .ingredient-badge {
+                font-weight: bold !important;
+                color: #000 !important;
+            }
+
+            #menu-content a {
+                color: #000 !important;
+                text-decoration: none !important;
+            }
+        }
+    </style>
+</head>
+<body class="bg-bg text-text">
+    <div class="viewport">
+        <nav class="nav-card relative">
+            <div class="px-3 lg:px-6 py-4 relative">
+                <div class="flex items-center justify-between flex-wrap gap-y-3">
+                    <a href="../../index.html" class="order-1 hidden md:flex items-center space-x-2">
+                        <img src="../../static/android-chrome-192x192.png" alt="Cook" class="brand-mark h-8 w-8 rounded-md" width="32" height="32">
+                    </a>
+
+                    <div class="relative z-50 order-2 flex-1 md:ml-2 md:mr-4" id="search-container">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <svg class="h-5 w-5 text-faint" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                            </svg>
+                        </div>
+                        <input type="text"
+                               id="search-input"
+                               placeholder="Search recipes..."
+                               class="search-input">
+                        <div id="search-results"
+                             class="absolute top-full mt-2 w-full card shadow-[var(--shadow-overlay)] hidden max-h-96 overflow-y-auto"
+                             style="z-index: 9999;">
+                        </div>
+                    </div>
+
+                    <div class="order-3 w-full md:w-auto flex items-center gap-1 lg:gap-2">
+                        
+                        <div class="hidden md:flex items-center gap-1 mr-2 lg:mr-4">
+                            <a href="../../index.html"
+                               class="nav-pill active">
+                                Recipes
+                            </a>
+                            
+                            
+                        </div>
+                        
+                        <!-- Inline buttons on md+ screens -->
+                        
+                        <button onclick="showShortcutsHelp()" class="icon-btn hidden md:inline-flex ml-2 print:hidden" aria-label="Keyboard shortcuts" title="Keyboard shortcuts (?)">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </button>
+                        <button onclick="toggleTheme()" class="icon-btn hidden md:inline-flex ml-2 print:hidden" aria-label="Toggle theme">
+                            <svg class="hidden dark:block" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path>
+                            </svg>
+                            <svg class="block dark:hidden" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+                            </svg>
+                        </button>
+                        <!-- Overflow menu for small screens -->
+                        <div class="relative md:hidden ml-auto" id="more-menu-container">
+                            <button onclick="document.getElementById('more-dropdown').classList.toggle('hidden')" class="icon-btn" aria-label="More options">
+                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"></path>
+                                </svg>
+                            </button>
+                            <div id="more-dropdown" class="hidden absolute right-0 mt-2 w-56 card shadow-[var(--shadow-overlay)] z-50 py-1">
+                                
+                                <a href="../../index.html" class="menu-item active">
+                                    <span>🍳</span> <span>Recipes</span>
+                                </a>
+                                
+                                
+                                <div class="border-t border-line my-1"></div>
+                                
+                                
+                                <button onclick="showShortcutsHelp(); document.getElementById('more-dropdown').classList.add('hidden');" class="menu-item">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                    <span>Keyboard Shortcuts</span>
+                                </button>
+                                <button onclick="toggleTheme(); document.getElementById('more-dropdown').classList.add('hidden');" class="menu-item">
+                                    <svg class="w-4 h-4 hidden dark:block" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path></svg>
+                                    <svg class="w-4 h-4 block dark:hidden" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+                                    <span>Toggle Theme</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <main>
+            
+<div>
+    
+    <nav class="mb-4">
+        <ol class="flex items-center space-x-2 text-sm text-muted">
+            <li><a href="../../index.html" class="hover:text-text">Recipes</a></li>
+            
+            <li class="flex items-center">
+                <span class="mx-2 text-faint">/</span>
+                <a href="../../directory/Desserts.html" class="hover:text-text">Desserts</a>
+            </li>
+            
+            <li class="flex items-center">
+                <span class="mx-2 text-faint">/</span>
+                <a href="../../directory/Desserts/Ice Cream.html" class="hover:text-text">Ice Cream</a>
+            </li>
+            
+        </ol>
+    </nav>
+    
+
+    <div class="flex items-center justify-between mb-8">
+        <h1 class="text-display font-bold text-text">
+            Ice Cream
+        </h1>
+        
+    </div>
+
+    <div id="sort-controls" class="hidden items-center gap-2 mb-6">
+        <label for="sort-field" class="text-sm text-muted">Sort by:</label>
+        <select id="sort-field" class="select">
+            <option value="name">Name</option>
+            <option value="modified">Modified</option>
+            <option value="created" id="sort-created-option">Created</option>
+        </select>
+        <button id="sort-dir" type="button" class="btn" aria-label="Toggle sort direction" title="Toggle sort direction">↑</button>
+    </div>
+
+    
+    
+
+    <div id="recipes-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        
+        
+        <a href="../../recipe/Desserts/Ice Cream/Culver&#x27;s Chocolate Frozen Custard.html"
+           data-type="recipe"
+           data-name="Chocolate Frozen Custard"
+           data-modified="1791171154"
+           data-created="1791170813"
+           class="recipe-card">
+            
+            <div class="h-48 bg-sunk overflow-hidden">
+                <img src="https://theviewfromgreatisland.com/wp-content/uploads/2020/05/chocolate-frozen-custard-8507336-May-15-2020.jpg" alt="Chocolate Frozen Custard" class="w-full h-full object-cover">
+            </div>
+            <div class="p-6">
+            
+                <div class="flex flex-wrap items-center gap-2">
+                    <h2 class="recipe-card-title">Chocolate Frozen Custard</h2>
+                    
+                </div>
+                
+                
+                
+            </div>
+        </a>
+        
+        
+        
+        <a href="../../recipe/Desserts/Ice Cream/Chocolate Peanut Butter Ice Cream.html"
+           data-type="recipe"
+           data-name="Chocolate Peanut Butter Ice Cream"
+           data-modified="1791170893"
+           data-created="1791169542"
+           class="recipe-card">
+            
+            <div class="h-48 bg-sunk overflow-hidden">
+                <img src="https://icecreamfromscratch.com/wp-content/uploads/2022/07/Chocolate-Peanut-Butter-Ice-Cream-1.2-720x720.jpg" alt="Chocolate Peanut Butter Ice Cream" class="w-full h-full object-cover">
+            </div>
+            <div class="p-6">
+            
+                <div class="flex flex-wrap items-center gap-2">
+                    <h2 class="recipe-card-title">Chocolate Peanut Butter Ice Cream</h2>
+                    
+                </div>
+                
+                
+                
+            </div>
+        </a>
+        
+        
+        
+        <a href="../../recipe/Desserts/Ice Cream/Dulce de Leche Ice Cream.html"
+           data-type="recipe"
+           data-name="Dulce de Leche Ice Cream"
+           data-modified="1791172440"
+           data-created="1791170761"
+           class="recipe-card">
+            
+            <div class="h-48 bg-sunk overflow-hidden">
+                <img src="https://icecreamfromscratch.com/wp-content/uploads/2022/05/Dulce-de-Leche-Ice-Cream-1.2-720x720.jpg" alt="Dulce de Leche Ice Cream" class="w-full h-full object-cover">
+            </div>
+            <div class="p-6">
+            
+                <div class="flex flex-wrap items-center gap-2">
+                    <h2 class="recipe-card-title">Dulce de Leche Ice Cream</h2>
+                    
+                </div>
+                
+                
+                
+            </div>
+        </a>
+        
+        
+        
+        <a href="../../recipe/Desserts/Ice Cream/Eggnog Ice Cream.html"
+           data-type="recipe"
+           data-name="Eggnog Ice Cream"
+           data-modified="1791171720"
+           data-created="1791170162"
+           class="recipe-card">
+            
+            <div class="h-48 bg-sunk overflow-hidden">
+                <img src="https://icecreamfromscratch.com/wp-content/uploads/2022/11/Eggnog-Ice-Cream-1.2-720x720.jpg" alt="Eggnog Ice Cream" class="w-full h-full object-cover">
+            </div>
+            <div class="p-6">
+            
+                <div class="flex flex-wrap items-center gap-2">
+                    <h2 class="recipe-card-title">Eggnog Ice Cream</h2>
+                    
+                </div>
+                
+                
+                
+            </div>
+        </a>
+        
+        
+        
+        <a href="../../recipe/Desserts/Ice Cream/Matcha Ice Cream.html"
+           data-type="recipe"
+           data-name="Matcha Ice Cream"
+           data-modified="1791172006"
+           data-created="1791170248"
+           class="recipe-card">
+            
+            <div class="h-48 bg-sunk overflow-hidden">
+                <img src="https://www.justonecookbook.com/wp-content/uploads/2021/08/Green-Tea-Ice-Cream-0099-I-1.jpg" alt="Matcha Ice Cream" class="w-full h-full object-cover">
+            </div>
+            <div class="p-6">
+            
+                <div class="flex flex-wrap items-center gap-2">
+                    <h2 class="recipe-card-title">Matcha Ice Cream</h2>
+                    
+                </div>
+                
+                
+                
+                <div class="mt-3 flex flex-wrap gap-2">
+                    
+                    <span class="tag">green tea powder</span>
+                    
+                    <span class="tag">ice cream</span>
+                    
+                    <span class="tag">matcha</span>
+                    
+                    
+                </div>
+                
+            </div>
+        </a>
+        
+        
+        
+        <a href="../../recipe/Desserts/Ice Cream/Sea Salt Cornstatch Ice Cream.html"
+           data-type="recipe"
+           data-name="Sea Salt Cornstarch Ice Cream"
+           data-modified="1791172220"
+           data-created="1791170577"
+           class="recipe-card">
+            
+            <div class="h-48 bg-sunk overflow-hidden">
+                <img src="https://www.khguides.com/extras/sea-salt-ice-cream-recipe/images/s18.webp" alt="Sea Salt Cornstarch Ice Cream" class="w-full h-full object-cover">
+            </div>
+            <div class="p-6">
+            
+                <div class="flex flex-wrap items-center gap-2">
+                    <h2 class="recipe-card-title">Sea Salt Cornstarch Ice Cream</h2>
+                    
+                </div>
+                
+                
+                
+            </div>
+        </a>
+        
+        
+        
+        <a href="../../recipe/Desserts/Ice Cream/Sea Salt Ice Cream.html"
+           data-type="recipe"
+           data-name="Sea Salt Ice Cream"
+           data-modified="1791172391"
+           data-created="1791169493"
+           class="recipe-card">
+            
+            <div class="h-48 bg-sunk overflow-hidden">
+                <img src="https://i.pinimg.com/originals/5f/d2/bb/5fd2bb08f5f1fd1819ab6586013e8458.jpg" alt="Sea Salt Ice Cream" class="w-full h-full object-cover">
+            </div>
+            <div class="p-6">
+            
+                <div class="flex flex-wrap items-center gap-2">
+                    <h2 class="recipe-card-title">Sea Salt Ice Cream</h2>
+                    
+                </div>
+                
+                
+                
+            </div>
+        </a>
+        
+        
+
+        
+    </div>
+</div>
+
+        </main>
+
+        
+        <footer class="mt-12 mb-6 text-center text-sm text-faint print:hidden">
+            Built with
+            <a href="https://cooklang.org/cli/" class="text-accent-text hover:underline" target="_blank" rel="noopener">CookCLI</a>
+            
+        </footer>
+        
+    </div>
+
+    <script>
+        // Theme toggle function
+        function toggleTheme() {
+            const html = document.documentElement;
+            const currentTheme = html.classList.contains('dark') ? 'dark' : 'light';
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+
+            html.classList.toggle('dark');
+            localStorage.setItem('theme', newTheme);
+        }
+    </script>
+
+    
+    <script>window.__PREFIX__ = "../..";</script>
+    <script src="../../static/js/search.js"></script>
+    
+
+    <!-- URL prefix for JavaScript -->
+    <script>
+        window.__PREFIX__ = "../..";
+        window.__STATIC_MODE__ = true;
+        window.__STRINGS__ = { close: "Close" };
+    </script>
+
+    <!-- Keyboard shortcuts -->
+    <script src="../../static/js/keyboard-shortcuts.js"></script>
+    <!-- Expose showShortcutsHelp globally for the help button -->
+    <script>
+        // showShortcutsHelp is defined in keyboard-shortcuts.js
+        // This ensures it's available for the onclick handler
+        if (typeof showShortcutsHelp === 'undefined') {
+            window.showShortcutsHelp = function() {
+                console.warn('Keyboard shortcuts not loaded');
+            };
+        }
+    </script>
+
+    
+<script>
+(function () {
+    const grid = document.getElementById('recipes-grid');
+    const controls = document.getElementById('sort-controls');
+    const fieldSelect = document.getElementById('sort-field');
+    const dirBtn = document.getElementById('sort-dir');
+    const createdOption = document.getElementById('sort-created-option');
+
+    if (!grid || !controls || !fieldSelect || !dirBtn) return;
+
+    // Sorting is client-side because this template is also rendered by the
+    // static site builder, where there is no server to answer a ?sort= query.
+    const STORE_KEY = 'recipes-sort';
+
+    let sortField = 'name';
+    let sortDir = 'asc';
+
+    const recipeCards = Array.from(grid.querySelectorAll('[data-type="recipe"]'));
+
+    // "Created" is only offered when every recipe has a creation date;
+    // otherwise the column is partly empty and the ordering is arbitrary.
+    const allHaveCreated = recipeCards.length > 0 &&
+        recipeCards.every(el => el.hasAttribute('data-created'));
+    if (!allHaveCreated && createdOption) {
+        createdOption.remove();
+    }
+
+    // Nothing to sort with fewer than two recipes.
+    if (recipeCards.length < 2) return;
+    controls.classList.remove('hidden');
+    controls.classList.add('flex');
+
+    function restore() {
+        let saved = null;
+        try {
+            saved = JSON.parse(sessionStorage.getItem(STORE_KEY) || 'null');
+        } catch (e) {
+            // Corrupt value: fall through to the defaults.
+        }
+        if (!saved) return;
+        // The saved field may not exist here — "created" is removed on pages
+        // where not every recipe has a date. Treat an invalid field as fully
+        // corrupt so a stale direction cannot pair with the wrong field.
+        const valid = Array.from(fieldSelect.options).some(o => o.value === saved.field);
+        if (!valid) return;
+        sortField = saved.field;
+        fieldSelect.value = saved.field;
+        if (saved.dir === 'asc' || saved.dir === 'desc') {
+            sortDir = saved.dir;
+        }
+    }
+
+    function persist() {
+        try {
+            sessionStorage.setItem(STORE_KEY, JSON.stringify({ field: sortField, dir: sortDir }));
+        } catch (e) {
+            // Private browsing or a full quota: sorting still works, it just
+            // does not survive navigation.
+        }
+    }
+
+    function getValue(el) {
+        if (sortField === 'name') {
+            // data-name rather than the heading text, so a markup change
+            // cannot silently break sorting.
+            return (el.getAttribute('data-name') || '').trim();
+        }
+        const raw = el.getAttribute(sortField === 'modified' ? 'data-modified' : 'data-created');
+        if (raw === null) return null;
+        const n = parseInt(raw, 10);
+        return Number.isNaN(n) ? null : n;
+    }
+
+    // numeric so "Recipe 10" sorts after "Recipe 9"; sensitivity 'base' so
+    // case and accents do not split otherwise-equal names.
+    const collator = new Intl.Collator(undefined, { numeric: true, sensitivity: 'base' });
+
+    function compare(a, b) {
+        const av = getValue(a);
+        const bv = getValue(b);
+        // Missing values sort last in both directions.
+        if (av === null && bv === null) return 0;
+        if (av === null) return 1;
+        if (bv === null) return -1;
+        const cmp = typeof av === 'string' ? collator.compare(av, bv) : av - bv;
+        return sortDir === 'asc' ? cmp : -cmp;
+    }
+
+    function applySort() {
+        const all = Array.from(grid.children);
+        const dirs = all.filter(el => el.dataset.type === 'directory');
+        const recipes = all.filter(el => el.dataset.type === 'recipe');
+        const others = all.filter(el => !el.dataset.type);
+
+        recipes.sort(compare);
+        // Directories stay grouped above recipes, sorted by name among
+        // themselves so their order is deterministic. They only follow
+        // sortDir when sorting by name; for date fields they stay A→Z since
+        // directories have no modified/created date of their own.
+        dirs.sort((a, b) => {
+            const cmp = collator.compare(a.getAttribute('data-name') || '', b.getAttribute('data-name') || '');
+            return sortField === 'name' && sortDir === 'desc' ? -cmp : cmp;
+        });
+
+        const frag = document.createDocumentFragment();
+        dirs.forEach(el => frag.appendChild(el));
+        recipes.forEach(el => frag.appendChild(el));
+        others.forEach(el => frag.appendChild(el));
+        grid.appendChild(frag);
+
+        dirBtn.textContent = sortDir === 'asc' ? '↑' : '↓';
+    }
+
+    fieldSelect.addEventListener('change', function () {
+        sortField = this.value;
+        // Dates default to newest first; names to A–Z.
+        sortDir = sortField === 'name' ? 'asc' : 'desc';
+        applySort();
+        persist();
+    });
+
+    dirBtn.addEventListener('click', function () {
+        sortDir = sortDir === 'asc' ? 'desc' : 'asc';
+        applySort();
+        persist();
+    });
+
+    restore();
+    // The server already renders name/asc (natural, case-folded), so on the
+    // default sort the DOM is left as served: no reorder on load, and names
+    // with accents keep the server's order instead of the collator's.
+    if (sortField !== 'name' || sortDir !== 'asc') {
+        applySort();
+    }
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1755 @@
+<!DOCTYPE html>
+<html lang="en-US" class="">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cinnamon-Sugar Crunch Bagels - Cook</title>
+    <link rel="icon" type="image/x-icon" href="../../static/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../static/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../static/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../../static/apple-touch-icon.png">
+    <link rel="manifest" href="../../static/site.webmanifest">
+    <link href="../../static/css/output.css" rel="stylesheet">
+    <script>
+        // Check for saved theme preference, or check for prefers-color-scheme, or default to light
+        const theme = localStorage.getItem('theme')
+            || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        document.documentElement.classList.toggle('dark', theme === 'dark');
+    </script>
+    <style>
+        .viewport {
+            width: 100%;
+            max-width: 72rem;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        /* Search result keyboard selection. --surface-sunk alone is barely
+           visible against --surface in dark mode, so the accent bar carries
+           the signal. */
+        #search-results a.search-selected {
+            background: var(--accent-soft);
+            box-shadow: inset 3px 0 0 var(--accent);
+        }
+
+        @media print {
+            /* Token values are reset to light in input.css; this resets the
+               browser's own defaults so unstyled text is dark too. */
+            html.dark, html {
+                color-scheme: light !important;
+            }
+
+            * {
+                print-color-adjust: exact;
+                -webkit-print-color-adjust: exact;
+            }
+
+            body {
+                background: white !important;
+                margin: 0;
+                padding: 0;
+            }
+
+            .viewport {
+                max-width: 100%;
+                margin: 0;
+                padding: 0;
+            }
+
+            /* Hide navigation and non-essential elements */
+            nav, #search-container, #search-input, #search-results, .print\:hidden, .breadcrumb {
+                display: none !important;
+            }
+
+            /* Hide all navigation links */
+            a[href="../../"] {
+                display: none !important;
+            }
+
+            /* Recipe layout for print: one column */
+            .grid {
+                display: block !important;
+            }
+
+            .md\:col-span-1, .md\:col-span-2 {
+                page-break-inside: avoid;
+                width: 100% !important;
+            }
+
+            /* Square corners on paper */
+            .card, .step-box, .ingredient-row, .recipe-note, .rounded-xl {
+                border-radius: 0 !important;
+            }
+
+            /* Step numbers */
+            .step-number {
+                background: #000 !important;
+                color: #fff !important;
+            }
+
+            /* Images */
+            img {
+                max-height: 300px !important;
+                max-width: 100% !important;
+                height: auto !important;
+                object-fit: contain !important;
+                page-break-inside: avoid;
+                page-break-after: avoid;
+            }
+
+            /* Recipe sections on same page if possible */
+            h2, h3 {
+                page-break-after: avoid;
+            }
+
+            ol, ul {
+                page-break-inside: avoid;
+            }
+
+            /* Compact spacing */
+            .mb-8, .mb-6, .mb-4 {
+                margin-bottom: 0.5rem !important;
+            }
+
+            .p-6 {
+                padding: 0.5rem !important;
+            }
+
+            /* Recipe header */
+            h1 {
+                color: #000 !important;
+                font-size: 1.5rem !important;
+                margin-bottom: 0 !important;
+            }
+
+            /* Shopping list print styles */
+            .lg\:w-2\/5, .xl\:w-1\/3 {
+                display: none !important;
+            }
+
+            #shopping-list-results {
+                font-size: 11pt !important;
+                line-height: 1.2 !important;
+            }
+
+            #shopping-list-results input[type="checkbox"] {
+                display: none !important;
+            }
+
+            #shopping-list-results li .flex-1 {
+                width: auto !important;
+                flex: 1 1 0% !important;
+            }
+
+            #shopping-list-results label {
+                cursor: default !important;
+            }
+
+            #shopping-list-results h2 {
+                font-size: 11pt !important;
+                color: #000 !important;
+                margin-bottom: 0 !important;
+            }
+
+            #shopping-list-results .space-y-2 > * + *,
+            #shopping-list-results ul > * + * {
+                margin-top: 0 !important;
+            }
+
+            #shopping-list-results li {
+                padding: 0 !important;
+                line-height: 1.3 !important;
+                border-bottom: 1px dotted #ccc;
+            }
+
+            #shopping-list-results .card {
+                margin-bottom: 0.15rem !important;
+                padding: 0 !important;
+                border: none !important;
+            }
+
+            /* Menu print styles */
+            #menu-content {
+                font-size: 10pt !important;
+                line-height: 1.4 !important;
+            }
+
+            #menu-content h1 {
+                font-size: 14pt !important;
+                margin-bottom: 0.25rem !important;
+                color: #000 !important;
+            }
+
+            #menu-content .space-y-6 > * + * {
+                margin-top: 0.3rem !important;
+            }
+
+            #menu-content .menu-section {
+                border: 1px solid #ccc !important;
+                border-radius: 0 !important;
+                page-break-inside: avoid;
+            }
+
+            #menu-content .menu-section-header {
+                background: #eee !important;
+                color: #000 !important;
+                padding: 0.15rem 0.5rem !important;
+            }
+
+            #menu-content .menu-section-header h2 {
+                font-size: 11pt !important;
+                color: #000 !important;
+            }
+
+            #menu-content .menu-section-body {
+                padding: 0.25rem 0.5rem !important;
+            }
+
+            #menu-content .menu-section-body .space-y-2 > * + *,
+            #menu-content .menu-section-body > * + * {
+                margin-top: 0.05rem !important;
+            }
+
+            #menu-content .menu-section-body h3 {
+                font-size: 10pt !important;
+                margin-top: 0.2rem !important;
+                margin-bottom: 0 !important;
+            }
+
+            #menu-content .menu-section-body .pl-6 {
+                padding-left: 1rem !important;
+            }
+
+            /* Preserve word spacing in flex lines */
+            #menu-content .menu-section-body .flex {
+                gap: 0.25em !important;
+            }
+
+            #menu-content .ingredient-badge {
+                font-weight: bold !important;
+                color: #000 !important;
+            }
+
+            #menu-content a {
+                color: #000 !important;
+                text-decoration: none !important;
+            }
+        }
+    </style>
+</head>
+<body class="bg-bg text-text">
+    <div class="viewport">
+        <nav class="nav-card relative">
+            <div class="px-3 lg:px-6 py-4 relative">
+                <div class="flex items-center justify-between flex-wrap gap-y-3">
+                    <a href="../../index.html" class="order-1 hidden md:flex items-center space-x-2">
+                        <img src="../../static/android-chrome-192x192.png" alt="Cook" class="brand-mark h-8 w-8 rounded-md" width="32" height="32">
+                    </a>
+
+                    <div class="relative z-50 order-2 flex-1 md:ml-2 md:mr-4" id="search-container">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <svg class="h-5 w-5 text-faint" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                            </svg>
+                        </div>
+                        <input type="text"
+                               id="search-input"
+                               placeholder="Search recipes..."
+                               class="search-input">
+                        <div id="search-results"
+                             class="absolute top-full mt-2 w-full card shadow-[var(--shadow-overlay)] hidden max-h-96 overflow-y-auto"
+                             style="z-index: 9999;">
+                        </div>
+                    </div>
+
+                    <div class="order-3 w-full md:w-auto flex items-center gap-1 lg:gap-2">
+                        
+                        <div class="hidden md:flex items-center gap-1 mr-2 lg:mr-4">
+                            <a href="../../index.html"
+                               class="nav-pill active">
+                                Recipes
+                            </a>
+                            
+                            
+                        </div>
+                        
+                        <!-- Inline buttons on md+ screens -->
+                        
+                        <button onclick="showShortcutsHelp()" class="icon-btn hidden md:inline-flex ml-2 print:hidden" aria-label="Keyboard shortcuts" title="Keyboard shortcuts (?)">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </button>
+                        <button onclick="toggleTheme()" class="icon-btn hidden md:inline-flex ml-2 print:hidden" aria-label="Toggle theme">
+                            <svg class="hidden dark:block" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path>
+                            </svg>
+                            <svg class="block dark:hidden" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+                            </svg>
+                        </button>
+                        <!-- Overflow menu for small screens -->
+                        <div class="relative md:hidden ml-auto" id="more-menu-container">
+                            <button onclick="document.getElementById('more-dropdown').classList.toggle('hidden')" class="icon-btn" aria-label="More options">
+                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"></path>
+                                </svg>
+                            </button>
+                            <div id="more-dropdown" class="hidden absolute right-0 mt-2 w-56 card shadow-[var(--shadow-overlay)] z-50 py-1">
+                                
+                                <a href="../../index.html" class="menu-item active">
+                                    <span>🍳</span> <span>Recipes</span>
+                                </a>
+                                
+                                
+                                <div class="border-t border-line my-1"></div>
+                                
+                                
+                                <button onclick="showShortcutsHelp(); document.getElementById('more-dropdown').classList.add('hidden');" class="menu-item">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                    <span>Keyboard Shortcuts</span>
+                                </button>
+                                <button onclick="toggleTheme(); document.getElementById('more-dropdown').classList.add('hidden');" class="menu-item">
+                                    <svg class="w-4 h-4 hidden dark:block" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path></svg>
+                                    <svg class="w-4 h-4 block dark:hidden" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+                                    <span>Toggle Theme</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <main>
+            
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Recipe","author":{"@type":"Person","name":"Molly Marzalek-Kelly"},"cookTime":"PT22M","description":"Going to Panera's for their Cinnamon Crunch Bagels is expensive, and finding good sugary bagels is hard these days...","image":"https://www.kingarthurbaking.com/sites/default/files/2022-08/Cinnamon-Sugar-Crunch-Bagel_0362.jpg","name":"Cinnamon-Sugar Crunch Bagels","prepTime":"PT45M","recipeIngredient":["Cinnamon Sweet Bits","420 g, 2 tablespoons bread flour (about 1 cup, about 2.5 cups)","1 tbsp butter (melted)","1/4 tsp cinnamon (Vietnamese/Saigon preferred)","1/4 cup cinnamon sweet bits","1 tbsp coarse sparkling sugar","1 egg (beaten)","1 tablespoon granulated sugar","3/4 teaspoon ground cinnamon (Vietnamese/Saigon preferred)","2 tbsp honey","0.813 teaspoon instant yeast","2 tablespoons, 1 tbsp light brown sugar (13g, packed, packed)","1/8 teaspoon, 1.25 teaspoons salt","2 teaspoon vanilla extract","1/3 cup, 8 cups, 170 g, 1 tbsp water (or 75g, cooled, about 3/4 cup, warm)"],"recipeInstructions":[{"@type":"HowToStep","text":"In a bowl, combine bread flour, salt, instant yeast, and water to make a shaggy dough. Use your hands to knead gently until thoroughly combined. This may take about a minute; it's quite stiff."},{"@type":"HowToStep","text":"Cover the bowl and let the preferment rest at room temperature for 4-14 hours; it should expand."},{"@type":"HowToStep","text":"To the bowl with the preferment, add water, vanilla extract, light brown sugar, instant yeast, salt, cinnamon, and bread flour."},{"@type":"HowToStep","text":"Mix at low speed in a stand mixer with the dough hook attachment to bring the dough together."},{"@type":"HowToStep","text":"Next, knead the stiff dough until it's supple and elastic. This will take about 8-10 minutes at medium-low speed with a mixer. During the last 2 minutes of kneading, add cinnamon sweet bits if using."},{"@type":"HowToStep","text":"Lift the dough out of the stand mixer bowl so you can lightly grease it with oil, then return dough to the bowl and let it rest, covered, until it doubles in bulk. This will take about 2-2.5 hours depending on the warmth of your kitchen."},{"@type":"HowToStep","text":"Turn the dough out onto a clean, lightly floured surface."},{"@type":"HowToStep","text":"Gently deflate it with your hands, then divide it into 6 equal pieces (about 120g each)."},{"@type":"HowToStep","text":"One piece of dough at a time, fold the edges into the center until you can pinch to seal. You should be making essentially dough dumplings."},{"@type":"HowToStep","text":"Clear the flour from your work surface, if any remain. Then, starting with the first piece of dough you shaped, place it seam-side down. Use your cupped fingers and palm to roll the dough into a tight ball, moving your hand in a circular motion."},{"@type":"HowToStep","text":"Cover the preshaped dough and allow it to rest for 10-15 minutes."},{"@type":"HowToStep","text":"Line a baking sheet with parchment and lightly grease the parchment paper."},{"@type":"HowToStep","text":"Use your finger to poke a hole through the center of a dough ball. Gently rotate the dough to expand the hole to 2\" to 3\" in diameter, forming a ring shape. Place the shaped bagel onto the prepared baking sheet. The hole will close up a bit; that's OK."},{"@type":"HowToStep","text":"Cover the bagels again and let them rest until they feel slightly puffy to the touch, about 30 minutes."},{"@type":"HowToStep","text":"In a bowl, whisk light brown sugar, granulated sugar, coarse sparkling sugar, bread flour, and ground cinnamon together."},{"@type":"HowToStep","text":"Add vanilla extract and butter and stir until the mixture resembles wet sand."},{"@type":"HowToStep","text":"Preheat the oven to 450°F."},{"@type":"HowToStep","text":"Combine water and honey in a wide, shallow pot; the water should be at least 1.25\" deep."},{"@type":"HowToStep","text":"Bring the mixture to a boil."},{"@type":"HowToStep","text":"Add bagels to the water two or three at a time to avoid crowding. Boil for 60 seconds, then use a dough whisk or slotted spoon to turn the bagels over."},{"@type":"HowToStep","text":"Boil for another 60 seconds before removing from the water and placing back on the prepared pan."},{"@type":"HowToStep","text":"In a bowl, combine egg and water."},{"@type":"HowToStep","text":"Brush each bagel with the egg wash, then sprinkle with the topping, distributing evenly across the six bagels. For even more cinnamon crunch, sprinkle the tops of the bagels with more Cinnamon Sweet Bits and/or coarse sparkling sugar. Press down on the toppings to fully adhere them to the bagel, ensuring that everything stays put."},{"@type":"HowToStep","text":"Bake the cinnamon bagels for 18-22 minutes, until golden brown. Rotate the pan (front to back, back to front) halfway through baking to ensure even browning. If at any point the topping is becoming too dark, tent with foil and continue baking."},{"@type":"HowToStep","text":"Remove the cinnamon bagels from the oven and transfer them to a rack to cool."},{"@type":"HowToStep","text":"Substitute 1/4 cup (43g) raisins for the Cinnamon Sweet Bits in the dough. Soften the raisins by soaking them in hot water for 15 minutes before kneading into the dough. Bake as directed."}],"recipeYield":"6"}</script>
+<div>
+    <nav class="mb-4 breadcrumb print:hidden">
+        <ol class="flex items-center space-x-2 text-sm text-muted">
+            <li><a href="../../index.html" class="hover:text-text">Recipes</a></li>
+            
+            <li class="flex items-center">
+                <span class="mx-2 text-faint">/</span>
+                
+                    <a href="../../directory/Bakery.html" class="hover:text-text">Bakery</a>
+                
+            </li>
+            
+            <li class="flex items-center">
+                <span class="mx-2 text-faint">/</span>
+                
+                    <span class="text-text">Cinnamon-Sugar Crunch Bagels</span>
+                
+            </li>
+            
+        </ol>
+    </nav>
+
+    <div class="mb-8">
+        <!-- Recipe image if available -->
+        
+        <div class="mb-6 max-w-4xl mx-auto flex justify-center">
+            <img src="https://www.kingarthurbaking.com/sites/default/files/2022-08/Cinnamon-Sugar-Crunch-Bagel_0362.jpg" alt="Cinnamon-Sugar Crunch Bagels" class="rounded-xl shadow-[var(--shadow-card)] max-w-full h-auto max-h-[500px]">
+        </div>
+        
+
+        <!-- Title bar with scale and shopping list button -->
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6 print:flex-row print:items-center">
+            <h1 class="text-display font-bold text-text print:text-2xl">
+                Cinnamon-Sugar Crunch Bagels
+            </h1>
+            
+            <div class="flex flex-wrap items-center gap-2 lg:gap-3 print:hidden">
+                
+                <button id="start-cooking-btn" onclick="startCookingMode()" class="btn btn-primary" title="Start Cooking">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <span class="hidden lg:inline">Cook</span>
+                </button>
+                
+                <a href="../../recipe/Bakery/Cinnamon-Sugar Crunch Bagels.cook" download class="btn" title="Download .cook source">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5 5-5M12 15V3"></path>
+                    </svg>
+                    <span class="hidden lg:inline">.cook</span>
+                </a>
+                
+            </div>
+        </div>
+
+        <!-- Recipe info section -->
+        <div class="space-y-4">
+            <!-- Tags row -->
+            
+
+            
+
+            <!-- Description if present -->
+            
+            <div class="recipe-note">
+                <p class="m-0">Going to Panera&#x27;s for their Cinnamon Crunch Bagels is expensive, and finding good sugary bagels is hard these days...</p>
+            </div>
+            
+
+            <!-- Metadata row -->
+            <div id="metadata-container" class="flex flex-wrap gap-3">
+                
+                <span class="metadata-pill metadata-servings">👥 6 servings</span>
+                
+
+                
+                
+
+                
+                
+
+                
+                
+
+                
+                <span class="metadata-pill metadata-prep">⏱️ Prep Time: 45 minutes</span>
+                
+
+                
+                <span class="metadata-pill metadata-cook">🔥 Cook Time: 22 minutes</span>
+                
+
+                
+                
+
+                
+                
+
+                
+                <span class="metadata-pill metadata-author">👤 Molly Marzalek-Kelly</span>
+                
+
+                
+                <span class="metadata-pill metadata-source">📖 https://www.kingarthurbaking.com/recipes/cinnamon-sugar-crunch-bagels-recipe</span>
+                
+
+                
+                
+
+                <!-- Custom metadata -->
+                
+            </div>
+
+            
+        </div>
+    </div>
+
+    <div id="recipe-body" class="grid md:grid-cols-3 gap-8 mb-8">
+        <div class="md:col-span-1">
+            <div class="card p-6">
+                <h2 class="text-title font-bold mb-4 text-accent-text">🥘 Ingredients</h2>
+                
+                <!-- Display ingredients grouped by section -->
+                
+                
+                
+                <h3 class="text-title font-semibold mt-4 mb-2 text-accent-text">Preferment (pâte fermentée)</h3>
+                
+                <ul class="ingredient-list space-y-3 mb-4">
+                    
+                    <li class="ingredient-row">
+                        <div class="flex-1 flex items-center">
+                            
+                            <span class="font-medium">bread flour</span>
+                            
+                            
+                            
+                            <span class="row-note italic ml-1 break-words" aria-label="preparation: about 1 cup">(about 1 cup)</span>
+                            
+                        </div>
+                        <span class="row-value ml-2">
+                            120 g
+                            
+                        </span>
+                    </li>
+                    
+                    <li class="ingredient-row">
+                        <div class="flex-1 flex items-center">
+                            
+                            <span class="font-medium">instant yeast</span>
+                            
+                            
+                            
+                            
+                        </div>
+                        <span class="row-value ml-2">
+                            0.063 teaspoon
+                            
+                        </span>
+                    </li>
+                    
+                    <li class="ingredient-row">
+                        <div class="flex-1 flex items-center">
+                            
+                            <span class="font-medium">salt</span>
+                            
+                            
+                            
+                            
+                        </div>
+                        <span class="row-value ml-2">
+                            1/8 teaspoon
+                            
+                        </span>
+                    </li>
+                    
+                    <li class="ingredient-row">
+                        <div class="flex-1 flex items-center">
+                            
+                            <span class="font-medium">water</span>
+                            
+                            
+                            
+                            <span class="row-note italic ml-1 break-words" aria-label="preparation: or 75g, cooled">(or 75g, cooled)</span>
+                            
+                        </div>
+                        <span class="row-value ml-2">
+                            1/3 cup
+                            
+                        </span>
+                    </li>
+                    
+                </ul>
+                
+                
+                
+                
+                <h3 class="text-title font-semibold mt-4 mb-2 text-accent-text">Dough</h3>
+                
+                <ul class="ingredient-list space-y-3 mb-4">
+                    
+                    <li class="ingredient-row">
+                        <div class="flex-1 flex items-center">
+                            
+                            <span class="font-medium">bread flour</span>
+                            
+                            
+                            
+                            <span class="row-note italic ml-1 break-words" aria-label="preparation: about 2.5 cups">(about 2.5 cups)</span>
+                            
+                        </div>
+                        <span class="row-value ml-2">
+                            300 g
+                            
+                        </span>
+                    </li>
+                    
+                    <li class="ingredient-row">
+                        <div class="flex-1 flex items-center">
+                            
+                            <span class="font-medium">cinnamon</span>
+                            
+                            
+                            
+                            <span class="row-note italic ml-1 break-words" aria-label="preparation: Vietnamese/Saigon preferred">(Vietnamese/Saigon preferred)</span>
+                            
+                        </div>
+                        <span class="row-value ml-2">
+                            1/4 tsp
+                            
+                        </span>
+                    </li>
+                    
+                    <li class="ingredient-row">
+                        <div class="flex-1 flex items-center">
+                            
+                            <span class="font-medium">cinnamon sweet bits</span>
+                            
+                            
+                            <span class="row-note italic ml-1 break-words" aria-label="Optional">(Optional)</span>        
+                            
+                            
+                            
+                        </div>
+                        <span class="row-value ml-2">
+                            1/4 cup
+                            
+                        </span>
+                    </li>
+                    
+                    <li class="ingredient-row">
+                        <div class="flex-1 flex items-center">
+                            
+                            <span class="font-medium">instant yeast</span>
+                            
+                            
+                            
+                            
+                        </div>
+                        <span class="row-value ml-2">
+                            3/4 teaspoon
+                            
+                        </span>
+                    </li>
+                    
+                    <li class="ingredient-row">
+                        <div class="flex-1 flex items-center">
+                            
+                            <span class="font-medium">light brown sugar</span>
+                            
+                            
+                            
+                            <span class="row-note italic ml-1 break-words" aria-label="preparation: 13g, packed">(13g, packed)</span>
+                            
+                        </div>
+                        <span class="row-value ml-2">
+                            1 tbsp
+                            
+                        </span>
+                    </li>
+                    
+                    <li class="ingredient-row">
+                        <div class="flex-1 flex items-center">
+                            
+                            <span class="font-medium">salt</span>
+                            
+                            
+                            
+                            
+                        </div>
+                        <span class="row-value ml-2">
+                            1.25 teaspoons
+                            
+                        </span>
+                    </li>
+                    
+                    <li class="ingredient-row">
+                        <div class="flex-1 flex items-center">
+                            
+                            <span class="font-medium">vanilla extract</span>
+                            
+                            
+                            
+                            
+                        </div>
+                        <span class="row-value ml-2">
+                            1 teaspoon
+                            
+                        </span>
+                    </li>
+                    
+                    <li class="ingredient-row">
+                        <div class="flex-1 flex items-center">
+                            
+                            <span class="font-medium">water</span>
+                            
+                            
+                            
+                            <span class="row-note italic ml-1 break-words" aria-label="preparation: about 3/4 cup, warm">(about 3/4 cup, warm)</span>
+                            
+                        </div>
+                        <span class="row-value ml-2">
+                            170 g
+                            
+                        </span>
+                    </li>
+                    
+                </ul>
+                
+                
+                
+                
+                
+                
+                
+                
+                <h3 class="text-title font-semibold mt-4 mb-2 text-accent-text">Creating the Topping</h3>
+                
+                <ul class="ingredient-list space-y-3 mb-4">
+                    
+                    <li class="ingredient-row">
+                        <div class="flex-1 flex items-center">
+                            
+                            <span class="font-medium">bread flour</span>
+                            
+                            
+                            
+                            
+                        </div>
+                        <span class="row-value ml-2">
+                            2 tablespoons
+                            
+                        </span>
+                    </li>
+                    
+                    <li class="ingredient-row">
+                        <div class="flex-1 flex items-center">
+                            
+                            <span class="font-medium">butter</span>
+                            
+                            
+                            
+                            <span class="row-note italic ml-1 break-words" aria-label="preparation: melted">(melted)</span>
+                            
+                        </div>
+                        <span class="row-value ml-2">
+                            1 tbsp
+                            
+                        </span>
+                    </li>
+                    
+                    <li class="ingredient-row">
+                        <div class="flex-1 flex items-center">
+                            
+                            <span class="font-medium">coarse sparkling sugar</span>
+                            
+                            
+                            
+                            
+                        </div>
+                        <span class="row-value ml-2">
+                            1 tbsp
+                            
+                        </span>
+                    </li>
+                    
+                    <li class="ingredient-row">
+                        <div class="flex-1 flex items-center">
+                            
+                            <span class="font-medium">granulated sugar</span>
+                            
+                            
+                            
+                            
+                        </div>
+                        <span class="row-value ml-2">
+                            1 tablespoon
+                            
+                        </span>
+                    </li>
+                    
+                    <li class="ingredient-row">
+                        <div class="flex-1 flex items-center">
+                            
+                            <span class="font-medium">ground cinnamon</span>
+                            
+                            
+                            
+                            <span class="row-note italic ml-1 break-words" aria-label="preparation: Vietnamese/Saigon preferred">(Vietnamese/Saigon preferred)</span>
+                            
+                        </div>
+                        <span class="row-value ml-2">
+                            3/4 teaspoon
+                            
+                        </span>
+                    </li>
+                    
+                    <li class="ingredient-row">
+                        <div class="flex-1 flex items-center">
+                            
+                            <span class="font-medium">light brown sugar</span>
+                            
+                            
+                            
+                            <span class="row-note italic ml-1 break-words" aria-label="preparation: packed">(packed)</span>
+                            
+                        </div>
+                        <span class="row-value ml-2">
+                            2 tablespoons
+                            
+                        </span>
+                    </li>
+                    
+                    <li class="ingredient-row">
+                        <div class="flex-1 flex items-center">
+                            
+                            <span class="font-medium">vanilla extract</span>
+                            
+                            
+                            
+                            
+                        </div>
+                        <span class="row-value ml-2">
+                            1 teaspoon
+                            
+                        </span>
+                    </li>
+                    
+                </ul>
+                
+                
+                
+                
+                <h3 class="text-title font-semibold mt-4 mb-2 text-accent-text">Cooking the Bagels</h3>
+                
+                <ul class="ingredient-list space-y-3 mb-4">
+                    
+                    <li class="ingredient-row">
+                        <div class="flex-1 flex items-center">
+                            
+                            <span class="font-medium">Cinnamon Sweet Bits</span>
+                            
+                            
+                            <span class="row-note italic ml-1 break-words" aria-label="Optional">(Optional)</span>        
+                            
+                            
+                            
+                        </div>
+                        <span class="row-value ml-2">
+                            
+                            
+                        </span>
+                    </li>
+                    
+                    <li class="ingredient-row">
+                        <div class="flex-1 flex items-center">
+                            
+                            <span class="font-medium">coarse sparkling sugar</span>
+                            
+                            
+                            <span class="row-note italic ml-1 break-words" aria-label="Optional">(Optional)</span>        
+                            
+                            
+                            
+                        </div>
+                        <span class="row-value ml-2">
+                            
+                            
+                        </span>
+                    </li>
+                    
+                    <li class="ingredient-row">
+                        <div class="flex-1 flex items-center">
+                            
+                            <span class="font-medium">egg</span>
+                            
+                            
+                            
+                            <span class="row-note italic ml-1 break-words" aria-label="preparation: beaten">(beaten)</span>
+                            
+                        </div>
+                        <span class="row-value ml-2">
+                            1
+                            
+                        </span>
+                    </li>
+                    
+                    <li class="ingredient-row">
+                        <div class="flex-1 flex items-center">
+                            
+                            <span class="font-medium">honey</span>
+                            
+                            
+                            
+                            
+                        </div>
+                        <span class="row-value ml-2">
+                            2 tbsp
+                            
+                        </span>
+                    </li>
+                    
+                    <li class="ingredient-row">
+                        <div class="flex-1 flex items-center">
+                            
+                            <span class="font-medium">water</span>
+                            
+                            
+                            
+                            
+                        </div>
+                        <span class="row-value ml-2">
+                            8 cups, 1 tbsp
+                            
+                        </span>
+                    </li>
+                    
+                </ul>
+                
+                
+                
+                
+                
+
+                
+                <h2 class="text-title font-bold mt-6 mb-4 text-text">🍳 Cookware</h2>
+                <ul class="cookware-list ingredient-list space-y-2">
+                    
+                    <li class="ingredient-row">
+                        <span class="font-medium">bowl</span>
+                    </li>
+                    
+                    <li class="ingredient-row">
+                        <span class="font-medium">stand mixer</span>
+                    </li>
+                    
+                    <li class="ingredient-row">
+                        <span class="font-medium">baking sheet</span>
+                    </li>
+                    
+                    <li class="ingredient-row">
+                        <span class="font-medium">bowl</span>
+                    </li>
+                    
+                    <li class="ingredient-row">
+                        <span class="font-medium">pot</span>
+                    </li>
+                    
+                    <li class="ingredient-row">
+                        <span class="font-medium">bowl</span>
+                    </li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+
+        <div class="md:col-span-2">
+            <div class="card p-6">
+                
+                
+                <h2 class="text-title font-semibold mt-6 mb-4 text-accent-text border-b border-line pb-2">Preferment (pâte fermentée)</h2>
+                
+                <ol class="step-list space-y-4 ">
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">1</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        In a 
+                                        <span class="cookware-badge">bowl</span>
+                                        , combine 
+                                        <span class="ingredient-badge">bread flour</span>
+                                        , 
+                                        <span class="ingredient-badge">salt</span>
+                                        , 
+                                        <span class="ingredient-badge">instant yeast</span>
+                                        , and 
+                                        <span class="ingredient-badge">water</span>
+                                         to make a shaggy dough. Use your hands to knead gently until thoroughly combined. This may take about a minute; it&#x27;s quite stiff.
+                                    </div>
+                                    
+                                    <div class="step-refs">
+                                        
+                                        <span class="inline-block mr-3">
+                                            bread flour: 120 g <span class="italic text-faint break-words" aria-label="preparation: about 1 cup">(about 1 cup)</span>,
+                                        </span>
+                                        
+                                        <span class="inline-block mr-3">
+                                            salt: 1/8 teaspoon,
+                                        </span>
+                                        
+                                        <span class="inline-block mr-3">
+                                            instant yeast: 0.063 teaspoon,
+                                        </span>
+                                        
+                                        <span class="inline-block mr-3">
+                                            water: 1/3 cup <span class="italic text-faint break-words" aria-label="preparation: or 75g, cooled">(or 75g, cooled)</span>
+                                        </span>
+                                        
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="recipe-note mb-3">
+                        <span>📝</span>
+                        <p class="m-0" style="white-space: pre-line">While this recipe calls for instant yeast, you can use an equal amount of active dry yeast. You probably want to activate it with warm water and a splash of sugar first before combining with the salt though, to ensure they don&#x27;t kill the yeast.</p>
+                    </li>
+                    
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">2</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        Cover the bowl and let the preferment rest at room temperature for 
+                                        <span class="timer-badge">⏱️ 4-14 hours</span>
+                                        ; it should expand.
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                </ol>
+                
+                
+                <h2 class="text-title font-semibold mt-6 mb-4 text-accent-text border-b border-line pb-2">Dough</h2>
+                
+                <ol class="step-list space-y-4 mt-4">
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">1</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        To the bowl with the preferment, add 
+                                        <span class="ingredient-badge">water</span>
+                                        , 
+                                        <span class="ingredient-badge">vanilla extract</span>
+                                        , 
+                                        <span class="ingredient-badge">light brown sugar</span>
+                                        , 
+                                        <span class="ingredient-badge">instant yeast</span>
+                                        , 
+                                        <span class="ingredient-badge">salt</span>
+                                        , 
+                                        <span class="ingredient-badge">cinnamon</span>
+                                        , and 
+                                        <span class="ingredient-badge">bread flour</span>
+                                        .
+                                    </div>
+                                    
+                                    <div class="step-refs">
+                                        
+                                        <span class="inline-block mr-3">
+                                            water: 170 g <span class="italic text-faint break-words" aria-label="preparation: about 3/4 cup, warm">(about 3/4 cup, warm)</span>,
+                                        </span>
+                                        
+                                        <span class="inline-block mr-3">
+                                            vanilla extract: 1 teaspoon,
+                                        </span>
+                                        
+                                        <span class="inline-block mr-3">
+                                            light brown sugar: 1 tbsp <span class="italic text-faint break-words" aria-label="preparation: 13g, packed">(13g, packed)</span>,
+                                        </span>
+                                        
+                                        <span class="inline-block mr-3">
+                                            instant yeast: 3/4 teaspoon,
+                                        </span>
+                                        
+                                        <span class="inline-block mr-3">
+                                            salt: 1.25 teaspoons,
+                                        </span>
+                                        
+                                        <span class="inline-block mr-3">
+                                            cinnamon: 1/4 tsp <span class="italic text-faint break-words" aria-label="preparation: Vietnamese/Saigon preferred">(Vietnamese/Saigon preferred)</span>,
+                                        </span>
+                                        
+                                        <span class="inline-block mr-3">
+                                            bread flour: 300 g <span class="italic text-faint break-words" aria-label="preparation: about 2.5 cups">(about 2.5 cups)</span>
+                                        </span>
+                                        
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">2</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        Mix at low speed in a 
+                                        <span class="cookware-badge">stand mixer</span>
+                                         with the dough hook attachment to bring the dough together. 
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">3</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        Next, knead the stiff dough until it&#x27;s supple and elastic. This will take about 
+                                        <span class="timer-badge">⏱️ 8-10 minutes</span>
+                                         at medium-low speed with a mixer. During the last 2 minutes of kneading, add 
+                                        <span class="ingredient-badge">cinnamon sweet bits</span>
+                                         if using.
+                                    </div>
+                                    
+                                    <div class="step-refs">
+                                        
+                                        <span class="inline-block mr-3">
+                                            cinnamon sweet bits: 1/4 cup<span class="italic text-faint break-words" aria-label="Optional"> (Optional)</span>
+                                        </span>
+                                        
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">4</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        Lift the dough out of the stand mixer bowl so you can lightly grease it with oil, then return dough to the bowl and let it rest, covered, until it doubles in bulk. This will take about 
+                                        <span class="timer-badge">⏱️ 2-2.5 hours</span>
+                                         depending on the warmth of your kitchen.
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                </ol>
+                
+                
+                <h2 class="text-title font-semibold mt-6 mb-4 text-accent-text border-b border-line pb-2">Preshaping the Dough</h2>
+                
+                <ol class="step-list space-y-4 mt-4">
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">1</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        Turn the dough out onto a clean, lightly floured surface.
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">2</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        Gently deflate it with your hands, then divide it into 6 equal pieces (about 120g each).
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            <img class="image-step" src="../../api/static/Bakery\Cinnamon-Sugar Crunch Bagels.9.png" />
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">3</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        One piece of dough at a time, fold the edges into the center until you can pinch to seal. You should be making essentially dough dumplings.
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            <img class="image-step" src="../../api/static/Bakery\Cinnamon-Sugar Crunch Bagels.10.png" />
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">4</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        Clear the flour from your work surface, if any remain. Then, starting with the first piece of dough you shaped, place it seam-side down. Use your cupped fingers and palm to roll the dough into a tight ball, moving your hand in a circular motion. 
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="recipe-note mb-3">
+                        <span>📝</span>
+                        <p class="m-0" style="white-space: pre-line">The dough should stick slightly to the surface in order to create tension to yield a smooth exterior. If the dough is unmanageably sticky, add a very light dusting of flour; if the dough slides around on the surface without tightening, use a damp towel to clean and moisten the surface and try again.</p>
+                    </li>
+                    
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">5</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        Cover the preshaped dough and allow it to rest for 
+                                        <span class="timer-badge">⏱️ 10-15 minutes</span>
+                                        .
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                </ol>
+                
+                
+                <h2 class="text-title font-semibold mt-6 mb-4 text-accent-text border-b border-line pb-2">Shaping the Bagels</h2>
+                
+                <ol class="step-list space-y-4 mt-4">
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">1</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        Line a 
+                                        <span class="cookware-badge">baking sheet</span>
+                                         with parchment and lightly grease the parchment paper.
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">2</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        Use your finger to poke a hole through the center of a dough ball. Gently rotate the dough to expand the hole to 2&quot; to 3&quot; in diameter, forming a ring shape. Place the shaped bagel onto the prepared baking sheet. The hole will close up a bit; that&#x27;s OK.
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">3</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        Cover the bagels again and let them rest until they feel slightly puffy to the touch, about 
+                                        <span class="timer-badge">⏱️ 30 minutes</span>
+                                        .
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                </ol>
+                
+                
+                <h2 class="text-title font-semibold mt-6 mb-4 text-accent-text border-b border-line pb-2">Creating the Topping</h2>
+                
+                <ol class="step-list space-y-4 mt-4">
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">1</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        In a 
+                                        <span class="cookware-badge">bowl</span>
+                                        , whisk 
+                                        <span class="ingredient-badge">light brown sugar</span>
+                                        , 
+                                        <span class="ingredient-badge">granulated sugar</span>
+                                        , 
+                                        <span class="ingredient-badge">coarse sparkling sugar</span>
+                                        , 
+                                        <span class="ingredient-badge">bread flour</span>
+                                        , and 
+                                        <span class="ingredient-badge">ground cinnamon</span>
+                                         together.
+                                    </div>
+                                    
+                                    <div class="step-refs">
+                                        
+                                        <span class="inline-block mr-3">
+                                            light brown sugar: 2 tablespoons <span class="italic text-faint break-words" aria-label="preparation: packed">(packed)</span>,
+                                        </span>
+                                        
+                                        <span class="inline-block mr-3">
+                                            granulated sugar: 1 tablespoon,
+                                        </span>
+                                        
+                                        <span class="inline-block mr-3">
+                                            coarse sparkling sugar: 1 tbsp,
+                                        </span>
+                                        
+                                        <span class="inline-block mr-3">
+                                            bread flour: 2 tablespoons,
+                                        </span>
+                                        
+                                        <span class="inline-block mr-3">
+                                            ground cinnamon: 3/4 teaspoon <span class="italic text-faint break-words" aria-label="preparation: Vietnamese/Saigon preferred">(Vietnamese/Saigon preferred)</span>
+                                        </span>
+                                        
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">2</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        Add 
+                                        <span class="ingredient-badge">vanilla extract</span>
+                                         and 
+                                        <span class="ingredient-badge">butter</span>
+                                         and stir until the mixture resembles wet sand.
+                                    </div>
+                                    
+                                    <div class="step-refs">
+                                        
+                                        <span class="inline-block mr-3">
+                                            vanilla extract: 1 teaspoon,
+                                        </span>
+                                        
+                                        <span class="inline-block mr-3">
+                                            butter: 1 tbsp <span class="italic text-faint break-words" aria-label="preparation: melted">(melted)</span>
+                                        </span>
+                                        
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                </ol>
+                
+                
+                <h2 class="text-title font-semibold mt-6 mb-4 text-accent-text border-b border-line pb-2">Cooking the Bagels</h2>
+                
+                <ol class="step-list space-y-4 mt-4">
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">1</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        Preheat the oven to 450°F.
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">2</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        Combine 
+                                        <span class="ingredient-badge">water</span>
+                                         and 
+                                        <span class="ingredient-badge">honey</span>
+                                         in a wide, shallow 
+                                        <span class="cookware-badge">pot</span>
+                                        ; the water should be at least 1.25&quot; deep. 
+                                    </div>
+                                    
+                                    <div class="step-refs">
+                                        
+                                        <span class="inline-block mr-3">
+                                            water: 8 cups,
+                                        </span>
+                                        
+                                        <span class="inline-block mr-3">
+                                            honey: 2 tbsp
+                                        </span>
+                                        
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">3</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        Bring the mixture to a boil. 
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">4</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        Add bagels to the water two or three at a time to avoid crowding. Boil for 
+                                        <span class="timer-badge">⏱️ 60 seconds</span>
+                                        , then use a dough whisk or slotted spoon to turn the bagels over. 
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">5</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        Boil for another 
+                                        <span class="timer-badge">⏱️ 60 seconds</span>
+                                         before removing from the water and placing back on the prepared pan.
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="recipe-note mb-3">
+                        <span>📝</span>
+                        <p class="m-0" style="white-space: pre-line">If the pan is sticky when you remove the bagels, just prep a new one, it&#x27;s not worth the hassle.</p>
+                    </li>
+                    
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">6</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        In a 
+                                        <span class="cookware-badge">bowl</span>
+                                        , combine 
+                                        <span class="ingredient-badge">egg</span>
+                                         and 
+                                        <span class="ingredient-badge">water</span>
+                                        .
+                                    </div>
+                                    
+                                    <div class="step-refs">
+                                        
+                                        <span class="inline-block mr-3">
+                                            egg: 1 <span class="italic text-faint break-words" aria-label="preparation: beaten">(beaten)</span>,
+                                        </span>
+                                        
+                                        <span class="inline-block mr-3">
+                                            water: 1 tbsp
+                                        </span>
+                                        
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">7</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        Brush each bagel with the egg wash, then sprinkle with the topping, distributing evenly across the six bagels. For even more cinnamon crunch, sprinkle the tops of the bagels with more 
+                                        <span class="ingredient-badge">Cinnamon Sweet Bits</span>
+                                         and/or 
+                                        <span class="ingredient-badge">coarse sparkling sugar</span>
+                                        . Press down on the toppings to fully adhere them to the bagel, ensuring that everything stays put.
+                                    </div>
+                                    
+                                    <div class="step-refs">
+                                        
+                                        <span class="inline-block mr-3">
+                                            Cinnamon Sweet Bits<span class="italic text-faint break-words" aria-label="Optional"> (Optional)</span>,
+                                        </span>
+                                        
+                                        <span class="inline-block mr-3">
+                                            coarse sparkling sugar<span class="italic text-faint break-words" aria-label="Optional"> (Optional)</span>
+                                        </span>
+                                        
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">8</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        Bake the cinnamon bagels for 
+                                        <span class="timer-badge">⏱️ 18-22 minutes</span>
+                                        , until golden brown. Rotate the pan (front to back, back to front) halfway through baking to ensure even browning. If at any point the topping is becoming too dark, tent with foil and continue baking.
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">9</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        Remove the cinnamon bagels from the oven and transfer them to a rack to cool.
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="recipe-note mb-3">
+                        <span>📝</span>
+                        <p class="m-0" style="white-space: pre-line">Store any leftover bagels in a paper bag for up to 2 days; freezing is not recommended, as the sugary topping will become sticky upon thawing. To re-crisp, bagels can be toasted or wrapped loosely in foil and placed in a 350°F oven until warm.</p>
+                    </li>
+                    
+                    
+                </ol>
+                
+                
+                <h2 class="text-title font-semibold mt-6 mb-4 text-accent-text border-b border-line pb-2">Cinnamon Raisin Variant</h2>
+                
+                <ol class="step-list space-y-4 mt-4">
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">1</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        Substitute 1/4 cup (43g) raisins for the Cinnamon Sweet Bits in the dough. Soften the raisins by soaking them in hot water for 15 minutes before kneading into the dough. Bake as directed.   
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                </ol>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+<script id="cooking-mode-data" type="application/json">
+{"image":"https://www.kingarthurbaking.com/sites/default/files/2022-08/Cinnamon-Sugar-Crunch-Bagel_0362.jpg","name":"Cinnamon-Sugar Crunch Bagels","scale":1.0,"sections":[{"ingredients":[{"is_optional":false,"name":"bread flour","note":"about 1 cup","quantity":"120","unit":"g"},{"is_optional":false,"name":"instant yeast","note":null,"quantity":"0.063","unit":"teaspoon"},{"is_optional":false,"name":"salt","note":null,"quantity":"1/8","unit":"teaspoon"},{"is_optional":false,"name":"water","note":"or 75g, cooled","quantity":"1/3","unit":"cup"}],"name":"Preferment (pâte fermentée)","stepOffset":0,"steps":[{"globalNumber":1,"image":null,"ingredients":[{"is_optional":false,"name":"bread flour","note":"about 1 cup","quantity":"120","unit":"g"},{"is_optional":false,"name":"salt","note":null,"quantity":"1/8","unit":"teaspoon"},{"is_optional":false,"name":"instant yeast","note":null,"quantity":"0.063","unit":"teaspoon"},{"is_optional":false,"name":"water","note":"or 75g, cooled","quantity":"1/3","unit":"cup"}],"number":1,"type":"step"},{"globalNumber":2,"image":null,"ingredients":[],"number":2,"type":"step"}]},{"ingredients":[{"is_optional":false,"name":"bread flour","note":"about 2.5 cups","quantity":"300","unit":"g"},{"is_optional":false,"name":"cinnamon","note":"Vietnamese/Saigon preferred","quantity":"1/4","unit":"tsp"},{"is_optional":true,"name":"cinnamon sweet bits","note":null,"quantity":"1/4","unit":"cup"},{"is_optional":false,"name":"instant yeast","note":null,"quantity":"3/4","unit":"teaspoon"},{"is_optional":false,"name":"light brown sugar","note":"13g, packed","quantity":"1","unit":"tbsp"},{"is_optional":false,"name":"salt","note":null,"quantity":"1.25","unit":"teaspoons"},{"is_optional":false,"name":"vanilla extract","note":null,"quantity":"1","unit":"teaspoon"},{"is_optional":false,"name":"water","note":"about 3/4 cup, warm","quantity":"170","unit":"g"}],"name":"Dough","stepOffset":2,"steps":[{"globalNumber":3,"image":null,"ingredients":[{"is_optional":false,"name":"water","note":"about 3/4 cup, warm","quantity":"170","unit":"g"},{"is_optional":false,"name":"vanilla extract","note":null,"quantity":"1","unit":"teaspoon"},{"is_optional":false,"name":"light brown sugar","note":"13g, packed","quantity":"1","unit":"tbsp"},{"is_optional":false,"name":"instant yeast","note":null,"quantity":"3/4","unit":"teaspoon"},{"is_optional":false,"name":"salt","note":null,"quantity":"1.25","unit":"teaspoons"},{"is_optional":false,"name":"cinnamon","note":"Vietnamese/Saigon preferred","quantity":"1/4","unit":"tsp"},{"is_optional":false,"name":"bread flour","note":"about 2.5 cups","quantity":"300","unit":"g"}],"number":1,"type":"step"},{"globalNumber":4,"image":null,"ingredients":[],"number":2,"type":"step"},{"globalNumber":5,"image":null,"ingredients":[{"is_optional":true,"name":"cinnamon sweet bits","note":null,"quantity":"1/4","unit":"cup"}],"number":3,"type":"step"},{"globalNumber":6,"image":null,"ingredients":[],"number":4,"type":"step"}]},{"ingredients":[],"name":"Preshaping the Dough","stepOffset":6,"steps":[{"globalNumber":7,"image":null,"ingredients":[],"number":1,"type":"step"},{"globalNumber":8,"image":null,"ingredients":[],"number":2,"type":"step"},{"globalNumber":9,"image":"../../api/static/Bakery\\Cinnamon-Sugar Crunch Bagels.9.png","ingredients":[],"number":3,"type":"step"},{"globalNumber":10,"image":"../../api/static/Bakery\\Cinnamon-Sugar Crunch Bagels.10.png","ingredients":[],"number":4,"type":"step"},{"globalNumber":11,"image":null,"ingredients":[],"number":5,"type":"step"}]},{"ingredients":[],"name":"Shaping the Bagels","stepOffset":11,"steps":[{"globalNumber":12,"image":null,"ingredients":[],"number":1,"type":"step"},{"globalNumber":13,"image":null,"ingredients":[],"number":2,"type":"step"},{"globalNumber":14,"image":null,"ingredients":[],"number":3,"type":"step"}]},{"ingredients":[{"is_optional":false,"name":"bread flour","note":null,"quantity":"2","unit":"tablespoons"},{"is_optional":false,"name":"butter","note":"melted","quantity":"1","unit":"tbsp"},{"is_optional":false,"name":"coarse sparkling sugar","note":null,"quantity":"1","unit":"tbsp"},{"is_optional":false,"name":"granulated sugar","note":null,"quantity":"1","unit":"tablespoon"},{"is_optional":false,"name":"ground cinnamon","note":"Vietnamese/Saigon preferred","quantity":"3/4","unit":"teaspoon"},{"is_optional":false,"name":"light brown sugar","note":"packed","quantity":"2","unit":"tablespoons"},{"is_optional":false,"name":"vanilla extract","note":null,"quantity":"1","unit":"teaspoon"}],"name":"Creating the Topping","stepOffset":14,"steps":[{"globalNumber":15,"image":null,"ingredients":[{"is_optional":false,"name":"light brown sugar","note":"packed","quantity":"2","unit":"tablespoons"},{"is_optional":false,"name":"granulated sugar","note":null,"quantity":"1","unit":"tablespoon"},{"is_optional":false,"name":"coarse sparkling sugar","note":null,"quantity":"1","unit":"tbsp"},{"is_optional":false,"name":"bread flour","note":null,"quantity":"2","unit":"tablespoons"},{"is_optional":false,"name":"ground cinnamon","note":"Vietnamese/Saigon preferred","quantity":"3/4","unit":"teaspoon"}],"number":1,"type":"step"},{"globalNumber":16,"image":null,"ingredients":[{"is_optional":false,"name":"vanilla extract","note":null,"quantity":"1","unit":"teaspoon"},{"is_optional":false,"name":"butter","note":"melted","quantity":"1","unit":"tbsp"}],"number":2,"type":"step"}]},{"ingredients":[{"is_optional":true,"name":"Cinnamon Sweet Bits","note":null,"quantity":null,"unit":null},{"is_optional":true,"name":"coarse sparkling sugar","note":null,"quantity":null,"unit":null},{"is_optional":false,"name":"egg","note":"beaten","quantity":"1","unit":null},{"is_optional":false,"name":"honey","note":null,"quantity":"2","unit":"tbsp"},{"is_optional":false,"name":"water","note":null,"quantity":"8","unit":"cups"},{"is_optional":false,"name":"water","note":null,"quantity":"1","unit":"tbsp"}],"name":"Cooking the Bagels","stepOffset":16,"steps":[{"globalNumber":17,"image":null,"ingredients":[],"number":1,"type":"step"},{"globalNumber":18,"image":null,"ingredients":[{"is_optional":false,"name":"water","note":null,"quantity":"8","unit":"cups"},{"is_optional":false,"name":"honey","note":null,"quantity":"2","unit":"tbsp"}],"number":2,"type":"step"},{"globalNumber":19,"image":null,"ingredients":[],"number":3,"type":"step"},{"globalNumber":20,"image":null,"ingredients":[],"number":4,"type":"step"},{"globalNumber":21,"image":null,"ingredients":[],"number":5,"type":"step"},{"globalNumber":22,"image":null,"ingredients":[{"is_optional":false,"name":"egg","note":"beaten","quantity":"1","unit":null},{"is_optional":false,"name":"water","note":null,"quantity":"1","unit":"tbsp"}],"number":6,"type":"step"},{"globalNumber":23,"image":null,"ingredients":[{"is_optional":true,"name":"Cinnamon Sweet Bits","note":null,"quantity":null,"unit":null},{"is_optional":true,"name":"coarse sparkling sugar","note":null,"quantity":null,"unit":null}],"number":7,"type":"step"},{"globalNumber":24,"image":null,"ingredients":[],"number":8,"type":"step"},{"globalNumber":25,"image":null,"ingredients":[],"number":9,"type":"step"}]},{"ingredients":[],"name":"Cinnamon Raisin Variant","stepOffset":25,"steps":[{"globalNumber":26,"image":null,"ingredients":[],"number":1,"type":"step"}]}]}
+</script>
+
+
+
+        </main>
+
+        
+        <footer class="mt-12 mb-6 text-center text-sm text-faint print:hidden">
+            Built with
+            <a href="https://cooklang.org/cli/" class="text-accent-text hover:underline" target="_blank" rel="noopener">CookCLI</a>
+            
+        </footer>
+        
+    </div>
+
+    <script>
+        // Theme toggle function
+        function toggleTheme() {
+            const html = document.documentElement;
+            const currentTheme = html.classList.contains('dark') ? 'dark' : 'light';
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+
+            html.classList.toggle('dark');
+            localStorage.setItem('theme', newTheme);
+        }
+    </script>
+
+    
+    <script>window.__PREFIX__ = "../..";</script>
+    <script src="../../static/js/search.js"></script>
+    
+
+    <!-- URL prefix for JavaScript -->
+    <script>
+        window.__PREFIX__ = "../..";
+        window.__STATIC_MODE__ = true;
+        window.__STRINGS__ = { close: "Close" };
+    </script>
+
+    <!-- Keyboard shortcuts -->
+    <script src="../../static/js/keyboard-shortcuts.js"></script>
+    <!-- Expose showShortcutsHelp globally for the help button -->
+    <script>
+        // showShortcutsHelp is defined in keyboard-shortcuts.js
+        // This ensures it's available for the onclick handler
+        if (typeof showShortcutsHelp === 'undefined') {
+            window.showShortcutsHelp = function() {
+                console.warn('Keyboard shortcuts not loaded');
+            };
+        }
+    </script>
+
+    
+<link rel="stylesheet" href="../../static/css/cooking-mode.css">
+<script src="../../static/js/cooking-mode.js"></script>
+
+</body>
+</html>

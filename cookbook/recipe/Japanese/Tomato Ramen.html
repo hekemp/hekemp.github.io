@@ -1,0 +1,1601 @@
+<!DOCTYPE html>
+<html lang="en-US" class="">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tomato Ramen - Cook</title>
+    <link rel="icon" type="image/x-icon" href="../../static/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../static/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../static/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../../static/apple-touch-icon.png">
+    <link rel="manifest" href="../../static/site.webmanifest">
+    <link href="../../static/css/output.css" rel="stylesheet">
+    <script>
+        // Check for saved theme preference, or check for prefers-color-scheme, or default to light
+        const theme = localStorage.getItem('theme')
+            || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        document.documentElement.classList.toggle('dark', theme === 'dark');
+    </script>
+    <style>
+        .viewport {
+            width: 100%;
+            max-width: 72rem;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        /* Search result keyboard selection. --surface-sunk alone is barely
+           visible against --surface in dark mode, so the accent bar carries
+           the signal. */
+        #search-results a.search-selected {
+            background: var(--accent-soft);
+            box-shadow: inset 3px 0 0 var(--accent);
+        }
+
+        @media print {
+            /* Token values are reset to light in input.css; this resets the
+               browser's own defaults so unstyled text is dark too. */
+            html.dark, html {
+                color-scheme: light !important;
+            }
+
+            * {
+                print-color-adjust: exact;
+                -webkit-print-color-adjust: exact;
+            }
+
+            body {
+                background: white !important;
+                margin: 0;
+                padding: 0;
+            }
+
+            .viewport {
+                max-width: 100%;
+                margin: 0;
+                padding: 0;
+            }
+
+            /* Hide navigation and non-essential elements */
+            nav, #search-container, #search-input, #search-results, .print\:hidden, .breadcrumb {
+                display: none !important;
+            }
+
+            /* Hide all navigation links */
+            a[href="../../"] {
+                display: none !important;
+            }
+
+            /* Recipe layout for print: one column */
+            .grid {
+                display: block !important;
+            }
+
+            .md\:col-span-1, .md\:col-span-2 {
+                page-break-inside: avoid;
+                width: 100% !important;
+            }
+
+            /* Square corners on paper */
+            .card, .step-box, .ingredient-row, .recipe-note, .rounded-xl {
+                border-radius: 0 !important;
+            }
+
+            /* Step numbers */
+            .step-number {
+                background: #000 !important;
+                color: #fff !important;
+            }
+
+            /* Images */
+            img {
+                max-height: 300px !important;
+                max-width: 100% !important;
+                height: auto !important;
+                object-fit: contain !important;
+                page-break-inside: avoid;
+                page-break-after: avoid;
+            }
+
+            /* Recipe sections on same page if possible */
+            h2, h3 {
+                page-break-after: avoid;
+            }
+
+            ol, ul {
+                page-break-inside: avoid;
+            }
+
+            /* Compact spacing */
+            .mb-8, .mb-6, .mb-4 {
+                margin-bottom: 0.5rem !important;
+            }
+
+            .p-6 {
+                padding: 0.5rem !important;
+            }
+
+            /* Recipe header */
+            h1 {
+                color: #000 !important;
+                font-size: 1.5rem !important;
+                margin-bottom: 0 !important;
+            }
+
+            /* Shopping list print styles */
+            .lg\:w-2\/5, .xl\:w-1\/3 {
+                display: none !important;
+            }
+
+            #shopping-list-results {
+                font-size: 11pt !important;
+                line-height: 1.2 !important;
+            }
+
+            #shopping-list-results input[type="checkbox"] {
+                display: none !important;
+            }
+
+            #shopping-list-results li .flex-1 {
+                width: auto !important;
+                flex: 1 1 0% !important;
+            }
+
+            #shopping-list-results label {
+                cursor: default !important;
+            }
+
+            #shopping-list-results h2 {
+                font-size: 11pt !important;
+                color: #000 !important;
+                margin-bottom: 0 !important;
+            }
+
+            #shopping-list-results .space-y-2 > * + *,
+            #shopping-list-results ul > * + * {
+                margin-top: 0 !important;
+            }
+
+            #shopping-list-results li {
+                padding: 0 !important;
+                line-height: 1.3 !important;
+                border-bottom: 1px dotted #ccc;
+            }
+
+            #shopping-list-results .card {
+                margin-bottom: 0.15rem !important;
+                padding: 0 !important;
+                border: none !important;
+            }
+
+            /* Menu print styles */
+            #menu-content {
+                font-size: 10pt !important;
+                line-height: 1.4 !important;
+            }
+
+            #menu-content h1 {
+                font-size: 14pt !important;
+                margin-bottom: 0.25rem !important;
+                color: #000 !important;
+            }
+
+            #menu-content .space-y-6 > * + * {
+                margin-top: 0.3rem !important;
+            }
+
+            #menu-content .menu-section {
+                border: 1px solid #ccc !important;
+                border-radius: 0 !important;
+                page-break-inside: avoid;
+            }
+
+            #menu-content .menu-section-header {
+                background: #eee !important;
+                color: #000 !important;
+                padding: 0.15rem 0.5rem !important;
+            }
+
+            #menu-content .menu-section-header h2 {
+                font-size: 11pt !important;
+                color: #000 !important;
+            }
+
+            #menu-content .menu-section-body {
+                padding: 0.25rem 0.5rem !important;
+            }
+
+            #menu-content .menu-section-body .space-y-2 > * + *,
+            #menu-content .menu-section-body > * + * {
+                margin-top: 0.05rem !important;
+            }
+
+            #menu-content .menu-section-body h3 {
+                font-size: 10pt !important;
+                margin-top: 0.2rem !important;
+                margin-bottom: 0 !important;
+            }
+
+            #menu-content .menu-section-body .pl-6 {
+                padding-left: 1rem !important;
+            }
+
+            /* Preserve word spacing in flex lines */
+            #menu-content .menu-section-body .flex {
+                gap: 0.25em !important;
+            }
+
+            #menu-content .ingredient-badge {
+                font-weight: bold !important;
+                color: #000 !important;
+            }
+
+            #menu-content a {
+                color: #000 !important;
+                text-decoration: none !important;
+            }
+        }
+    </style>
+</head>
+<body class="bg-bg text-text">
+    <div class="viewport">
+        <nav class="nav-card relative">
+            <div class="px-3 lg:px-6 py-4 relative">
+                <div class="flex items-center justify-between flex-wrap gap-y-3">
+                    <a href="../../index.html" class="order-1 hidden md:flex items-center space-x-2">
+                        <img src="../../static/android-chrome-192x192.png" alt="Cook" class="brand-mark h-8 w-8 rounded-md" width="32" height="32">
+                    </a>
+
+                    <div class="relative z-50 order-2 flex-1 md:ml-2 md:mr-4" id="search-container">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <svg class="h-5 w-5 text-faint" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                            </svg>
+                        </div>
+                        <input type="text"
+                               id="search-input"
+                               placeholder="Search recipes..."
+                               class="search-input">
+                        <div id="search-results"
+                             class="absolute top-full mt-2 w-full card shadow-[var(--shadow-overlay)] hidden max-h-96 overflow-y-auto"
+                             style="z-index: 9999;">
+                        </div>
+                    </div>
+
+                    <div class="order-3 w-full md:w-auto flex items-center gap-1 lg:gap-2">
+                        
+                        <div class="hidden md:flex items-center gap-1 mr-2 lg:mr-4">
+                            <a href="../../index.html"
+                               class="nav-pill active">
+                                Recipes
+                            </a>
+                            
+                            
+                        </div>
+                        
+                        <!-- Inline buttons on md+ screens -->
+                        
+                        <button onclick="showShortcutsHelp()" class="icon-btn hidden md:inline-flex ml-2 print:hidden" aria-label="Keyboard shortcuts" title="Keyboard shortcuts (?)">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </button>
+                        <button onclick="toggleTheme()" class="icon-btn hidden md:inline-flex ml-2 print:hidden" aria-label="Toggle theme">
+                            <svg class="hidden dark:block" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path>
+                            </svg>
+                            <svg class="block dark:hidden" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+                            </svg>
+                        </button>
+                        <!-- Overflow menu for small screens -->
+                        <div class="relative md:hidden ml-auto" id="more-menu-container">
+                            <button onclick="document.getElementById('more-dropdown').classList.toggle('hidden')" class="icon-btn" aria-label="More options">
+                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"></path>
+                                </svg>
+                            </button>
+                            <div id="more-dropdown" class="hidden absolute right-0 mt-2 w-56 card shadow-[var(--shadow-overlay)] z-50 py-1">
+                                
+                                <a href="../../index.html" class="menu-item active">
+                                    <span>🍳</span> <span>Recipes</span>
+                                </a>
+                                
+                                
+                                <div class="border-t border-line my-1"></div>
+                                
+                                
+                                <button onclick="showShortcutsHelp(); document.getElementById('more-dropdown').classList.add('hidden');" class="menu-item">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                    <span>Keyboard Shortcuts</span>
+                                </button>
+                                <button onclick="toggleTheme(); document.getElementById('more-dropdown').classList.add('hidden');" class="menu-item">
+                                    <svg class="w-4 h-4 hidden dark:block" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path></svg>
+                                    <svg class="w-4 h-4 block dark:hidden" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+                                    <span>Toggle Theme</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <main>
+            
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Recipe","image":"https://cullyskitchen.com/wp-content/uploads/2022/05/Untitled-design-81-1-1024x576.png","name":"Tomato Ramen","recipeIngredient":["4.5 lbs chicken bones","garlic","green onion (chopped)","30 g konbu","50 mL mirin","olive oil","1 onion","pepper","1 pork belly (tied up for chashu)","100 mL red wine","100 mL sake","15 g salt","10 g shiitake mushrooms (dried)","250 mL shoyu","47 g sugar","800 g tomatoes (canned for convenience)","300 mL usukuchi shoyu","1.5 kg, 650 mL water (cold)"],"recipeInstructions":[{"@type":"HowToStep","text":"Soak konbu and shiitake mushrooms in water overnight."},{"@type":"HowToStep","text":"Combine sake and mirin in a small pot. Bring to a boil over medium-high heat."},{"@type":"HowToStep","text":"Add the konbu/mushroom water, usukuchi shoyu, salt, and sugar and mix."},{"@type":"HowToStep","text":"Cover the pot and leave on low for 40 minutes."},{"@type":"HowToStep","text":"Drain the tare into a bowl and store for later use."},{"@type":"HowToStep","text":"Clean chicken bones."},{"@type":"HowToStep","text":"Place the bones in a large stock pot and cover with water. Bring to a boil over medium-high heat."},{"@type":"HowToStep","text":"After around 15 minutes, you should start seeing lye on the top of the pot. Skim this with a ladle. Repeat over time as more lye appears."},{"@type":"HowToStep","text":"Add onion{chopped} and pork belly to the pot."},{"@type":"HowToStep","text":"Cover and simmer on low for 90 minutes."},{"@type":"HowToStep","text":"Add tomatoes."},{"@type":"HowToStep","text":"Bring the pot back to a rolling boil over medium-high."},{"@type":"HowToStep","text":"Skim the fat from the pot again until it settled down."},{"@type":"HowToStep","text":"Mix in red wine."},{"@type":"HowToStep","text":"Cover and reduce heat to low, leaving to simmer for 90 minutes."},{"@type":"HowToStep","text":"Carefully remove the pork belly and set aside."},{"@type":"HowToStep","text":"Using a mesh strainer, press all of the juices out into a large bowl. Set aside for later use."},{"@type":"HowToStep","text":"In a small pot, mix shoyu, sugar, and sake. Heat over medium-low until steaming."},{"@type":"HowToStep","text":"Add green onion and garlic to taste. Let cook for 1-2 minutes, then mix."},{"@type":"HowToStep","text":"Pour the mixture into a gallon freezer bag with the cooked pork belly. Roll up the bag to remove excess air and ensure the pork will completely marinate."},{"@type":"HowToStep","text":"Let the pork marinate over night in the fridge."},{"@type":"HowToStep","text":"Add 1-2 tbsp of the tare to a bowl with 1.25-1.75 cup broth, tuned to your preference on strength. Sprinkle with pepper and olive oil and garnish with other toppings as desired."}]}</script>
+<div>
+    <nav class="mb-4 breadcrumb print:hidden">
+        <ol class="flex items-center space-x-2 text-sm text-muted">
+            <li><a href="../../index.html" class="hover:text-text">Recipes</a></li>
+            
+            <li class="flex items-center">
+                <span class="mx-2 text-faint">/</span>
+                
+                    <a href="../../directory/Japanese.html" class="hover:text-text">Japanese</a>
+                
+            </li>
+            
+            <li class="flex items-center">
+                <span class="mx-2 text-faint">/</span>
+                
+                    <span class="text-text">Tomato Ramen</span>
+                
+            </li>
+            
+        </ol>
+    </nav>
+
+    <div class="mb-8">
+        <!-- Recipe image if available -->
+        
+        <div class="mb-6 max-w-4xl mx-auto flex justify-center">
+            <img src="https://cullyskitchen.com/wp-content/uploads/2022/05/Untitled-design-81-1-1024x576.png" alt="Tomato Ramen" class="rounded-xl shadow-[var(--shadow-card)] max-w-full h-auto max-h-[500px]">
+        </div>
+        
+
+        <!-- Title bar with scale and shopping list button -->
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6 print:flex-row print:items-center">
+            <h1 class="text-display font-bold text-text print:text-2xl">
+                Tomato Ramen
+            </h1>
+            
+            <div class="flex flex-wrap items-center gap-2 lg:gap-3 print:hidden">
+                
+                <button id="start-cooking-btn" onclick="startCookingMode()" class="btn btn-primary" title="Start Cooking">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <span class="hidden lg:inline">Cook</span>
+                </button>
+                
+                <a href="../../recipe/Japanese/Tomato Ramen.cook" download class="btn" title="Download .cook source">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5 5-5M12 15V3"></path>
+                    </svg>
+                    <span class="hidden lg:inline">.cook</span>
+                </a>
+                
+            </div>
+        </div>
+
+        <!-- Recipe info section -->
+        <div class="space-y-4">
+            <!-- Tags row -->
+            
+
+            
+
+            <!-- Description if present -->
+            
+            
+
+            <!-- Metadata row -->
+            <div id="metadata-container" class="flex flex-wrap gap-3">
+                
+                
+
+                
+                
+
+                
+                
+
+                
+                
+
+                
+                
+
+                
+                
+
+                
+                
+
+                
+                
+
+                
+                
+
+                
+                <span class="metadata-pill metadata-source">📖 https://www.youtube.com/watch?v=pyARBAXm8BA</span>
+                
+
+                
+                
+
+                <!-- Custom metadata -->
+                
+            </div>
+
+            
+        </div>
+    </div>
+
+    <div id="recipe-body" class="grid md:grid-cols-3 gap-8 mb-8">
+        <div class="md:col-span-1">
+            <div class="card p-6">
+                <h2 class="text-title font-bold mb-4 text-accent-text">🥘 Ingredients</h2>
+                
+                <!-- Display ingredients grouped by section -->
+                
+                
+                
+                
+                
+                <h3 class="text-title font-semibold mt-4 mb-2 text-accent-text">Tare</h3>
+                
+                <ul class="ingredient-list space-y-3 mb-4">
+                    
+                    <li class="ingredient-row">
+                        <div class="flex-1 flex items-center">
+                            
+                            <span class="font-medium">konbu</span>
+                            
+                            
+                            
+                            
+                        </div>
+                        <span class="row-value ml-2">
+                            30 g
+                            
+                        </span>
+                    </li>
+                    
+                    <li class="ingredient-row">
+                        <div class="flex-1 flex items-center">
+                            
+                            <span class="font-medium">mirin</span>
+                            
+                            
+                            
+                            
+                        </div>
+                        <span class="row-value ml-2">
+                            50 mL
+                            
+                        </span>
+                    </li>
+                    
+                    <li class="ingredient-row">
+                        <div class="flex-1 flex items-center">
+                            
+                            <span class="font-medium">sake</span>
+                            
+                            
+                            
+                            
+                        </div>
+                        <span class="row-value ml-2">
+                            50 mL
+                            
+                        </span>
+                    </li>
+                    
+                    <li class="ingredient-row">
+                        <div class="flex-1 flex items-center">
+                            
+                            <span class="font-medium">salt</span>
+                            
+                            
+                            
+                            
+                        </div>
+                        <span class="row-value ml-2">
+                            15 g
+                            
+                        </span>
+                    </li>
+                    
+                    <li class="ingredient-row">
+                        <div class="flex-1 flex items-center">
+                            
+                            <span class="font-medium">shiitake mushrooms</span>
+                            
+                            
+                            
+                            <span class="row-note italic ml-1 break-words" aria-label="preparation: dried">(dried)</span>
+                            
+                        </div>
+                        <span class="row-value ml-2">
+                            10 g
+                            
+                        </span>
+                    </li>
+                    
+                    <li class="ingredient-row">
+                        <div class="flex-1 flex items-center">
+                            
+                            <span class="font-medium">sugar</span>
+                            
+                            
+                            
+                            
+                        </div>
+                        <span class="row-value ml-2">
+                            7 g
+                            
+                        </span>
+                    </li>
+                    
+                    <li class="ingredient-row">
+                        <div class="flex-1 flex items-center">
+                            
+                            <span class="font-medium">usukuchi shoyu</span>
+                            
+                            
+                            
+                            
+                        </div>
+                        <span class="row-value ml-2">
+                            300 mL
+                            
+                        </span>
+                    </li>
+                    
+                    <li class="ingredient-row">
+                        <div class="flex-1 flex items-center">
+                            
+                            <span class="font-medium">water</span>
+                            
+                            
+                            
+                            
+                        </div>
+                        <span class="row-value ml-2">
+                            650 mL
+                            
+                        </span>
+                    </li>
+                    
+                </ul>
+                
+                
+                
+                
+                <h3 class="text-title font-semibold mt-4 mb-2 text-accent-text">Broth</h3>
+                
+                <ul class="ingredient-list space-y-3 mb-4">
+                    
+                    <li class="ingredient-row">
+                        <div class="flex-1 flex items-center">
+                            
+                            <span class="font-medium">chicken bones</span>
+                            
+                            
+                            
+                            
+                        </div>
+                        <span class="row-value ml-2">
+                            4.5 lbs
+                            
+                        </span>
+                    </li>
+                    
+                    <li class="ingredient-row">
+                        <div class="flex-1 flex items-center">
+                            
+                            <span class="font-medium">onion</span>
+                            
+                            
+                            
+                            
+                        </div>
+                        <span class="row-value ml-2">
+                            1
+                            
+                        </span>
+                    </li>
+                    
+                    <li class="ingredient-row">
+                        <div class="flex-1 flex items-center">
+                            
+                            <span class="font-medium">pork belly</span>
+                            
+                            
+                            
+                            <span class="row-note italic ml-1 break-words" aria-label="preparation: tied up for chashu">(tied up for chashu)</span>
+                            
+                        </div>
+                        <span class="row-value ml-2">
+                            1
+                            
+                        </span>
+                    </li>
+                    
+                    <li class="ingredient-row">
+                        <div class="flex-1 flex items-center">
+                            
+                            <span class="font-medium">red wine</span>
+                            
+                            
+                            
+                            
+                        </div>
+                        <span class="row-value ml-2">
+                            100 mL
+                            
+                        </span>
+                    </li>
+                    
+                    <li class="ingredient-row">
+                        <div class="flex-1 flex items-center">
+                            
+                            <span class="font-medium">tomatoes</span>
+                            
+                            
+                            
+                            <span class="row-note italic ml-1 break-words" aria-label="preparation: canned for convenience">(canned for convenience)</span>
+                            
+                        </div>
+                        <span class="row-value ml-2">
+                            800 g
+                            
+                        </span>
+                    </li>
+                    
+                    <li class="ingredient-row">
+                        <div class="flex-1 flex items-center">
+                            
+                            <span class="font-medium">water</span>
+                            
+                            
+                            
+                            <span class="row-note italic ml-1 break-words" aria-label="preparation: cold">(cold)</span>
+                            
+                        </div>
+                        <span class="row-value ml-2">
+                            1.5 kg
+                            
+                        </span>
+                    </li>
+                    
+                </ul>
+                
+                
+                
+                
+                <h3 class="text-title font-semibold mt-4 mb-2 text-accent-text">Chashu</h3>
+                
+                <ul class="ingredient-list space-y-3 mb-4">
+                    
+                    <li class="ingredient-row">
+                        <div class="flex-1 flex items-center">
+                            
+                            <span class="font-medium">garlic</span>
+                            
+                            
+                            <span class="row-note italic ml-1 break-words" aria-label="Optional">(Optional)</span>        
+                            
+                            
+                            
+                        </div>
+                        <span class="row-value ml-2">
+                            
+                            
+                        </span>
+                    </li>
+                    
+                    <li class="ingredient-row">
+                        <div class="flex-1 flex items-center">
+                            
+                            <span class="font-medium">green onion</span>
+                            
+                            
+                            <span class="row-note italic ml-1 break-words" aria-label="Optional">(Optional)</span>        
+                            
+                            
+                            <span class="row-note italic ml-1 break-words" aria-label="preparation: chopped">(chopped)</span>
+                            
+                        </div>
+                        <span class="row-value ml-2">
+                            
+                            
+                        </span>
+                    </li>
+                    
+                    <li class="ingredient-row">
+                        <div class="flex-1 flex items-center">
+                            
+                            <span class="font-medium">sake</span>
+                            
+                            
+                            
+                            
+                        </div>
+                        <span class="row-value ml-2">
+                            50 mL
+                            
+                        </span>
+                    </li>
+                    
+                    <li class="ingredient-row">
+                        <div class="flex-1 flex items-center">
+                            
+                            <span class="font-medium">shoyu</span>
+                            
+                            
+                            
+                            
+                        </div>
+                        <span class="row-value ml-2">
+                            250 mL
+                            
+                        </span>
+                    </li>
+                    
+                    <li class="ingredient-row">
+                        <div class="flex-1 flex items-center">
+                            
+                            <span class="font-medium">sugar</span>
+                            
+                            
+                            
+                            
+                        </div>
+                        <span class="row-value ml-2">
+                            40 g
+                            
+                        </span>
+                    </li>
+                    
+                </ul>
+                
+                
+                
+                
+                <h3 class="text-title font-semibold mt-4 mb-2 text-accent-text">Serving</h3>
+                
+                <ul class="ingredient-list space-y-3 ">
+                    
+                    <li class="ingredient-row">
+                        <div class="flex-1 flex items-center">
+                            
+                            <span class="font-medium">olive oil</span>
+                            
+                            
+                            <span class="row-note italic ml-1 break-words" aria-label="Optional">(Optional)</span>        
+                            
+                            
+                            
+                        </div>
+                        <span class="row-value ml-2">
+                            
+                            
+                        </span>
+                    </li>
+                    
+                    <li class="ingredient-row">
+                        <div class="flex-1 flex items-center">
+                            
+                            <span class="font-medium">pepper</span>
+                            
+                            
+                            <span class="row-note italic ml-1 break-words" aria-label="Optional">(Optional)</span>        
+                            
+                            
+                            
+                        </div>
+                        <span class="row-value ml-2">
+                            
+                            
+                        </span>
+                    </li>
+                    
+                </ul>
+                
+                
+                
+
+                
+                <h2 class="text-title font-bold mt-6 mb-4 text-text">🍳 Cookware</h2>
+                <ul class="cookware-list ingredient-list space-y-2">
+                    
+                    <li class="ingredient-row">
+                        <span class="font-medium">small pot</span>
+                    </li>
+                    
+                    <li class="ingredient-row">
+                        <span class="font-medium">large stock pot</span>
+                    </li>
+                    
+                    <li class="ingredient-row">
+                        <span class="font-medium">mesh strainer</span>
+                    </li>
+                    
+                    <li class="ingredient-row">
+                        <span class="font-medium">small pot</span>
+                    </li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+
+        <div class="md:col-span-2">
+            <div class="card p-6">
+                
+                
+                
+                <ol class="step-list space-y-4 ">
+                    
+                    
+                    <li class="recipe-note mb-3">
+                        <span>📝</span>
+                        <p class="m-0" style="white-space: pre-line">For simplicity in the recipe, we skipped the custom noodles, but refer to the source if you prefer.</p>
+                    </li>
+                    
+                    
+                </ol>
+                
+                
+                <h2 class="text-title font-semibold mt-6 mb-4 text-accent-text border-b border-line pb-2">Tare</h2>
+                
+                <ol class="step-list space-y-4 mt-4">
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">1</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        Soak 
+                                        <span class="ingredient-badge">konbu</span>
+                                         and 
+                                        <span class="ingredient-badge">shiitake mushrooms</span>
+                                         in 
+                                        <span class="ingredient-badge">water</span>
+                                         overnight.
+                                    </div>
+                                    
+                                    <div class="step-refs">
+                                        
+                                        <span class="inline-block mr-3">
+                                            konbu: 30 g,
+                                        </span>
+                                        
+                                        <span class="inline-block mr-3">
+                                            shiitake mushrooms: 10 g <span class="italic text-faint break-words" aria-label="preparation: dried">(dried)</span>,
+                                        </span>
+                                        
+                                        <span class="inline-block mr-3">
+                                            water: 650 mL
+                                        </span>
+                                        
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">2</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        Combine 
+                                        <span class="ingredient-badge">sake</span>
+                                         and 
+                                        <span class="ingredient-badge">mirin</span>
+                                         in a 
+                                        <span class="cookware-badge">small pot</span>
+                                        . Bring to a boil over medium-high heat.
+                                    </div>
+                                    
+                                    <div class="step-refs">
+                                        
+                                        <span class="inline-block mr-3">
+                                            sake: 50 mL,
+                                        </span>
+                                        
+                                        <span class="inline-block mr-3">
+                                            mirin: 50 mL
+                                        </span>
+                                        
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">3</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        Add the konbu/mushroom water, 
+                                        <span class="ingredient-badge">usukuchi shoyu</span>
+                                        , 
+                                        <span class="ingredient-badge">salt</span>
+                                        , and 
+                                        <span class="ingredient-badge">sugar</span>
+                                         and mix.
+                                    </div>
+                                    
+                                    <div class="step-refs">
+                                        
+                                        <span class="inline-block mr-3">
+                                            usukuchi shoyu: 300 mL,
+                                        </span>
+                                        
+                                        <span class="inline-block mr-3">
+                                            salt: 15 g,
+                                        </span>
+                                        
+                                        <span class="inline-block mr-3">
+                                            sugar: 7 g
+                                        </span>
+                                        
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">4</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        Cover the pot and leave on low for 
+                                        <span class="timer-badge">⏱️ 40 minutes</span>
+                                        .
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="recipe-note mb-3">
+                        <span>📝</span>
+                        <p class="m-0" style="white-space: pre-line">The original recipe calls for cooking at 80*C for 40 minutes, but since we do not have a fancy set-up like that, we go the best intention route.</p>
+                    </li>
+                    
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">5</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        Drain the tare into a bowl and store for later use.
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="recipe-note mb-3">
+                        <span>📝</span>
+                        <p class="m-0" style="white-space: pre-line">You do not (and should not) strain the liquid out of the mushrooms or konbu.</p>
+                    </li>
+                    
+                    
+                </ol>
+                
+                
+                <h2 class="text-title font-semibold mt-6 mb-4 text-accent-text border-b border-line pb-2">Broth</h2>
+                
+                <ol class="step-list space-y-4 mt-4">
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">1</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        Clean 
+                                        <span class="ingredient-badge">chicken bones</span>
+                                        .
+                                    </div>
+                                    
+                                    <div class="step-refs">
+                                        
+                                        <span class="inline-block mr-3">
+                                            chicken bones: 4.5 lbs
+                                        </span>
+                                        
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="recipe-note mb-3">
+                        <span>📝</span>
+                        <p class="m-0" style="white-space: pre-line">Generally, if you&#x27;re unfamiliar with this process, just rinse it in water and tug off any concerning bits you see.</p>
+                    </li>
+                    
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">2</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        Place the bones in a 
+                                        <span class="cookware-badge">large stock pot</span>
+                                         and cover with 
+                                        <span class="ingredient-badge">water</span>
+                                        . Bring to a boil over medium-high heat.
+                                    </div>
+                                    
+                                    <div class="step-refs">
+                                        
+                                        <span class="inline-block mr-3">
+                                            water: 1.5 kg <span class="italic text-faint break-words" aria-label="preparation: cold">(cold)</span>
+                                        </span>
+                                        
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="recipe-note mb-3">
+                        <span>📝</span>
+                        <p class="m-0" style="white-space: pre-line">Do not try to save time with warm water, it is important that you bring the water to a boil from cold.</p>
+                    </li>
+                    
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">3</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        After around 
+                                        <span class="timer-badge">⏱️ 15 minutes</span>
+                                        , you should start seeing lye on the top of the pot. Skim this with a ladle. Repeat over time as more lye appears.
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="recipe-note mb-3">
+                        <span>📝</span>
+                        <p class="m-0" style="white-space: pre-line">In total, this is around maybe 30 minutes of cooking before the lye stops appearing.</p>
+                    </li>
+                    
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">4</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        Add 
+                                        <span class="ingredient-badge">onion</span>
+                                        {chopped} and 
+                                        <span class="ingredient-badge">pork belly</span>
+                                         to the pot.
+                                    </div>
+                                    
+                                    <div class="step-refs">
+                                        
+                                        <span class="inline-block mr-3">
+                                            onion: 1,
+                                        </span>
+                                        
+                                        <span class="inline-block mr-3">
+                                            pork belly: 1 <span class="italic text-faint break-words" aria-label="preparation: tied up for chashu">(tied up for chashu)</span>
+                                        </span>
+                                        
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="recipe-note mb-3">
+                        <span>📝</span>
+                        <p class="m-0" style="white-space: pre-line">If you&#x27;re unfamiliar with this process, you roll the pork belly into a tight log and secure it with butcher&#x27;s twine at regular intervals so it holds its shape during braising. If you don&#x27;t have the pork belly or generally are skipping the chashu, it is crucial you at least replace it with some amount of pork fat to still give you the fatty goodness.</p>
+                    </li>
+                    
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">5</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        Cover and simmer on low for 
+                                        <span class="timer-badge">⏱️ 90 minutes</span>
+                                        .
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">6</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        Add 
+                                        <span class="ingredient-badge">tomatoes</span>
+                                        .
+                                    </div>
+                                    
+                                    <div class="step-refs">
+                                        
+                                        <span class="inline-block mr-3">
+                                            tomatoes: 800 g <span class="italic text-faint break-words" aria-label="preparation: canned for convenience">(canned for convenience)</span>
+                                        </span>
+                                        
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="recipe-note mb-3">
+                        <span>📝</span>
+                        <p class="m-0" style="white-space: pre-line">Remember to splash a little water into the can for all the tomato-y goodness. We found the resulting ramen wasn&#x27;t super tomato-y, so if you like tomato, you may want to go harder with the tomatoes here.</p>
+                    </li>
+                    
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">7</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        Bring the pot back to a rolling boil over medium-high. 
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">8</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        Skim the fat from the pot again until it settled down.
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">9</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        Mix in 
+                                        <span class="ingredient-badge">red wine</span>
+                                        .
+                                    </div>
+                                    
+                                    <div class="step-refs">
+                                        
+                                        <span class="inline-block mr-3">
+                                            red wine: 100 mL
+                                        </span>
+                                        
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">10</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        Cover and reduce heat to low, leaving to simmer for 
+                                        <span class="timer-badge">⏱️ 90 minutes</span>
+                                        .
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">11</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        Carefully remove the pork belly and set aside.
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">12</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        Using a 
+                                        <span class="cookware-badge">mesh strainer</span>
+                                        , press all of the juices out into a large bowl. Set aside for later use.
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                </ol>
+                
+                
+                <h2 class="text-title font-semibold mt-6 mb-4 text-accent-text border-b border-line pb-2">Chashu</h2>
+                
+                <ol class="step-list space-y-4 mt-4">
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">1</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        In a 
+                                        <span class="cookware-badge">small pot</span>
+                                        , mix 
+                                        <span class="ingredient-badge">shoyu</span>
+                                        , 
+                                        <span class="ingredient-badge">sugar</span>
+                                        , and 
+                                        <span class="ingredient-badge">sake</span>
+                                        . Heat over medium-low until steaming.
+                                    </div>
+                                    
+                                    <div class="step-refs">
+                                        
+                                        <span class="inline-block mr-3">
+                                            shoyu: 250 mL,
+                                        </span>
+                                        
+                                        <span class="inline-block mr-3">
+                                            sugar: 40 g,
+                                        </span>
+                                        
+                                        <span class="inline-block mr-3">
+                                            sake: 50 mL
+                                        </span>
+                                        
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">2</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        Add 
+                                        <span class="ingredient-badge">green onion</span>
+                                         and 
+                                        <span class="ingredient-badge">garlic</span>
+                                         to taste. Let cook for 
+                                        <span class="timer-badge">⏱️ 1-2 minutes</span>
+                                        , then mix.
+                                    </div>
+                                    
+                                    <div class="step-refs">
+                                        
+                                        <span class="inline-block mr-3">
+                                            green onion<span class="italic text-faint break-words" aria-label="Optional"> (Optional)</span> <span class="italic text-faint break-words" aria-label="preparation: chopped">(chopped)</span>,
+                                        </span>
+                                        
+                                        <span class="inline-block mr-3">
+                                            garlic<span class="italic text-faint break-words" aria-label="Optional"> (Optional)</span>
+                                        </span>
+                                        
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">3</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        Pour the mixture into a gallon freezer bag with the cooked pork belly. Roll up the bag to remove excess air and ensure the pork will completely marinate. 
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">4</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        Let the pork marinate over night in the fridge.
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                </ol>
+                
+                
+                <h2 class="text-title font-semibold mt-6 mb-4 text-accent-text border-b border-line pb-2">Serving</h2>
+                
+                <ol class="step-list space-y-4 mt-4">
+                    
+                    
+                    <li class="step-box">
+                        <div class="flex flex-col gap-4">
+                            
+                            
+                            <div class="flex gap-4">
+                                <div class="step-number">1</div>
+                                <div class="flex-1">
+                                    <div class="step-body mb-2">
+                                        
+                                        Add 1-2 tbsp of the tare to a bowl with 1.25-1.75 cup broth, tuned to your preference on strength. Sprinkle with 
+                                        <span class="ingredient-badge">pepper</span>
+                                         and 
+                                        <span class="ingredient-badge">olive oil</span>
+                                         and garnish with other toppings as desired.
+                                    </div>
+                                    
+                                    <div class="step-refs">
+                                        
+                                        <span class="inline-block mr-3">
+                                            pepper<span class="italic text-faint break-words" aria-label="Optional"> (Optional)</span>,
+                                        </span>
+                                        
+                                        <span class="inline-block mr-3">
+                                            olive oil<span class="italic text-faint break-words" aria-label="Optional"> (Optional)</span>
+                                        </span>
+                                        
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    
+                </ol>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+<script id="cooking-mode-data" type="application/json">
+{"image":"https://cullyskitchen.com/wp-content/uploads/2022/05/Untitled-design-81-1-1024x576.png","name":"Tomato Ramen","scale":1.0,"sections":[{"ingredients":[],"name":null,"stepOffset":0,"steps":[]},{"ingredients":[{"is_optional":false,"name":"konbu","note":null,"quantity":"30","unit":"g"},{"is_optional":false,"name":"mirin","note":null,"quantity":"50","unit":"mL"},{"is_optional":false,"name":"sake","note":null,"quantity":"50","unit":"mL"},{"is_optional":false,"name":"salt","note":null,"quantity":"15","unit":"g"},{"is_optional":false,"name":"shiitake mushrooms","note":"dried","quantity":"10","unit":"g"},{"is_optional":false,"name":"sugar","note":null,"quantity":"7","unit":"g"},{"is_optional":false,"name":"usukuchi shoyu","note":null,"quantity":"300","unit":"mL"},{"is_optional":false,"name":"water","note":null,"quantity":"650","unit":"mL"}],"name":"Tare","stepOffset":0,"steps":[{"globalNumber":1,"image":null,"ingredients":[{"is_optional":false,"name":"konbu","note":null,"quantity":"30","unit":"g"},{"is_optional":false,"name":"shiitake mushrooms","note":"dried","quantity":"10","unit":"g"},{"is_optional":false,"name":"water","note":null,"quantity":"650","unit":"mL"}],"number":1,"type":"step"},{"globalNumber":2,"image":null,"ingredients":[{"is_optional":false,"name":"sake","note":null,"quantity":"50","unit":"mL"},{"is_optional":false,"name":"mirin","note":null,"quantity":"50","unit":"mL"}],"number":2,"type":"step"},{"globalNumber":3,"image":null,"ingredients":[{"is_optional":false,"name":"usukuchi shoyu","note":null,"quantity":"300","unit":"mL"},{"is_optional":false,"name":"salt","note":null,"quantity":"15","unit":"g"},{"is_optional":false,"name":"sugar","note":null,"quantity":"7","unit":"g"}],"number":3,"type":"step"},{"globalNumber":4,"image":null,"ingredients":[],"number":4,"type":"step"},{"globalNumber":5,"image":null,"ingredients":[],"number":5,"type":"step"}]},{"ingredients":[{"is_optional":false,"name":"chicken bones","note":null,"quantity":"4.5","unit":"lbs"},{"is_optional":false,"name":"onion","note":null,"quantity":"1","unit":null},{"is_optional":false,"name":"pork belly","note":"tied up for chashu","quantity":"1","unit":null},{"is_optional":false,"name":"red wine","note":null,"quantity":"100","unit":"mL"},{"is_optional":false,"name":"tomatoes","note":"canned for convenience","quantity":"800","unit":"g"},{"is_optional":false,"name":"water","note":"cold","quantity":"1.5","unit":"kg"}],"name":"Broth","stepOffset":5,"steps":[{"globalNumber":6,"image":null,"ingredients":[{"is_optional":false,"name":"chicken bones","note":null,"quantity":"4.5","unit":"lbs"}],"number":1,"type":"step"},{"globalNumber":7,"image":null,"ingredients":[{"is_optional":false,"name":"water","note":"cold","quantity":"1.5","unit":"kg"}],"number":2,"type":"step"},{"globalNumber":8,"image":null,"ingredients":[],"number":3,"type":"step"},{"globalNumber":9,"image":null,"ingredients":[{"is_optional":false,"name":"onion","note":null,"quantity":"1","unit":null},{"is_optional":false,"name":"pork belly","note":"tied up for chashu","quantity":"1","unit":null}],"number":4,"type":"step"},{"globalNumber":10,"image":null,"ingredients":[],"number":5,"type":"step"},{"globalNumber":11,"image":null,"ingredients":[{"is_optional":false,"name":"tomatoes","note":"canned for convenience","quantity":"800","unit":"g"}],"number":6,"type":"step"},{"globalNumber":12,"image":null,"ingredients":[],"number":7,"type":"step"},{"globalNumber":13,"image":null,"ingredients":[],"number":8,"type":"step"},{"globalNumber":14,"image":null,"ingredients":[{"is_optional":false,"name":"red wine","note":null,"quantity":"100","unit":"mL"}],"number":9,"type":"step"},{"globalNumber":15,"image":null,"ingredients":[],"number":10,"type":"step"},{"globalNumber":16,"image":null,"ingredients":[],"number":11,"type":"step"},{"globalNumber":17,"image":null,"ingredients":[],"number":12,"type":"step"}]},{"ingredients":[{"is_optional":true,"name":"garlic","note":null,"quantity":null,"unit":null},{"is_optional":true,"name":"green onion","note":"chopped","quantity":null,"unit":null},{"is_optional":false,"name":"sake","note":null,"quantity":"50","unit":"mL"},{"is_optional":false,"name":"shoyu","note":null,"quantity":"250","unit":"mL"},{"is_optional":false,"name":"sugar","note":null,"quantity":"40","unit":"g"}],"name":"Chashu","stepOffset":17,"steps":[{"globalNumber":18,"image":null,"ingredients":[{"is_optional":false,"name":"shoyu","note":null,"quantity":"250","unit":"mL"},{"is_optional":false,"name":"sugar","note":null,"quantity":"40","unit":"g"},{"is_optional":false,"name":"sake","note":null,"quantity":"50","unit":"mL"}],"number":1,"type":"step"},{"globalNumber":19,"image":null,"ingredients":[{"is_optional":true,"name":"green onion","note":"chopped","quantity":null,"unit":null},{"is_optional":true,"name":"garlic","note":null,"quantity":null,"unit":null}],"number":2,"type":"step"},{"globalNumber":20,"image":null,"ingredients":[],"number":3,"type":"step"},{"globalNumber":21,"image":null,"ingredients":[],"number":4,"type":"step"}]},{"ingredients":[{"is_optional":true,"name":"olive oil","note":null,"quantity":null,"unit":null},{"is_optional":true,"name":"pepper","note":null,"quantity":null,"unit":null}],"name":"Serving","stepOffset":21,"steps":[{"globalNumber":22,"image":null,"ingredients":[{"is_optional":true,"name":"pepper","note":null,"quantity":null,"unit":null},{"is_optional":true,"name":"olive oil","note":null,"quantity":null,"unit":null}],"number":1,"type":"step"}]}]}
+</script>
+
+
+
+        </main>
+
+        
+        <footer class="mt-12 mb-6 text-center text-sm text-faint print:hidden">
+            Built with
+            <a href="https://cooklang.org/cli/" class="text-accent-text hover:underline" target="_blank" rel="noopener">CookCLI</a>
+            
+        </footer>
+        
+    </div>
+
+    <script>
+        // Theme toggle function
+        function toggleTheme() {
+            const html = document.documentElement;
+            const currentTheme = html.classList.contains('dark') ? 'dark' : 'light';
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+
+            html.classList.toggle('dark');
+            localStorage.setItem('theme', newTheme);
+        }
+    </script>
+
+    
+    <script>window.__PREFIX__ = "../..";</script>
+    <script src="../../static/js/search.js"></script>
+    
+
+    <!-- URL prefix for JavaScript -->
+    <script>
+        window.__PREFIX__ = "../..";
+        window.__STATIC_MODE__ = true;
+        window.__STRINGS__ = { close: "Close" };
+    </script>
+
+    <!-- Keyboard shortcuts -->
+    <script src="../../static/js/keyboard-shortcuts.js"></script>
+    <!-- Expose showShortcutsHelp globally for the help button -->
+    <script>
+        // showShortcutsHelp is defined in keyboard-shortcuts.js
+        // This ensures it's available for the onclick handler
+        if (typeof showShortcutsHelp === 'undefined') {
+            window.showShortcutsHelp = function() {
+                console.warn('Keyboard shortcuts not loaded');
+            };
+        }
+    </script>
+
+    
+<link rel="stylesheet" href="../../static/css/cooking-mode.css">
+<script src="../../static/js/cooking-mode.js"></script>
+
+</body>
+</html>
